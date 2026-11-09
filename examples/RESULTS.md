@@ -1,4 +1,4 @@
-# 实际运行结果
+# 离线示例运行结果
 
 三次运行均使用 mock 规则/模板后端和同一模拟数据集。真实 LLM 未实测；重复运行不构成独立统计实验。
 
@@ -23,4 +23,6 @@
 - 单次运行耗时与 Python 分配峰值见 report.json，非严谨性能基准。
 
 完整最新图谱：[JSON](knowledge_graph.json) / [离线 HTML](knowledge_graph.html)。
+
+另有已完成的 [真实 GLM-4.7-Flash 实测](glm/PROGRESS.md)，含实际 API 交接、生成代码及测试报告；与这里的 mock 示例分开保存。
 预测结果示例：[predictions.csv](predictions.csv)。测试执行记录：[test-results.txt](test-results.txt)。

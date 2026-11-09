@@ -303,6 +303,75 @@
       "seed": 42,
       "test_metrics": {},
       "report_ref": "runs/20261109T120821Z-0fc7d770/report.json"
+    },
+    {
+      "id": "run:20261109T121459Z-9d94bcde",
+      "kind": "ValidationRun",
+      "title": "20261109T121459Z-9d94bcde",
+      "status": "passed",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "selected": "logistic",
+      "dataset_sha256": "876184b02cc537285eabc94ddfccda984f0ed35ba043b52e97b502a56b6be483",
+      "seed": 42,
+      "test_metrics": {
+        "roc_auc": 0.7828947368421052,
+        "f1": 0.6432160804020101,
+        "accuracy": 0.7041666666666667
+      },
+      "report_ref": "runs/20261109T121459Z-9d94bcde/report.json"
+    },
+    {
+      "id": "version:20261109T121459Z-9d94bcde:forest:0",
+      "kind": "AlgorithmVersion",
+      "title": "forest",
+      "sha256": "2e6abaf0d56ef067ccfae45fbd71a3c8ea37ab77a3f1d6720babfc23b491126a",
+      "run_id": "20261109T121459Z-9d94bcde",
+      "attempt": 0,
+      "passed": true,
+      "path": "forest/attempt_0/algorithm.py",
+      "validation_metrics": {
+        "roc_auc": 0.7424865430622009,
+        "f1": 0.6387434554973822,
+        "accuracy": 0.7125
+      },
+      "checks": {
+        "probability_contract": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      }
+    },
+    {
+      "id": "version:20261109T121459Z-9d94bcde:logistic:0",
+      "kind": "AlgorithmVersion",
+      "title": "logistic",
+      "sha256": "7ed6327e83e98c04f829bc9910ce7e0be3beba8a88efa10518a771b2b9bdc5ee",
+      "run_id": "20261109T121459Z-9d94bcde",
+      "attempt": 0,
+      "passed": true,
+      "path": "logistic/attempt_0/algorithm.py",
+      "validation_metrics": {
+        "roc_auc": 0.7672323564593301,
+        "f1": 0.6358974358974359,
+        "accuracy": 0.7041666666666667
+      },
+      "checks": {
+        "probability_contract": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      }
     }
   ],
   "edges": [
@@ -417,9 +486,64 @@
       "target": "metric:roc_auc"
     },
     {
+      "source": "capability:churn",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261109T121459Z-9d94bcde:forest:0"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261109T121459Z-9d94bcde:logistic:0"
+    },
+    {
       "source": "run:20261109T120821Z-0fc7d770",
       "relation": "EXECUTED_IN",
       "target": "Environment:fc3eacc6e7f9a8f8f008"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "EXECUTED_IN",
+      "target": "Environment:fc3eacc6e7f9a8f8f008"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Function:392229c89714ea7dd2cd"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:11b9faf0a4a66e45a3a4"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:4018437553590d695b11"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:43937262a6fbd4c91315"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:78a1b7dd32ededc8b25a"
+    },
+    {
+      "source": "run:20261109T121459Z-9d94bcde",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:8c8cd3a7810e4b6a5290"
+    },
+    {
+      "source": "version:20261109T121459Z-9d94bcde:forest:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261109T121459Z-9d94bcde"
+    },
+    {
+      "source": "version:20261109T121459Z-9d94bcde:logistic:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261109T121459Z-9d94bcde"
     }
   ]
 }

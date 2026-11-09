@@ -55,6 +55,6 @@ HTTP 错误不输出远端原始错误体，避免回显敏感内容。连接或
 
 ## 证据边界
 
-接口测试使用虚假密钥与模拟 HTTP 响应，未调用真实账户。已有模拟数据指标来自 mock 模板生成，不能改标为 GLM 实测。只有实际运行生成的 mode=glm 报告才属于真实 GLM 实验。
+单元测试使用虚假密钥与模拟 HTTP 响应，不调用真实账户。另已完成一次真实 GLM 完整流程，证据位于 examples/glm/successful-run/，摘要见 examples/glm/PROGRESS.md。mock 和真实模型的报告分开保存；相同数据和参考模板导致指标一致，不能据此证明真实模型优于 mock。真实样例没有触发 repair，且需求 constraints 出现占位值，报告保留原样并列明限制。
 
 参考：[模型调用文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.7-flash)、[免费发布说明](https://www.zhipuai.cn/zh/news/148)、[对话补全 API](https://docs.bigmodel.cn/api-reference/模型-api/对话补全)、[思考模式](https://docs.bigmodel.cn/cn/guide/capabilities/thinking-mode)。

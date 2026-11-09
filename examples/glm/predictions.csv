@@ -1,0 +1,4 @@
+tenure,monthly_charges,support_calls,contract,payment_method,churn_probability,predicted_churn
+2.0,105,4,monthly,manual,0.9882931319829937,1
+60.0,35,0,two_year,automatic,0.014752326453291402,0
+,75,1,new_contract,manual,0.3807551955534594,0
