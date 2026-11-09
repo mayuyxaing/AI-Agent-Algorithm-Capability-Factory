@@ -121,7 +121,7 @@ python scripts/run_openai.py --run  # 独立知识库，执行真实模型闭环
 先在自己的环境部署 Ollama 并准备具有代码生成能力的模型。将下面 `YOUR_INSTALLED_MODEL` 替换为 `ollama list` 中实际可用的模型名：
 
 ```powershell
-# 对文档额外执行 LLM 知识抽取；每条事实必须提供可匹配的原文引文
+# 对文档额外执行 LLM 知识抽取；引用编号原文片段，由宿主附上可核对引文
 python -m forge ingest materials --provider ollama --model YOUR_INSTALLED_MODEL
 
 # 真实模型参与需求理解、规划、代码生成和修复

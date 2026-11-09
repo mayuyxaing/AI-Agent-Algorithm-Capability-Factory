@@ -46,6 +46,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             raise ValueError("No relevant knowledge found; ingest materials first")
         experiences = store.experiences()
         report.update(knowledge=knowledge, experiences=experiences)
+        report["knowledge_ingestion"] = store.latest_ingestion()
         record("retrieve", {"query": description}, {"knowledge": knowledge, "experiences": experiences})
         context = {"spec": spec, "knowledge": knowledge, "experiences": experiences, "plugins": list(plugins().values())}
         plan = llm.call("plan", context)

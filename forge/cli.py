@@ -41,6 +41,8 @@ def main(argv=None):
     init.add_argument("--materials", type=Path, default=Path("materials"))
     ingest = sub.add_parser("ingest", help="从 Markdown 与 Python 抽取知识")
     ingest.add_argument("folder", type=Path)
+    ingest.add_argument("--strict-extraction", action="store_true", help="一条 LLM 事实未通过来源核对即终止")
+    ingest.add_argument("--report", type=Path, help="保存知识抽取审计与拒绝原因")
     add_llm_args(ingest)
     submit = sub.add_parser("run", help="提交能力描述，生成代码与验证报告")
     group = submit.add_mutually_exclusive_group(required=True)
@@ -90,7 +92,13 @@ def main(argv=None):
             if not args.folder.is_dir():
                 raise ValueError(f"Materials directory not found: {args.folder}")
             llm = create_llm(args)
-            print(json.dumps({"extracted": store.ingest(args.folder, llm)}, ensure_ascii=False))
+            count = store.ingest(args.folder, llm, strict_llm=args.strict_extraction)
+            audit = store.latest_ingestion()
+            if args.report:
+                write_json(args.report, audit)
+            print(json.dumps({"extracted": count, "llm_accepted": audit["llm_accepted"],
+                              "llm_rejected": audit["llm_rejected"], "status": audit["status"],
+                              "report": str(args.report) if args.report else None}, ensure_ascii=False))
         elif args.command == "graph":
             store.export(args.output)
             graph_html(args.output, args.output.with_suffix(".html"))

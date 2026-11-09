@@ -47,6 +47,8 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 - response incomplete：输出截断或过滤，不作为成功结果。
 - JSON/原文引证核对失败：模型产物未满足接口要求；保留现有证据，不冒充验证通过。
 
+知识抽取通过 source_chunk_id 引用编号原文片段，由宿主附加引证。单条无效来源会被拒绝并写入 `runtime/glm/ingestion-report.json`，默认继续使用通过核对的 LLM 事实及确定性抽取知识；控制台显示 llm_accepted、llm_rejected 与 partial_llm 状态。即使所有 LLM 事实被拒绝，也不会伪造 LLM 抽取成功。需要严格失败策略时，用 ingest --strict-extraction。算法报告保留最近一次知识抽取审计。
+
 HTTP 错误不输出远端原始错误体，避免回显敏感内容。连接或认证失败不触发算法代码修复，不回退到 mock。模型固定并不能保证未来平台价格不变，实际使用前应核对控制台标价。
 
 ## 证据边界

@@ -183,7 +183,7 @@ def test_invalid_llm_quote_is_rejected(tmp_path):
             return {"facts": [{"title": "fabricated", "text": "false", "evidence_quote": "never in source"}]}
     store = KnowledgeStore(tmp_path / "kb.sqlite")
     with pytest.raises(ValueError, match="verifiable"):
-        store.ingest(source, FabricatingLLM())
+        store.ingest(source, FabricatingLLM(), strict_llm=True)
     assert not any(n["title"] == "fabricated" for n in store.nodes())
 
 

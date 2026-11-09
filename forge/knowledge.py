@@ -3,6 +3,8 @@ import ast
 import json
 import re
 import sqlite3
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from .util import digest, write_json
 
@@ -21,6 +23,8 @@ class KnowledgeStore:
               target TEXT NOT NULL REFERENCES nodes(id),
               PRIMARY KEY(source, relation, target));
             CREATE TABLE IF NOT EXISTS runs(
+              id TEXT PRIMARY KEY, report TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS ingestions(
               id TEXT PRIMARY KEY, report TEXT NOT NULL);
             ''')
 
@@ -47,8 +51,22 @@ class KnowledgeStore:
                                (kind,) if kind else ()).fetchall()
         return [dict(id=i, kind=k, title=t, **json.loads(p)) for i, k, t, p in rows]
 
-    def ingest(self, folder: Path, llm=None):
+    def latest_ingestion(self):
+        with self.connect() as con:
+            row = con.execute("SELECT report FROM ingestions ORDER BY rowid DESC LIMIT 1").fetchone()
+        return json.loads(row[0]) if row else None
+
+    def ingest(self, folder: Path, llm=None, strict_llm=False):
         count = 0
+        audit = {"id": uuid.uuid4().hex, "created_at": datetime.now(timezone.utc).isoformat(),
+                 "mode": getattr(llm, "mode", "deterministic"), "model": getattr(llm, "model", None),
+                 "llm_accepted": 0, "llm_rejected": 0, "rejections": [], "status": "running"}
+
+        def save_audit(status):
+            audit.update(status=status, extracted=count)
+            with self.connect() as con:
+                con.execute("INSERT OR REPLACE INTO ingestions VALUES(?,?)", (audit["id"], json.dumps(audit, ensure_ascii=False)))
+
         for path in sorted(folder.rglob("*")):
             if not path.is_file() or path.suffix not in {".md", ".py"}:
                 continue
@@ -74,21 +92,51 @@ class KnowledgeStore:
                         facts.append(dict(title=line[3:], text=quote, line=index + 1,
                                           evidence_quote=quote, extraction="markdown_sections"))
                 if llm and llm.mode != "mock":
-                    result = llm.call("extract", {"source": source[:16000]})
+                    # Trusted source spans avoid asking a model to reproduce punctuation exactly.
+                    chunks = {f"section_{i}": fact["evidence_quote"] for i, fact in enumerate(facts)
+                              if fact["evidence_quote"] in source[:16000]}
+                    if not chunks:
+                        chunks = {"document_0": source[:16000]}
+                    result = llm.call("extract", {"source": source[:16000], "evidence_chunks": [
+                        {"id": key, "quote": quote} for key, quote in chunks.items()]})
                     if not isinstance(result.get("facts"), list):
+                        save_audit("invalid_response")
                         raise ValueError("Invalid extraction response")
-                    for fact in result["facts"][:12]:
-                        quote = fact.get("evidence_quote", "")
-                        if not isinstance(quote, str) or not quote or quote not in source:
-                            raise ValueError("LLM extraction has no verifiable exact source quote")
-                        facts.append(dict(title=str(fact["title"]), text=str(fact["text"]),
+                    for index, fact in enumerate(result["facts"][:12]):
+                        reason = None
+                        if not isinstance(fact, dict) or not all(isinstance(fact.get(k), str) and fact[k].strip() for k in ("title", "text")):
+                            reason, quote = "invalid_fact_fields", ""
+                        elif "source_chunk_id" in fact:
+                            chunk_id = fact["source_chunk_id"]
+                            quote = chunks.get(chunk_id, "") if isinstance(chunk_id, str) else ""
+                            if not quote:
+                                reason = "unknown_source_chunk_id"
+                            elif "evidence_quote" in fact and (not isinstance(fact["evidence_quote"], str) or
+                                    not fact["evidence_quote"] or fact["evidence_quote"] not in quote):
+                                reason = "quote_conflicts_with_source_chunk"
+                        else:
+                            # Backward compatibility: exact legacy quotes remain verifiable.
+                            quote = fact.get("evidence_quote", "")
+                            if not isinstance(quote, str) or not quote or quote not in source:
+                                reason = "no_verifiable_exact_source_quote"
+                        if reason:
+                            audit["llm_rejected"] += 1
+                            audit["rejections"].append({"source_path": relative, "fact_index": index,
+                                                       "reason": reason, "fact": fact})
+                            if strict_llm:
+                                save_audit("rejected_strict")
+                                raise ValueError("LLM extraction has no verifiable exact source quote or valid source reference")
+                            continue
+                        audit["llm_accepted"] += 1
+                        facts.append(dict(title=fact["title"], text=fact["text"],
                                           evidence_quote=quote, line=source[:source.index(quote)].count("\n") + 1,
-                                          extraction="llm_with_quote"))
+                                          extraction="llm_with_source_chunk" if "source_chunk_id" in fact else "llm_with_quote"))
             for fact in facts:
                 kind = "Function" if path.suffix == ".py" else "Knowledge"
                 nid = self.node(kind, fact.pop("title"), dict(**fact, source_id=sid, source_path=relative))
                 self.edge(nid, "SUPPORTED_BY", sid)
                 count += 1
+        save_audit("partial_llm" if audit["llm_rejected"] else "passed")
         return count
 
     @staticmethod

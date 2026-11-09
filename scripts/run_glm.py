@@ -32,7 +32,7 @@ def entry(argv=None):
         if code:
             return code
         print("正在从模拟业务材料抽取知识……", flush=True)
-        code = main(["--db", db, "ingest", "materials", "--provider", "glm"])
+        code = main(["--db", db, "ingest", "materials", "--report", "runtime/glm/ingestion-report.json", "--provider", "glm"])
         if code:
             return code
         print("正在规划、生成并验证代码；每一步轨迹写入 runtime/glm/runs/。", flush=True)
