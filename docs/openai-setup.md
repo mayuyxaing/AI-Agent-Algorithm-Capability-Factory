@@ -12,6 +12,8 @@ ChatGPT 网页用于聊天；项目自动调用使用 API 平台的项目密钥�
 
 ## 隐藏输入密钥并检查连接
 
+Windows 用户可以直接双击仓库根目录的 `check-openai.cmd`。它会优先使用项目 .venv，其次使用本次本地开发已经安装依赖的 work/.venv，最后尝试系统 Python。密钥只在你的终端输入，不必发给开发者。完成后窗口暂停，便于查看成功结果或错误信息。新电脑仍需先按 README 安装依赖。
+
 按 README 安装依赖和项目后，在仓库根目录的个人交互终端运行：
 
 ```powershell
@@ -23,6 +25,8 @@ python scripts/run_openai.py
 这一步会发送一次真实需求解析请求，因此会使用 API 额度。成功应显示 provider=openai、probe=true、task=churn_classification。默认模型 gpt-4.1-mini，可用 `--model YOUR_MODEL` 替换，实际访问权限由账号决定。
 
 ## 跑完整闭环
+
+Windows 用户可以双击 `run-openai.cmd`。这会执行真实 API 调用并消耗账号额度。
 
 ```powershell
 python scripts/run_openai.py --run
