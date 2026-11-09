@@ -6,6 +6,7 @@ import json
 import re
 import os
 import time
+import sys
 from pathlib import Path
 from string import Template
 from urllib.error import HTTPError, URLError
@@ -97,8 +98,12 @@ class OllamaLLM:
 class LLMProviderError(RuntimeError):
     """Service/authentication failures must not be treated as algorithm defects."""
 
+    def __init__(self, message, business_code=None):
+        super().__init__(message)
+        self.business_code = business_code
 
-def glm_http_hint(error):
+
+def glm_http_error(error):
     """Expose only a recognized business code and our own text, never the raw body."""
     known = {
         "1000": "身份验证失败，请核对完整的智谱 API Key",
@@ -116,13 +121,13 @@ def glm_http_hint(error):
         body = json.loads(error.read(16384))
         code = str(body["error"]["code"])
         if code in known:
-            return f"BigModel HTTP {error.code} [business_code={code}]: {known[code]}"
+            return LLMProviderError(f"BigModel HTTP {error.code} [business_code={code}]: {known[code]}", business_code=code)
     except (ValueError, KeyError, TypeError, AttributeError, OSError):
         pass
     hints = {400: "请求参数不符合要求", 401: "认证未通过，请核对智谱密钥及账号认证状态",
              403: "请检查账号和模型权限", 404: "免费模型当前不可用",
              429: "请在控制台核对速率限制、额度和账号状态后重试"}
-    return f"BigModel HTTP {error.code}: {hints.get(error.code, '服务异常，请稍后重试')}"
+    return LLMProviderError(f"BigModel HTTP {error.code}: {hints.get(error.code, '服务异常，请稍后重试')}")
 
 
 class GLMLLM:
@@ -141,6 +146,20 @@ class GLMLLM:
         self.calls = []
 
     def call(self, role: str, context: dict) -> dict:
+        # Only the documented temporary model-overload code is retried.
+        # Authentication, account debt and caller rate-limit errors stop immediately.
+        for attempt in range(3):
+            try:
+                return self._call_once(role, context)
+            except LLMProviderError as exc:
+                if exc.business_code != "1305" or attempt == 2:
+                    raise
+                delay = 10 * (attempt + 1)
+                self.calls.append({"role": role, "status": "retry", "business_code": "1305", "wait_seconds": delay})
+                print(f"智谱模型暂时拥堵（1305），{delay} 秒后重试（第 {attempt + 2}/3 次请求）……", file=sys.stderr, flush=True)
+                time.sleep(delay)
+
+    def _call_once(self, role: str, context: dict) -> dict:
         request = Request(self.endpoint, data=json.dumps({
             "model": self.model, "stream": False, "max_tokens": self.max_output_tokens,
             "thinking": {"type": "disabled"}, "response_format": {"type": "json_object"},
@@ -167,7 +186,7 @@ class GLMLLM:
                                "seconds": round(time.perf_counter() - started, 3)})
             return result
         except HTTPError as exc:
-            raise LLMProviderError(glm_http_hint(exc)) from None
+            raise glm_http_error(exc) from None
         except (URLError, TimeoutError, OSError):
             raise LLMProviderError("BigModel connection failed or timed out; check network") from None
         except (ValueError, KeyError, TypeError, IndexError, AttributeError):

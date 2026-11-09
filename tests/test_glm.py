@@ -115,3 +115,32 @@ def test_glm_launcher_uses_independent_db_and_clears_key(monkeypatch):
     assert all(args[:2] == ["--db", "runtime/glm/knowledge.sqlite"] for args in calls)
     assert calls[1][-1] == "glm" and calls[2][-1] == "runtime/glm/runs"
     assert "ZHIPU_API_KEY" not in os.environ
+
+
+def test_model_overload_retries_then_recovers(monkeypatch):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    calls, delays = [], []
+    def busy_then_ok(request, timeout):
+        calls.append(request.full_url)
+        if len(calls) <= 2:
+            raise HTTPError(request.full_url, 429, "busy", {}, BytesIO(b'{"error":{"code":"1305"}}'))
+        return response({"id": "ok", "choices": [{"finish_reason": "stop", "message": {"content": '{"target":"churn"}'}}]})
+    monkeypatch.setattr("forge.llm.urlopen", busy_then_ok)
+    monkeypatch.setattr("forge.llm.time.sleep", delays.append)
+    llm = GLMLLM()
+    assert llm.call("understand", {}) == {"target": "churn"}
+    assert len(calls) == 3 and delays == [10, 20]
+    assert len([c for c in llm.calls if c.get("status") == "retry"]) == 2
+
+
+def test_persistent_overload_stops_after_three_attempts(monkeypatch):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    calls, delays = [], []
+    def busy(request, timeout):
+        calls.append(request.full_url)
+        raise HTTPError(request.full_url, 429, "busy", {}, BytesIO(b'{"error":{"code":"1305"}}'))
+    monkeypatch.setattr("forge.llm.urlopen", busy)
+    monkeypatch.setattr("forge.llm.time.sleep", delays.append)
+    with pytest.raises(LLMProviderError, match="1305"):
+        GLMLLM().call("understand", {})
+    assert len(calls) == 3 and delays == [10, 20]

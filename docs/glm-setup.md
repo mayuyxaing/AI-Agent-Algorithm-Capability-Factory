@@ -37,7 +37,7 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 
 ## 请求与错误处理
 
-使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，以减少各角色交接的等待时间；最大输出 8192 tokens，请求超时 180 秒。所有调用串行，不自动高频重试，限流后停止并提示稍后重试。
+使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，以减少各角色交接的等待时间；最大输出 8192 tokens，请求超时 180 秒。所有调用串行。仅遇到模型拥堵业务码 1305 时等待 10 秒、20 秒进行最多两次重试（含初次共三次请求）；仍失败则停止。认证错误、欠费、账号速率限制等不自动重试。重试事件进入调用记录，不切换其他模型。
 
 - 缺少 ZHIPU_API_KEY：从 check-glm.cmd 在本机输入。
 - HTTP 401：核对智谱密钥是否有效。
