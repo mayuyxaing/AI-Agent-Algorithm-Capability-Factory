@@ -1,0 +1,128 @@
+{
+  "protocol": {
+    "version": 2,
+    "mode": "mock",
+    "model": "deterministic-templates-v1",
+    "cases": [
+      "baseline"
+    ],
+    "seeds": [
+      42
+    ],
+    "rows": 600,
+    "arms": [
+      "direct",
+      "knowledge",
+      "knowledge_repair"
+    ],
+    "policy": {
+      "task": "churn_classification",
+      "metrics": [
+        "roc_auc",
+        "f1",
+        "accuracy"
+      ],
+      "selection_metric": "roc_auc",
+      "minimum": {
+        "roc_auc": 0.65,
+        "f1": 0.45
+      },
+      "timeout_seconds": 60,
+      "max_repairs": 2
+    },
+    "corpus": {
+      "churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+      "historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a"
+    },
+    "knowledge_source": "same frozen deterministic Markdown/AST corpus, rule-indexed graph",
+    "generation_budget_per_candidate": 3,
+    "budget_note": "Same generation ceiling per candidate. Direct/knowledge resample independently without validation feedback; knowledge_repair uses feedback. Stop at first pass. Actual calls/tokens may differ and are reported.",
+    "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+  },
+  "results": {
+    "baseline-42-direct": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "direct",
+      "status": "passed",
+      "failure_kind": null,
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "report": "cells/baseline-42-direct/runs/20261109T124017Z-c5110478/report.json",
+      "first_pass_candidates": 2,
+      "candidate_count": 2,
+      "repair_calls": 0,
+      "successful_inferences": 0,
+      "reported_tokens": 0,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      }
+    },
+    "baseline-42-knowledge": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_kind": null,
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "report": "cells/baseline-42-knowledge/runs/20261109T124027Z-f4bb91bc/report.json",
+      "first_pass_candidates": 2,
+      "candidate_count": 2,
+      "repair_calls": 0,
+      "successful_inferences": 0,
+      "reported_tokens": 0,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      }
+    },
+    "baseline-42-knowledge_repair": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_kind": null,
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "report": "cells/baseline-42-knowledge_repair/runs/20261109T124037Z-e8e771a9/report.json",
+      "first_pass_candidates": 2,
+      "candidate_count": 2,
+      "repair_calls": 0,
+      "successful_inferences": 0,
+      "reported_tokens": 0,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      }
+    }
+  },
+  "status": "complete",
+  "statistics": {
+    "direct": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 1.0,
+      "candidate_first_pass_rate": 1.0,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 0
+    },
+    "knowledge": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 1.0,
+      "candidate_first_pass_rate": 1.0,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 0
+    },
+    "knowledge_repair": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 1.0,
+      "candidate_first_pass_rate": 1.0,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 0
+    }
+  }
+}

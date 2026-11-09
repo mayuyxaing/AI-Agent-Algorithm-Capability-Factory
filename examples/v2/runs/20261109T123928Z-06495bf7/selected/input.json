@@ -1,0 +1,7462 @@
+{
+  "train": [
+    {
+      "tenure": 67.0,
+      "monthly_charges": 119.2042005528,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 110.9796622733,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 102.1230786598,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 90.1391101243,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 66.765245245,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 118.2366683105,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 106.6144606331,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 58.6341457223,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 50.8333203953,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 33.4366913313,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 106.5100231911,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 57.7144680356,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 92.5183320851,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 33.7211257791,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 96.2590091963,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 32.8293258511,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 22.7182133498,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 69.691659613,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 27.743608526,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 88.6049869506,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 68.9699741817,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 109.7302199754,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 50.379661841,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 104.2070151772,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 66.9005079013,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 52.6546842672,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 60.2879608508,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 62.4776924815,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 59.462988815,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 75.0239691908,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 87.2264431223,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 44.0753071214,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 79.295663115,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 59.5007240041,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 117.5595645828,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 35.5441564083,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 101.9808858238,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 102.3127317416,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 47.4134393689,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 87.7708614454,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 88.5427720761,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 44.6680377226,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 98.689138145,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 54.2403676811,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 39.1921161411,
+      "support_calls": 5.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 63.8821701802,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 73.0850394288,
+      "support_calls": 3.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 118.2987171536,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 99.9213522241,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 86.2529594366,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 66.1208885838,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 59.1506841684,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 60.1661634009,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 84.0439212104,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 95.9966883701,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 69.5506556629,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 20.450012494,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 63.4759746809,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 64.7392751792,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 119.481489283,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 59.2484734265,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 67.9863400551,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 113.617693164,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 81.9119086427,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 76.4392680359,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 73.3840013274,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 40.8379341435,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 87.1612808856,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 54.8275883461,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 20.1233062512,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 114.8645498713,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 118.4578081432,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 87.76207636,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 63.2515593242,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 105.238231793,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 85.6073879095,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 69.8639546876,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 117.573602439,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 80.0733918863,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 52.2215673823,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 117.1803818647,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 24.0095009873,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 76.1818930063,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 119.6677211519,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 117.7192729914,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 99.6060447626,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 38.8530233874,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 16.0,
+      "monthly_charges": 31.2070370999,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 24.0946960286,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 113.5874102011,
+      "support_calls": 3.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": null,
+      "support_calls": null,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 93.1135976653,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 74.0856636945,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 75.441655204,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 61.666599804,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 41.6355695225,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 81.6756179077,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 52.2490440968,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 54.3292462379,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 83.2202500115,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 60.7941951131,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 25.28071014,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 47.0696761495,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 94.3459961222,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 51.2569949029,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 54.6063822905,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 99.4750558418,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 58.450437799,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 57.1252637088,
+      "support_calls": 5.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 94.1614632732,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 45.4263483754,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 118.1387101253,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 103.7475743788,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 26.9931631477,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 80.8129211915,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 116.3579912222,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 39.6742180751,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 90.5797003629,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 110.708632691,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 92.1836332234,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 97.4907903381,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 82.6824982784,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 101.4638443118,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 31.0629467562,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 103.2529284924,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 119.7580037263,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 86.7849158848,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 37.6138299173,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 69.7931852789,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 86.290971421,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 97.4335901183,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 45.7422362345,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 24.5114745709,
+      "support_calls": 5.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 99.8097435818,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 51.7635634364,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 92.3113802145,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 96.315548982,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 21.2469877941,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 75.7001781881,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 78.9331166127,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 63.6667489339,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 91.1917810589,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 85.8753409817,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 76.8569714704,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 44.3596745359,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 36.5311323367,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 102.7254595591,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 49.5019208712,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 32.9030057182,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 87.1854188614,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 46.8085104821,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 59.8506623474,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 91.3258196312,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 62.349539468,
+      "support_calls": 2.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 112.3346967726,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 81.0227444433,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 74.0476692171,
+      "support_calls": null,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 63.8386258584,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 41.3074934399,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 110.9064814423,
+      "support_calls": 4.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 32.0655337444,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 106.7172276607,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 29.5199086961,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 98.2005170738,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 101.8307868704,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 76.8167351291,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 75.2184928559,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 104.2154655517,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 22.4450840882,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 66.1727197185,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 25.0106689697,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 77.6860958498,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 97.7343127529,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 23.5842751418,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 110.1641853566,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 97.0773213665,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 51.3846772112,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 69.3672076271,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 104.5796957802,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 102.9595409086,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 32.6909975519,
+      "support_calls": null,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 61.7619292654,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 104.6671050508,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 106.0569919294,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 50.2480281138,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 64.9859299944,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 87.4736547349,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 104.943533309,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 66.5757440357,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 22.3227582347,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 44.4205000766,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 106.1814417816,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 29.4286053488,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 91.0245201336,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 105.2781129632,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 76.7934230428,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 46.4597605346,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 115.2249715846,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 51.9156494608,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 39.5486509582,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 22.6532437206,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 22.3140094582,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 55.8672791528,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 26.206310654,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 89.309542693,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 106.0630401396,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 65.6403857902,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 87.5305628667,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 39.8583663531,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 107.8365733811,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 44.8406403866,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 99.0737973896,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 70.8167355813,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 95.1490810571,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 1
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 100.9940736445,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 115.9332347636,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 50.2964628837,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 55.7369623502,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 61.2374914297,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 107.2858958774,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 66.8231405694,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 33.1108693026,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 82.5478156914,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 20.5473108835,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 94.9618618923,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 42.8645602662,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 37.6356380008,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 72.0457443767,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 54.5730805763,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 22.98347701,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 32.3869774864,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 42.4689474546,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 119.4077772452,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 72.2250893982,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 52.1532991482,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 65.5117842412,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 115.9774522329,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 106.0281886219,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 36.8000848578,
+      "support_calls": 6.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 36.2743486105,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 83.9250340356,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 54.23624333,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 59.7525024555,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 65.1046500185,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 84.4819194359,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 97.9869843872,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 24.4175102944,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 45.7451959324,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 40.1534975392,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 60.2047798157,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 41.2147407523,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 52.9262459598,
+      "support_calls": 7.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 93.3494904563,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 119.8743370067,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 66.7484539429,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 29.8924505105,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 29.3807824008,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 78.4227860061,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 39.2300679035,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 115.6046659523,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": null,
+      "support_calls": null,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 64.8240633171,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 38.7903579036,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 109.8921576321,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 45.7612616182,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 76.2170733738,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 39.2590823231,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 105.3344671144,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 117.2346247934,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 103.2120075282,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 114.5519891022,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 97.1849343229,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 24.1079093305,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 23.8541999323,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 104.6478536068,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 44.2482853028,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 78.2644349315,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 108.4849059506,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 107.1409086741,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 89.818972561,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 48.3520766599,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 32.5663852869,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 56.0758686518,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 75.439902338,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 47.3429702127,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 57.3060587558,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 96.5024405178,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 109.6755371591,
+      "support_calls": 2.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": 79.5713774686,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 68.9502006507,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 29.4639768249,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 35.7523341317,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 34.9374156368,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 56.5378463199,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 68.1123101763,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 63.2972492868,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 110.289268763,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 39.3208322445,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 105.2145337069,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 46.0348543415,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 43.0746305267,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 38.8474303012,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 60.8156668231,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 27.1822140503,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 64.3942886396,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 91.0532771743,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 52.3936668938,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 85.2686734869,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 54.4640886512,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 111.8793680903,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 53.0201295598,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 90.7843894401,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 36.2871500555,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 94.7269800192,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 53.4111266959,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 66.076960524,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 59.4106982593,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 24.025373994,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 59.4125777178,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 73.6200413111,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 60.8669377367,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 61.9300987928,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 29.6095232972,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 25.9486692183,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 66.181791145,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 36.9799973773,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 93.7797556106,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 47.3187191501,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 112.1852450155,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 101.4473876031,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 31.8910348034,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 71.6087801257,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 71.954959811,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 107.5107613323,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 23.6970727201,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 87.2853394685,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 100.7431605976,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 64.5016054854,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 117.9224633707,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 49.6299630453,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 26.9640636591,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 53.6129968529,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 49.9383291515,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 34.3718661456,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 73.6568013577,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 61.6609633069,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 118.4649533618,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 94.499152578,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 31.7504382253,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 33.2542080951,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 85.9951301129,
+      "support_calls": 4.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 78.5771325155,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 110.760489139,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 82.1862030654,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 30.1894157315,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 104.3322885762,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 33.9623654179,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 47.2804330146,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 88.3258357659,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 73.8941766264,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 83.0912007773,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 104.8380754061,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 47.2586497416,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 106.7423539483,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 105.1334649402,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 32.196896421,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 46.4807177322,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 114.3798368104,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 40.5819793013,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 90.0881010121,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 104.6007561308,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 87.809406088,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 41.0934388489,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 31.1600368249,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 25.2575990323,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 31.7843900906,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 107.3888497904,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 1
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 98.1757047574,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 72.1918470769,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 21.9766445343,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 118.5540169495,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 26.3328478703,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 116.0626285629,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 95.3504563,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 96.4667228562,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 30.300268413,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 76.4095137047,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 94.8820779667,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 66.8759297014,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 111.5744857879,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 96.1432563184,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 92.8374965746,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 52.0734118953,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 91.1558041597,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 68.0607630942,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 92.1906779513,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 73.1886091346,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 36.194157025,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 67.6091756679,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 113.2779619657,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 55.2050674239,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 30.3283479107,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 115.9209272845,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 106.6608832154,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 97.2937388135,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 25.0960482575,
+      "support_calls": 0.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 76.9933818642,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 45.9439839855,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 114.8843107006,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 61.9272387901,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 74.2079034951,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 94.9983537935,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 76.122306789,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 114.7535599666,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 32.9362803458,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 76.7448113549,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 26.6825754701,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 70.8934151751,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 64.607289292,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 74.5675694081,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 76.2672410575,
+      "support_calls": null,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 72.6060526886,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 35.2326710158,
+      "support_calls": 0.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 66.4679637857,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 52.2492347169,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 101.6056016753,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 108.1036051918,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 27.810839308,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 79.0320250883,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 70.4178604391,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 42.5928957917,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 84.6290763229,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 68.1491340326,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 118.4568608251,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 55.3337695068,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 33.8329070116,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 112.3900400545,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 54.1926938546,
+      "support_calls": 3.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 105.1933157795,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 73.7218883694,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 44.1372061627,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 85.5517738343,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 43.5997262621,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 92.7843298969,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 43.4535150441,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 45.3664506562,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 107.8763619783,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 43.6360435384,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 94.9705751045,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 88.8901452453,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 94.3600365108,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 24.0399228842,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 119.4824213621,
+      "support_calls": null,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 59.6166500059,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 55.7682631526,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 94.9352861699,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 47.0341788199,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 26.7518480187,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 33.8205371639,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 79.4567608891,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 23.0892837036,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 56.1599029573,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 67.7200633283,
+      "support_calls": 3.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 60.4994061496,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 61.1576002194,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 109.5634881384,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 101.315934582,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 107.2912016387,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 62.0381771505,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 81.966852597,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 24.8698472314,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 103.7716858187,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 37.6291365022,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 91.9782535022,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 68.2030759586,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 70.7292701582,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": null,
+      "churn": 1
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 83.228281303,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 54.9563611452,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 94.707580063,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 66.3828110463,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 56.1536078639,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 38.5766134871,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 37.5346511454,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 88.041880567,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 20.4618798843,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 73.6487923752,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 94.3994722695,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 37.5462246579,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 71.4629342116,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 100.8969602507,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 53.9322145737,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 48.4051310527,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 97.5791086437,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 115.4898391856,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 48.9834113849,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 88.2581598209,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 98.0838354519,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 114.5148287671,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 81.0770133235,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 108.9899007072,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 25.0519696372,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 69.0607915512,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 79.7394529074,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 67.2783972759,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 59.4481517939,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 106.5572539321,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 39.7809847259,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 87.7971852545,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 25.1419154557,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 111.2582744142,
+      "support_calls": null,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 45.4728350117,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 69.5605078201,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 118.0821145533,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 72.9745666182,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 47.0632152271,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 35.4423088022,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 44.0226276149,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 41.4326402855,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 100.2720605288,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 118.3417075993,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 59.292739157,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 103.4120892002,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 97.7358713328,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 28.1154000424,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 57.8318014224,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 50.1320357663,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 62.8169863509,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 61.1843440301,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 69.1257446391,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 100.0871592107,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 92.6180128384,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 112.3783316093,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 26.0528450827,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 105.5642121702,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 79.4272694302,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 64.1222748481,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 23.1283512902,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 109.0019457118,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 50.7665466379,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 27.7744666925,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 99.300497896,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 117.6128390692,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 62.4979385666,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 94.7990128952,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 53.0735742055,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 95.5539542473,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 40.7020541525,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 53.0716066746,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 85.2922126564,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 48.0896385964,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 29.0,
+      "monthly_charges": 32.5807018312,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 37.6355576418,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 30.4615096805,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 114.0019010808,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 38.8836420476,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 57.1543208406,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 34.0055404689,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 44.479650155,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 27.1304534185,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 70.8192914778,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 81.871477817,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 49.603286291,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 54.7900775757,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 54.6478655407,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 68.0,
+      "monthly_charges": 50.4466526476,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 33.089033085,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 46.0703781336,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 102.3107622807,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 91.2749693761,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 78.0989373748,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 28.0735280003,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 25.5270409501,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 108.8058695015,
+      "support_calls": null,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 84.2998423341,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 95.4573138218,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 68.6280612671,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 115.3205524905,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 119.1807716498,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 114.1538856738,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 32.0110630101,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 119.038845736,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 95.2328914434,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": 41.8704226152,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 43.1280539687,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 92.5769634715,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 29.2756077424,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 30.9282291115,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 50.2071568784,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 40.6985159641,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 103.6613041033,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 52.1545682241,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 76.1489394414,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 100.2059786986,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 40.1979037689,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 49.4755193203,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 57.859278756,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 78.5961374096,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 93.9431468477,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 54.4141078063,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 56.0810561418,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 24.8569289847,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 109.3031019536,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 36.0312024982,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 35.3601832538,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 72.3090499279,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 63.1519003687,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 26.0,
+      "monthly_charges": 86.3453257229,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 68.6192075622,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 77.897752475,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 115.8515293975,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 45.303474993,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 33.1754832892,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 29.9156970599,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 85.1669467935,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 95.7910318733,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 56.7904340222,
+      "support_calls": null,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 105.8125304625,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 66.8416641247,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 31.1844802381,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 59.7233301473,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 97.4417204569,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 43.7658363361,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 59.2369092922,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 65.6452194514,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 85.3191885023,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 102.055708264,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 64.9632688423,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 29.6977888705,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 21.8160543914,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 108.3529836424,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 23.483835028,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 33.1155169185,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 25.5209956708,
+      "support_calls": 6.0,
+      "contract": null,
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 72.9391354026,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 111.7395589266,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 96.054602273,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 61.356793131,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 59.9195302658,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 102.312460995,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 79.0744794164,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 45.32554744,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 109.4687886868,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 84.8183729667,
+      "support_calls": 0.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": 53.9477754209,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 42.7661146799,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 93.8580386457,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 80.6362840216,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 63.1327020146,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 111.6848407629,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 66.0931391073,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 29.9862477161,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 92.0695946718,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 82.5989556699,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 68.2938389472,
+      "support_calls": 2.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 92.9815246303,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 25.7945344538,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 22.9607289129,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 98.3824109376,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 71.6459402636,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 31.5704167309,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 56.9984367847,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 1
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 115.2922468486,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 85.3439209009,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 93.3753497438,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 79.9695356716,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 112.0665858274,
+      "support_calls": 5.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 72.2012301367,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 71.7019486849,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 113.5937499436,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 29.0579058535,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 48.9320136102,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 117.5897540368,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 87.4597476979,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 35.5757670975,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 73.1612918695,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 113.0384617589,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 1
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 79.5212840413,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 44.5699742995,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 94.5203842781,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 31.5326438111,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 38.7609292765,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 47.6207363457,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 49.4773949575,
+      "support_calls": 3.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 109.2487689687,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 23.5898886007,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 75.2162703304,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 33.4692024923,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 59.1491979531,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 24.0,
+      "monthly_charges": 80.1558452456,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 17.0,
+      "monthly_charges": 102.2583090617,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    },
+    {
+      "tenure": 53.0,
+      "monthly_charges": 52.1085626412,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 0
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 20.75070328,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null,
+      "churn": 0
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 60.9982388225,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 78.4638834134,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic",
+      "churn": 0
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 33.8654496233,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic",
+      "churn": 1
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 103.4707664327,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual",
+      "churn": 1
+    }
+  ],
+  "evaluation": [
+    {
+      "tenure": 40.0,
+      "monthly_charges": null,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 60.9139977625,
+      "support_calls": 3.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 57.2702341307,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 75.2898254064,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 44.5875587005,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": null,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 84.7071798143,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 31.4104071184,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 95.1963121575,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 35.3963582578,
+      "support_calls": 5.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": null,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 54.6492861313,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 66.3675714682,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 44.6352241783,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 77.8609296813,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 62.1766062715,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 39.5185529819,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 48.7854876048,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 118.6628746863,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 44.5258973023,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 42.7967772223,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": null,
+      "support_calls": 6.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 25.0880734545,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 71.5755676288,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 75.3103802411,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 80.8741128898,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 77.4871929623,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 102.2213546094,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 82.1792029861,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 29.0,
+      "monthly_charges": 99.368215056,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 108.2825566034,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 108.9656421675,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": 40.6813527514,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 34.3908696079,
+      "support_calls": 5.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 28.9042005075,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 63.6316659694,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 51.8326387629,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 83.4540264952,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 32.8052610548,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 50.0,
+      "monthly_charges": 59.6940067748,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 24.911764375,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 45.7808409702,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 38.9363491673,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 33.0,
+      "monthly_charges": 35.3531546337,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 90.8091235684,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": null,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 53.2163047703,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 29.0,
+      "monthly_charges": 27.4057683369,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 66.9955940287,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 107.4575139856,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 32.7276198329,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 37.7235501249,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 42.8252875463,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 119.3084581931,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 29.0,
+      "monthly_charges": 107.9068779659,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 83.9013649264,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 113.5541943843,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 20.2308772587,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 44.6725053479,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 48.4397134573,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 39.5124241092,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 89.0126769578,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 116.5415953482,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 67.6257308587,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 60.7362387863,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 119.1774475929,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 83.8223552926,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 37.9492072346,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 76.8833805384,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 59.6436235365,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 37.0341193659,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 21.0,
+      "monthly_charges": 114.3382351278,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 22.6577764997,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 63.7841565676,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 65.4457430299,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 67.794658074,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 86.362104666,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 62.9026121357,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 103.0019179159,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 33.5038096056,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 33.682127803,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 33.7997517348,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 93.6573093116,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 114.9293523009,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 98.7463874632,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 66.7640256627,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 48.8228245488,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 19.0,
+      "monthly_charges": 20.4007604733,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 63.4563084698,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 81.0060482887,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 36.357687771,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 59.0,
+      "monthly_charges": 20.9259781821,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 83.3149182145,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 104.7836867224,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 10.0,
+      "monthly_charges": 102.6789881924,
+      "support_calls": 4.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 37.8441761822,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 74.2364402302,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 76.5077910631,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 38.2808770431,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 32.6935256791,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 36.6062632414,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 41.6622364184,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 71.27320643,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 48.324693325,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 43.0,
+      "monthly_charges": 99.602855631,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 20.1067465023,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 108.6557562172,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 58.0,
+      "monthly_charges": 81.956925631,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 38.5375272802,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 98.7589836229,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 102.0505943859,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 38.0,
+      "monthly_charges": 116.8752321362,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": null,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 41.1772163466,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 103.9173866234,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 29.6810149305,
+      "support_calls": 7.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 41.5924790431,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 37.1960351937,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 52.0,
+      "monthly_charges": 70.5762314743,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 40.7998073708,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 31.069207403,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 76.9212050431,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 61.0048786915,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 98.6649712494,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 99.5788565167,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 35.0454011557,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 20.0,
+      "monthly_charges": 119.4701748935,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 21.9034147817,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 29.9831057177,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 45.0,
+      "monthly_charges": 58.0732361217,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 105.6409630656,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 75.090876849,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 48.9083581638,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 22.0,
+      "monthly_charges": 26.3117170704,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 91.9312533691,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 43.5097116881,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 36.8873041613,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 85.8480768393,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 71.8914642487,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 15.0,
+      "monthly_charges": 109.6122082424,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 26.5530433918,
+      "support_calls": 1.0,
+      "contract": null,
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 37.5180567856,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 6.0,
+      "monthly_charges": 49.6362057011,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 93.8510712687,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 119.3542996787,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 29.4071963089,
+      "support_calls": 0.0,
+      "contract": null,
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 51.715317113,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 54.0,
+      "monthly_charges": 45.5106931027,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 90.4838323043,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 51.0,
+      "monthly_charges": 80.3424454333,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 42.0,
+      "monthly_charges": 110.3973290878,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 112.6769391489,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 106.0800973621,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 97.9269943575,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 104.1203706215,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 14.0,
+      "monthly_charges": 41.4092289337,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 108.7571088488,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 21.7668781,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 60.4854964427,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 40.0562471322,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 24.7374020005,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 13.0,
+      "monthly_charges": 108.2175070329,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 118.4185264948,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 59.2918176697,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 18.0,
+      "monthly_charges": 107.5084199054,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 41.0,
+      "monthly_charges": 112.7504859625,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 66.0,
+      "monthly_charges": 52.0397203597,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 97.8151422544,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 68.1763551362,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 61.8656087315,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 52.0715546694,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 49.8943651119,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 116.4518886139,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 88.132947269,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 47.0,
+      "monthly_charges": 90.5028196524,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 40.4397367081,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 81.0485067342,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 36.5487757582,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": null,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 16.0,
+      "monthly_charges": 110.8608246556,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 4.0,
+      "monthly_charges": 83.1065442872,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 1.0,
+      "monthly_charges": 24.5173116989,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 108.7988828606,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 83.556035401,
+      "support_calls": 0.0,
+      "contract": null,
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 63.0,
+      "monthly_charges": 49.1329453558,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 38.7593681939,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 32.0,
+      "monthly_charges": 40.2088101645,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 11.0,
+      "monthly_charges": 98.2905274172,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 2.0,
+      "monthly_charges": 68.9824256092,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 64.0088699527,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 30.0,
+      "monthly_charges": 31.895331074,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 37.0,
+      "monthly_charges": 105.5491541791,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 7.0,
+      "monthly_charges": 78.4752702805,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 25.9824337317,
+      "support_calls": 3.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 69.7647702365,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 8.0,
+      "monthly_charges": 28.5982350111,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 9.0,
+      "monthly_charges": 34.102729995,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 40.0,
+      "monthly_charges": 75.5461710138,
+      "support_calls": 2.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 35.3525522055,
+      "support_calls": null,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 115.2999132768,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 35.0,
+      "monthly_charges": 88.4562073394,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": null,
+      "support_calls": 4.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 23.0,
+      "monthly_charges": 21.580555544,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 12.0,
+      "monthly_charges": 111.2448796296,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 55.0,
+      "monthly_charges": 101.096290224,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 112.966662092,
+      "support_calls": 5.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 39.0,
+      "monthly_charges": 29.0001391045,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": null
+    },
+    {
+      "tenure": 62.0,
+      "monthly_charges": 75.354084009,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 64.0,
+      "monthly_charges": 62.5081767514,
+      "support_calls": 2.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 31.0,
+      "monthly_charges": 107.6678138752,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 71.0,
+      "monthly_charges": 100.0583620674,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 95.0265987948,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 5.0,
+      "monthly_charges": 94.6067978959,
+      "support_calls": 1.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 3.0,
+      "monthly_charges": 53.3094161011,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 60.0,
+      "monthly_charges": 28.4819272312,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 61.0,
+      "monthly_charges": 85.3539825694,
+      "support_calls": 0.0,
+      "contract": "two_year",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 114.5693651824,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 48.0,
+      "monthly_charges": 95.8422237185,
+      "support_calls": 0.0,
+      "contract": "annual",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 69.0,
+      "monthly_charges": 99.1451487808,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 99.1974425141,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 28.0,
+      "monthly_charges": 51.8399117828,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 34.0,
+      "monthly_charges": 105.3369459342,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 16.0,
+      "monthly_charges": 81.8916381174,
+      "support_calls": 4.0,
+      "contract": "two_year",
+      "payment_method": null
+    },
+    {
+      "tenure": 56.0,
+      "monthly_charges": 95.4271514938,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 72.0,
+      "monthly_charges": 70.5276922293,
+      "support_calls": 3.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 36.0,
+      "monthly_charges": 39.9541992899,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 70.0,
+      "monthly_charges": 46.0184655343,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": null,
+      "monthly_charges": 46.4539811151,
+      "support_calls": 6.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 67.0,
+      "monthly_charges": 51.0654185081,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 49.0,
+      "monthly_charges": 87.7287399364,
+      "support_calls": 1.0,
+      "contract": "two_year",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 57.0,
+      "monthly_charges": 48.604730184,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": null
+    },
+    {
+      "tenure": 65.0,
+      "monthly_charges": 41.9189216479,
+      "support_calls": 0.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 27.0,
+      "monthly_charges": 80.7211430494,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 25.0,
+      "monthly_charges": 45.3184606127,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "manual"
+    },
+    {
+      "tenure": 46.0,
+      "monthly_charges": 98.7792850639,
+      "support_calls": 2.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    },
+    {
+      "tenure": 44.0,
+      "monthly_charges": 36.9714105099,
+      "support_calls": 1.0,
+      "contract": "monthly",
+      "payment_method": "automatic"
+    }
+  ],
+  "seed": 42,
+  "expected_plan": {
+    "algorithm": "logistic",
+    "hyperparameters": {
+      "C": 1.0,
+      "max_iter": 1000,
+      "class_weight": "balanced",
+      "solver": "lbfgs"
+    },
+    "preprocessing": {
+      "numeric_imputer": "median",
+      "categorical_imputer": "most_frequent",
+      "scale_numeric": true,
+      "unknown_categories": "ignore"
+    }
+  }
+}

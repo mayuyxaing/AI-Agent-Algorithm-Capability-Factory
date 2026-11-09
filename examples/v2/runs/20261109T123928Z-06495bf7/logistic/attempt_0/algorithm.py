@@ -1,0 +1,21 @@
+"""Generated churn classifier. Source: Capability Forge logistic; seed is explicit."""
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.linear_model import LogisticRegression
+FEATURES = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_method']
+
+def build_model(seed=42):
+    numeric = Pipeline([('impute', SimpleImputer(strategy='median')), ('scale', StandardScaler())])
+    categorical = Pipeline([('impute', SimpleImputer(strategy='most_frequent')), ('encode', OneHotEncoder(handle_unknown='error'))])
+    preprocessing = ColumnTransformer([('numeric', numeric, FEATURES[:3]), ('categorical', categorical, FEATURES[3:])])
+    return Pipeline([('preprocessing', preprocessing), ('classifier', LogisticRegression(C=1.0, max_iter=1000, class_weight='balanced', solver='lbfgs', random_state=seed))])
+
+def predict(model, frame):
+    """Return positive-class probabilities in input row order; reject missing fields."""
+    missing = set(FEATURES) - set(frame.columns)
+    if missing:
+        raise ValueError(f'Missing columns: {sorted(missing)}')
+    return model.predict_proba(frame[FEATURES])[:, 1]

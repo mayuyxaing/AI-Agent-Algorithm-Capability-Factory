@@ -13,6 +13,8 @@
 | Environment | python, platform, numpy, pandas, scikit-learn, joblib | 实际运行依赖版本 |
 | ValidationRun | status, mode, model, test_metrics, dataset_sha256, seed, report_ref | 测试指标及完整报告引用 |
 | FailureCase | task, error, checks, injected, resolved_in_run, remedy | 失败、修复建议及演示故障标记 |
+| Requirement | task, key, extraction=rule_index | 缺失值、未知类别、不平衡等条件 |
+| Strategy | task, key, extraction=rule_index | 对应处理策略，链接支持原文 |
 
 | 关系 | 起点 → 终点 |
 |---|---|
@@ -24,6 +26,8 @@
 | USED_KNOWLEDGE | ValidationRun → Knowledge/Function |
 | EXPOSED | AlgorithmVersion → FailureCase |
 | REUSED_EXPERIENCE | ValidationRun → FailureCase |
+| ADDRESSED_BY | Requirement → Strategy |
+| SUPPORTED_BY | Strategy → Knowledge/Function |
 
 ## 身份与版本策略
 
@@ -35,6 +39,6 @@
 
 离线模式按 Markdown 二级标题分段，并从 Python AST 抽取顶层函数、docstring、函数源码与模块导入。它不是语义抽取模型。真实模型抽取额外增加 LLM facts，推荐通过 source_chunk_id 引用宿主预先编号的原文片段，由宿主附加准确原文及行号；也兼容旧版精确 evidence_quote。未知片段 ID、冲突引文和不合规事实拒绝入库，保存在 ingestions 审计表及可选审计 JSON 中。默认继续使用已核对知识，并显式报告 partial_llm 和拒绝数量；--strict-extraction 可在任一拒绝时停止。模型服务错误和不合规顶层响应仍会停止。原文引证核对不等于知识真实性或语义支持关系已被证明。
 
-检索使用英文词及中文双字词重叠，返回带来源的前 6 条。这里是可检查的小型知识库检索，不是向量检索，也没有实现图路径搜索。历史 FailureCase 按任务过滤，作为独立结构化上下文交给规划与生成角色。
+v2 根据训练画像和显式约束，从 Requirement 经 Strategy 遍历至支持的 Knowledge/Function，结合英文词和中文双字词重叠排序，返回前 6 条及 retrieval_paths。每条路径可在 edges 表核验。关系采用显式关键词规则索引，不等于模型已证明语义支持关系，也不是通用图搜索。历史 FailureCase 按任务过滤，作为独立上下文交给规划与生成角色。
 
-本版将算法适用条件、策略和环境要求保存在 Knowledge 属性中；只将能力、指标、环境、代码版本和验证结果单独建节点。后续可把 Strategy 和 DataRequirement 拆成独立实体，增加关系约束与人工知识审核。
+适用条件的完整描述仍保存在 Knowledge 中；v2 单独索引了 Requirement 与 Strategy 节点。后续可增加字段级 DataRequirement、关系约束、过期知识管理与人工审核。

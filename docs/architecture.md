@@ -14,7 +14,7 @@
 
 1. understand 接收自然语言，输出 task/target/metrics/constraints；当前只接受客户流失二分类。
 2. retrieve 查询文档知识、函数和历史失败案例；每条保留来源与引文。
-3. plan 提交知识及可用插件，输出候选 ID、理由和证据 ID。宿主拒绝未知/重复算法和伪造引用。
+3. plan 提交训练画像、检索知识和有界参数空间，输出候选、超参数、预处理、理由和证据 ID。宿主拒绝未知算法、越界参数、缺失策略及伪造引用。详见 v2-upgrade.md。
 4. generate 返回完整 Python 文件；每次保留 prompt 上下文、响应和代码摘要。
 5. validate 宿主静态检查后启动子进程，训练并执行接口检查；宿主从预测计算指标。
 6. repair 接收上一版代码及结构化反馈，最多按配置修复两轮；生成代码逐版保留。
@@ -42,7 +42,7 @@ def predict(model, frame):
 
 ## 可扩展点
 
-- 候选算法：添加 forge/plugins/*.json 的 import、expression、rationale，mock 模板即可生成新候选；插件是受信任项目代码，仍须通过 AST 检查和统一验证。
+- 候选算法：需要同步扩展 forge/plugins/*.json、planning.py 的参数空间/默认值、mock 模板以及 worker 的分类器/计划一致性检查。插件是受信任项目代码，仍须通过 AST 检查和统一验证；当前只内置两类分类器。
 - 指标：在 validation.METRICS 注册高者更优的函数，再加入配置；若是低者更优指标，须扩展排序方向。
 - 任务：新增字段 schema、数据读取、模板、接口检查、配置任务分派；当前只提供一个任务类型，没有宣称完成跨场景迁移。
 - LLM：实现 mode、model、call(role, context)；真实模型输出必须通过宿主校验。

@@ -2,7 +2,9 @@
 
 一个用于 LLM Agent 笔试/申博测试的可复现原型：从客户流失预测的自然语言需求出发，检索业务知识，规划候选算法，生成代码，独立验证，按反馈修复，并将能力版本和验证经验回写到知识库。
 
-**状态：离线 mock 闭环已运行；真实 GLM-4.7-Flash 也已完成知识抽取、规划、两个候选代码生成及独立验证，最终测试通过。真实运行两个候选首次通过，未触发代码修复；修复演示仍来自 mock 故障注入。Ollama/OpenAI 仅完成接口契约测试。数据全部为模拟数据。**
+**当前代码为工作流 v2：增加训练数据画像、两跳图谱检索、有界超参数规划、无完整模板的真实模型生成接口、计划一致性检查及对照实验。v2 已离线验证，真实 GLM 实测待运行。归档的 v1 真实 GLM 算法复刻/验证已通过；它使用完整模板参考，不能作为 v2 的效果证据。数据全部为模拟数据。**
+
+升级对比、修复演示和实验协议见 [v2-upgrade.md](docs/v2-upgrade.md)。离线新版案例见 [examples/v2](examples/v2/README.md)。
 
 ## 1. 背景和目标
 
@@ -103,7 +105,7 @@ python scripts/run_glm.py
 python scripts/run_glm.py --run
 ```
 
-使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。完整真实证据见 [GLM 实测结果](examples/glm/PROGRESS.md)：知识抽取接受 12 条，两个候选通过验证，选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432。生成提供了完整模板参考，不是无参考算法创造。再次运行会复用材料未变的知识及成功模型响应，报告注明复用来源；验证与指标仍重新计算。
+使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。归档的 [v1 GLM 实测结果](examples/glm/PROGRESS.md)：知识抽取接受 12 条，选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432；它提供了完整模板参考。当前入口运行 v2，生成上下文只提供接口和计划，旧响应不会冒充新版结果。真实修复演示入口为 repair-glm.cmd，对照实验入口为 benchmark-glm.cmd。
 
 ### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
 
@@ -140,7 +142,7 @@ python -m forge run --task-file examples/task.txt --provider ollama --model YOUR
 - [schema.md](docs/schema.md)：节点、关系、版本策略及边界。
 - `examples/knowledge_graph.json`：实际运行后导出的知识抽取与回写结果。
 
-SQLite 用 nodes/edges 表表达属性图，Capability 保存输入输出及适用条件，AlgorithmVersion 保存代码摘要，ValidationRun 关联报告，FailureCase 保存错误与故障注入标记，Source 支持来源追溯。检索为中文双字词/英文词重叠，尚未实现图搜索或向量检索。
+SQLite 用 nodes/edges 表表达属性图，Capability 保存输入输出及适用条件，AlgorithmVersion 保存代码摘要，ValidationRun 关联报告，FailureCase 保存错误与故障注入标记，Source 支持来源追溯。v2 增加 Requirement → Strategy → Knowledge/Function 的两跳遍历，结合词语重叠排序并输出检索路径；关系由来源可追溯的规则索引构建，尚无向量检索或通用图推理。
 
 ## 7. Agent 工作流与生成代码
 
@@ -196,7 +198,7 @@ python -m forge inspect RUN_DIR/report.json
 
 ## 10. 限制与扩展
 
-当前只支持固定字段的客户流失二分类。没有 Web 服务、MCTS、跨场景迁移或真实 LLM 效果对照实验；不将这些列为已实现功能。
+当前只支持固定字段的客户流失二分类，没有 Web 服务、MCTS 或跨场景迁移。已实现三组对照实验代码及离线流程验证，尚无 v2 真实 LLM 对照结果，不提前宣称知识增强有效。
 
 可通过 forge/plugins/*.json 扩展受信任算法模板，通过 validation.METRICS 扩展指标。新任务需要同时扩展字段 schema、模板和验证器，不能仅改 prompt。失败建议目前是规则，不是模型自动根因分析。
 
