@@ -23,6 +23,7 @@ def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
     if issues:
         return dict(passed=False, failure_kind="static_check", error="; ".join(issues), checks={"static_check": False})
     folder = code_path.parent.resolve()
+    (folder / "result.json").unlink(missing_ok=True)
     payload = {"train": json.loads(train[FEATURES + [TARGET]].to_json(orient="records")),
                "evaluation": json.loads(evaluation[FEATURES].to_json(orient="records")), "seed": seed}
     write_json(folder / "input.json", payload)

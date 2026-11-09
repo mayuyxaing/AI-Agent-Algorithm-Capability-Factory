@@ -117,8 +117,17 @@ class KnowledgeStore:
         run_id = report["run_id"]
         with self.connect() as con:
             con.execute("INSERT OR REPLACE INTO runs VALUES(?,?)", (run_id, json.dumps(report, ensure_ascii=False)))
-        capability = self.node("Capability", "客户流失预测", {"task": "churn_classification"}, "capability:churn")
-        run_node = self.node("ValidationRun", run_id, {"status": report["status"], "mode": report["mode"]}, "run:" + run_id)
+        capability = self.node("Capability", "客户流失预测", {
+            "task": "churn_classification", "input": {"format": "pandas.DataFrame", "required_columns":
+                ["tenure", "monthly_charges", "support_calls", "contract", "payment_method"]},
+            "output": {"format": "1D probability array", "range": [0, 1], "positive_class": 1},
+            "conditions": ["binary labels 0/1", "tabular customer data", "train-only preprocessing"],
+            "dependencies": ["numpy", "pandas", "scikit-learn", "joblib"]}, "capability:churn")
+        run_node = self.node("ValidationRun", run_id, {
+            "status": report["status"], "mode": report["mode"], "model": report["model"],
+            "selected": report.get("selected"), "dataset_sha256": report["dataset_sha256"],
+            "seed": report["seed"], "test_metrics": report.get("test_result", {}).get("metrics", {}),
+            "report_ref": f"runs/{run_id}/report.json"}, "run:" + run_id)
         environment = self.node("Environment", "Python execution environment", report["environment"])
         self.edge(run_node, "EXECUTED_IN", environment)
         for metric in report["policy"]["metrics"]:
@@ -133,7 +142,8 @@ class KnowledgeStore:
                 version = self.node("AlgorithmVersion", candidate["algorithm"], {
                     "sha256": attempt["code_sha256"], "run_id": run_id,
                     "attempt": attempt["attempt"], "passed": attempt["passed"],
-                    "path": attempt["code_path"]}, "version:" + run_id + ":" + candidate["algorithm"] + ":" + str(attempt["attempt"]))
+                    "path": attempt["code_path"], "validation_metrics": attempt.get("metrics", {}),
+                    "checks": attempt.get("checks", {})}, "version:" + run_id + ":" + candidate["algorithm"] + ":" + str(attempt["attempt"]))
                 self.edge(capability, "IMPLEMENTED_BY", version)
                 self.edge(version, "VALIDATED_IN", run_node)
                 if not attempt["passed"]:

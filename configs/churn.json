@@ -1,0 +1,8 @@
+{
+  "task": "churn_classification",
+  "metrics": ["roc_auc", "f1", "accuracy"],
+  "selection_metric": "roc_auc",
+  "minimum": {"roc_auc": 0.65, "f1": 0.45},
+  "timeout_seconds": 60,
+  "max_repairs": 2
+}
