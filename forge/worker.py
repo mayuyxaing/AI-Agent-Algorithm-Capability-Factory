@@ -36,9 +36,39 @@ def execute(code_path: Path, input_path: Path):
     from sklearn.pipeline import Pipeline
     if not isinstance(model, Pipeline):
         raise TypeError("build_model must return sklearn.pipeline.Pipeline")
+    plan_checks = {}
+    expected = payload.get("expected_plan")
+    if expected:
+        from sklearn.compose import ColumnTransformer
+        from sklearn.impute import SimpleImputer
+        from sklearn.preprocessing import StandardScaler
+        classifier = model.steps[-1][1]
+        expected_class = {"logistic": "LogisticRegression", "forest": "RandomForestClassifier"}[expected["algorithm"]]
+        if type(classifier).__name__ != expected_class:
+            raise ValueError(f"Plan mismatch: expected classifier {expected_class}")
+        parameters = classifier.get_params()
+        for key, value in dict(expected["hyperparameters"], random_state=payload["seed"],
+                               **({"n_jobs": 1} if expected["algorithm"] == "forest" else {})).items():
+            if parameters.get(key) != value:
+                raise ValueError(f"Plan mismatch: {key} must equal {value!r}")
+        preprocessing = expected["preprocessing"]
+        transformers = [p for p in model.get_params(deep=True).values() if isinstance(p, ColumnTransformer)]
+        for names, strategy in [(FEATURES[:3], preprocessing["numeric_imputer"]),
+                                (FEATURES[3:], preprocessing["categorical_imputer"])]:
+            branch = next((transformer for ct in transformers for _, transformer, columns in ct.transformers
+                           if isinstance(columns, (list, tuple)) and set(columns) == set(names)), None)
+            if branch is None or not hasattr(branch, "get_params"):
+                raise ValueError(f"Plan mismatch: ColumnTransformer must explicitly group {names}")
+            objects = [branch, *branch.get_params(deep=True).values()]
+            if not any(isinstance(obj, SimpleImputer) and obj.strategy == strategy for obj in objects):
+                raise ValueError(f"Plan mismatch: imputer for {names} must use {strategy}")
+            if names == FEATURES[:3] and any(isinstance(obj, StandardScaler) for obj in objects) != preprocessing["scale_numeric"]:
+                raise ValueError("Plan mismatch: numeric scaling differs from plan")
+        plan_checks = {"estimator_matches_plan": True, "hyperparameters_match_plan": True,
+                       "preprocessing_matches_plan": True}
     model.fit(train[FEATURES], train["churn"])
     probabilities = vector(module.predict(model, evaluation.copy()), len(evaluation))
-    checks, details = {"probability_contract": True}, {}
+    checks, details = {"probability_contract": True, **plan_checks}, {}
 
     def check(name, operation):
         try:

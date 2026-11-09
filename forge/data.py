@@ -10,7 +10,10 @@ FEATURES = NUMERIC + CATEGORICAL
 TARGET = "churn"
 
 
-def generate(path: Path, rows: int = 1200, seed: int = 42) -> None:
+def generate(path: Path, rows: int = 1200, seed: int = 42, missing_rate: float = .035,
+             logit_shift: float = 0.0, interaction_strength: float = 0.0) -> None:
+    if not 0 <= missing_rate <= .6:
+        raise ValueError("missing_rate must be between 0 and 0.6")
     rng = np.random.default_rng(seed)
     tenure = rng.integers(1, 73, rows)
     charges = rng.uniform(20, 120, rows)
@@ -19,12 +22,13 @@ def generate(path: Path, rows: int = 1200, seed: int = 42) -> None:
     payment = rng.choice(["automatic", "manual"], rows)
     logits = (-1.8 - .035 * tenure + .018 * (charges - 50) + .6 * calls
               + 1.5 * (contract == "monthly") + .35 * (payment == "manual"))
+    logits = logits + logit_shift + interaction_strength * (calls >= 3) * (contract == "monthly")
     churn = rng.binomial(1, 1 / (1 + np.exp(-logits)))
     frame = pd.DataFrame(dict(tenure=tenure.astype(float), monthly_charges=charges,
                               support_calls=calls.astype(float), contract=contract,
                               payment_method=payment, churn=churn))
     for col in FEATURES:
-        frame.loc[rng.random(rows) < .035, col] = np.nan
+        frame.loc[rng.random(rows) < missing_rate, col] = np.nan
     path.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(path, index=False)
 

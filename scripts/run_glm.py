@@ -35,6 +35,8 @@ def entry(argv=None):
     parser = argparse.ArgumentParser(description="智谱 GLM-4.7-Flash：隐藏输入密钥，检查连接或运行闭环")
     parser.add_argument("--run", action="store_true", help="完整流程；默认只做一次连接检查")
     parser.add_argument("--refresh-knowledge", action="store_true", help="强制重新抽取材料")
+    parser.add_argument("--repair-demo", action="store_true", help="显式注入代码缺陷并由真实模型修复")
+    parser.add_argument("--benchmark", action="store_true", help="真实模型三组对照实验；比单次流程需要更多调用")
     args = parser.parse_args(argv)
     os.chdir(Path(__file__).resolve().parents[1])
     previous = os.environ.get("ZHIPU_API_KEY")
@@ -49,6 +51,9 @@ def entry(argv=None):
         os.environ["ZHIPU_API_KEY"] = key
     try:
         print("使用智谱官方 glm-4.7-flash；不会自动切换收费模型。", flush=True)
+        if args.benchmark:
+            return main(["benchmark", "--provider", "glm", "--llm-attempts", "6",
+                         "--output", "runtime/glm/benchmark-v2"])
         if not args.run:
             print("正在检查连接，请等待……", flush=True)
             return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])
@@ -68,8 +73,11 @@ def entry(argv=None):
             if code:
                 return code
         print("正在规划、生成并验证代码；每一步轨迹写入 runtime/glm/runs/。", flush=True)
-        return main(["--db", db, "run", "--task-file", "examples/task.txt", "--provider", "glm",
-                     "--llm-attempts", "6", "--checkpoints", "runtime/glm/checkpoints", "--output", "runtime/glm/runs"])
+        command = ["--db", db, "run", "--task-file", "examples/task.txt", "--provider", "glm",
+                   "--llm-attempts", "6", "--checkpoints", "runtime/glm/checkpoints"]
+        if args.repair_demo:
+            command.append("--repair-demo")
+        return main(command + ["--output", "runtime/glm/runs"])
     finally:
         if previous is None:
             os.environ.pop("ZHIPU_API_KEY", None)

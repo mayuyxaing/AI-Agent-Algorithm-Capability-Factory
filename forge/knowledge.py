@@ -139,7 +139,52 @@ class KnowledgeStore:
                 self.edge(nid, "SUPPORTED_BY", sid)
                 count += 1
         save_audit("partial_llm" if audit["llm_rejected"] else "passed")
+        self.index_strategies()
         return count
+
+    def index_strategies(self):
+        """Rule-grounded relation extraction; support edges keep original evidence."""
+        rules = {
+            "missing_values": ("缺失值处理", "imputation", "训练集填补", ["缺失", "填补", "imput"]),
+            "unknown_categories": ("未知类别", "unknown_safe_encoding", "允许未知类别的编码", ["未知类别", "handle_unknown", "unknown categor"]),
+            "class_imbalance": ("类别不平衡", "class_weighting", "类别权重处理不平衡", ["不平衡", "class_weight", "imbalanc"]),
+            "train_only_preprocessing": ("训练集内拟合", "train_only_pipeline", "训练集拟合预处理 Pipeline", ["训练集", "pipeline", "泄漏"]),
+        }
+        for fact in self.nodes():
+            if fact["kind"] not in {"Knowledge", "Function"}:
+                continue
+            text = (fact["title"] + " " + fact.get("text", "") + " " + fact.get("evidence_quote", "")).lower()
+            for key, (requirement, strategy, title, cues) in rules.items():
+                if not any(cue.lower() in text for cue in cues):
+                    continue
+                rid = self.node("Requirement", requirement, {"task": "churn_classification", "key": key,
+                                "extraction": "rule_index"}, "requirement:" + key)
+                sid = self.node("Strategy", title, {"task": "churn_classification", "key": strategy,
+                                "extraction": "rule_index"}, "strategy:" + strategy)
+                self.edge(rid, "ADDRESSED_BY", sid)
+                self.edge(sid, "SUPPORTED_BY", fact["id"])
+
+    def retrieve_grounded(self, query, requirements, limit=6):
+        self.index_strategies()  # Also upgrades previously populated local databases.
+        lexical = {n["id"]: n for n in self.retrieve(query, limit=1000)}
+        paths = {}
+        with self.connect() as con:
+            for requirement in sorted(set(requirements)):
+                rid = "requirement:" + requirement
+                rows = con.execute("SELECT a.target,b.target FROM edges a JOIN edges b ON a.target=b.source "
+                                   "WHERE a.source=? AND a.relation='ADDRESSED_BY' AND b.relation='SUPPORTED_BY' "
+                                   "ORDER BY a.target,b.target", (rid,)).fetchall()
+                for strategy, evidence in rows:
+                    paths.setdefault(evidence, []).append([rid, strategy, evidence])
+        ranked = []
+        for fact in self.nodes():
+            if fact["kind"] not in {"Knowledge", "Function"}:
+                continue
+            graph_paths = paths.get(fact["id"], [])
+            score = lexical.get(fact["id"], {}).get("score", 0) + 20 * len(graph_paths)
+            if score:
+                ranked.append(dict(fact, score=score, retrieval_paths=graph_paths))
+        return sorted(ranked, key=lambda n: (-n["score"], not n.get("extraction", "").startswith("llm"), n["id"]))[:limit]
 
     @staticmethod
     def tokens(text):
@@ -193,6 +238,7 @@ class KnowledgeStore:
                     "sha256": attempt["code_sha256"], "run_id": run_id,
                     "attempt": attempt["attempt"], "passed": attempt["passed"],
                     "path": attempt["code_path"], "validation_metrics": attempt.get("metrics", {}),
+                    "hyperparameters": candidate.get("hyperparameters"), "preprocessing": candidate.get("preprocessing"),
                     "checks": attempt.get("checks", {})}, "version:" + run_id + ":" + candidate["algorithm"] + ":" + str(attempt["attempt"]))
                 self.edge(capability, "IMPLEMENTED_BY", version)
                 self.edge(version, "VALIDATED_IN", run_node)

@@ -25,7 +25,8 @@ def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
     folder = code_path.parent.resolve()
     (folder / "result.json").unlink(missing_ok=True)
     payload = {"train": json.loads(train[FEATURES + [TARGET]].to_json(orient="records")),
-               "evaluation": json.loads(evaluation[FEATURES].to_json(orient="records")), "seed": seed}
+               "evaluation": json.loads(evaluation[FEATURES].to_json(orient="records")), "seed": seed,
+               "expected_plan": policy.get("_expected_plan")}
     write_json(folder / "input.json", payload)
     env = {k: v for k, v in os.environ.items() if not any(s in k.upper() for s in ("TOKEN", "SECRET", "PASSWORD", "API_KEY"))}
     env.update(OMP_NUM_THREADS="1", OPENBLAS_NUM_THREADS="1", MKL_NUM_THREADS="1", PYTHONIOENCODING="utf-8")

@@ -17,8 +17,14 @@ def report_markdown(report: dict) -> str:
         lines += [f"知识抽取审计：status={ingestion['status']}，LLM 接受 {ingestion['llm_accepted']} 条，拒绝 {ingestion['llm_rejected']} 条；不合格事实未进入能力图谱。", ""]
     if "checkpoint_hits" in report:
         lines += [f"复用了 {len(report['checkpoint_hits'])} 次历史模型响应，来源运行见 report.json；算法验证结果没有缓存。", ""]
+    if report.get("workflow_version") == 2:
+        lines += [f"工作流 v2；实验组={report['experiment_arm']}；每候选生成预算={report['generation_budget_per_candidate']}；未向真实模型提供完整算法模板。", "",
+                  "## 训练数据画像与实现计划", "", "```json",
+                  __import__('json').dumps({"data_profile": report.get("data_profile"), "plan": report.get("plan")}, ensure_ascii=False, indent=2), "```", ""]
     for item in report["knowledge"]:
         lines.append(f"- {item['title']} — `{item.get('source_path')}`:{item.get('line')}（{item['id']}）")
+        for path in item.get("retrieval_paths", []):
+            lines.append("  - 图谱路径：" + " → ".join(path))
     lines += ["", f"历史经验检索数：{len(report['experiences'])}", "", "## 候选比较（验证集）", "",
               "| 算法 | 通过 | 尝试次数 | ROC-AUC | F1 |", "|---|---|---|---|---|"]
     for item in report["candidates"]:
@@ -34,6 +40,8 @@ def report_markdown(report: dict) -> str:
                       f"  - code: `{attempt['code_path']}`; SHA256: `{attempt['code_sha256']}`",
                       f"  - checks: `{attempt.get('checks', {})}`",
                       f"  - explanation: {attempt.get('explanation', '')}"]
+            if attempt.get("fault_origin"):
+                lines.append(f"  - 显式故障来源：{attempt['fault_origin']}；模型原始代码摘要：{attempt.get('model_response_sha256')}")
             if attempt.get("error"):
                 lines += ["", "```text", attempt["error"], "```", ""]
     lines += ["", "## 最终测试集评估", "", f"选定算法：{report.get('selected')}", "",

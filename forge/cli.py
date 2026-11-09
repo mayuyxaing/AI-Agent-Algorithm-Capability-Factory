@@ -56,6 +56,8 @@ def main(argv=None):
     submit.add_argument("--inject-fault", action="store_true", help="仅 mock：初版逻辑回归未知类别处理故障")
     submit.add_argument("--seed", type=int, default=42)
     submit.add_argument("--checkpoints", type=Path, help="保存及复用成功的模型响应；算法仍重新验证")
+    submit.add_argument("--experiment-arm", choices=["direct", "knowledge", "knowledge_repair"], default="knowledge_repair")
+    submit.add_argument("--repair-demo", action="store_true", help="显式注入未知类别故障，让模型根据真实反馈修复")
     graph = sub.add_parser("graph", help="导出图谱 JSON 与离线 HTML")
     graph.add_argument("--output", type=Path, default=Path("runtime/knowledge_graph.json"))
     inspect = sub.add_parser("inspect", help="读取运行报告")
@@ -64,11 +66,25 @@ def main(argv=None):
     add_llm_args(doctor)
     doctor.add_argument("--probe", action="store_true")
     doctor.add_argument("--output", type=Path, help="保存不含密钥的连接检查结果")
+    compare = sub.add_parser("benchmark", help="运行直接生成/知识增强/知识增强加修复的对照实验")
+    add_llm_args(compare)
+    compare.add_argument("--cases", nargs="+", choices=["baseline", "missing_high", "minority"], default=["baseline"])
+    compare.add_argument("--seeds", nargs="+", type=int, default=[42])
+    compare.add_argument("--rows", type=int, default=600)
+    compare.add_argument("--materials", type=Path, default=Path("materials"))
+    compare.add_argument("--config", type=Path, default=Path("configs/churn.json"))
+    compare.add_argument("--output", type=Path, default=Path("runtime/benchmark"))
     args = parser.parse_args(argv)
     try:
         if args.command == "inspect":
             print(json.dumps(read_json(args.report), ensure_ascii=False, indent=2))
             return 0
+        if args.command == "benchmark":
+            from .benchmark import benchmark
+            result = benchmark(lambda: create_llm(args), args.materials, load_policy(args.config), args.output,
+                               args.cases, args.seeds, args.rows)
+            print(json.dumps({"status": result["status"], "summary": str(args.output / "summary.md")}, ensure_ascii=False))
+            return 0 if result["status"] == "complete" else 1
         if args.command == "doctor":
             llm = create_llm(args)
             result = {"provider": llm.mode, "model": llm.model, "configured": True, "probe": args.probe}
@@ -111,7 +127,8 @@ def main(argv=None):
                 raise ValueError("Description cannot be empty")
             llm = create_llm(args)
             folder, report = run(description, args.data, store, llm, load_policy(args.config),
-                                 args.output, args.inject_fault, args.seed, checkpoint_dir=args.checkpoints)
+                                 args.output, args.inject_fault, args.seed, checkpoint_dir=args.checkpoints,
+                                 experiment_arm=args.experiment_arm, repair_demo=args.repair_demo)
             print(json.dumps({"run_id": report["run_id"], "status": report["status"],
                               "selected": report.get("selected"), "report": str(folder / "report.md"),
                               "error": report.get("error")}, ensure_ascii=False, indent=2))

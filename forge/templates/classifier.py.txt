@@ -10,9 +10,9 @@ FEATURES = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_m
 
 
 def build_model(seed=42):
-    numeric = Pipeline([('impute', SimpleImputer(strategy='median')),
-                        ('scale', StandardScaler())])
-    categorical = Pipeline([('impute', SimpleImputer(strategy='most_frequent')),
+    numeric = Pipeline([('impute', SimpleImputer(strategy='${numeric_imputer}')),
+                        ('scale', ${scaler})])
+    categorical = Pipeline([('impute', SimpleImputer(strategy='${categorical_imputer}')),
                             ('encode', OneHotEncoder(handle_unknown='${unknown_policy}'))])
     preprocessing = ColumnTransformer([
         ('numeric', numeric, FEATURES[:3]),

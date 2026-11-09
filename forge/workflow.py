@@ -6,15 +6,27 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .data import FEATURES, NUMERIC, CATEGORICAL, load_split
-from .llm import LLMProviderError, plugins, template_code
+from .llm import LLMProviderError, plugins
 from .reporting import report_markdown, graph_html
 from .util import digest, write_json
 from .validation import evaluate
 from .checkpoints import ResponseCheckpoints
+from .planning import INTERFACE, planning_catalog, profile_training, validate_spec, validate_plan
 
 
 def run(description, dataset: Path, store, llm, policy: dict, output: Path,
-        inject_fault=False, seed=42, checkpoint_dir=None):
+        inject_fault=False, seed=42, checkpoint_dir=None, experiment_arm="knowledge_repair", repair_demo=False,
+        resample_budget=1):
+    if experiment_arm not in {"direct", "knowledge", "knowledge_repair"}:
+        raise ValueError("Unknown experiment arm")
+    if not 1 <= resample_budget <= 6:
+        raise ValueError("Resample budget must be between 1 and 6")
+    policy = dict(policy)
+    if experiment_arm != "knowledge_repair":
+        policy["max_repairs"] = 0
+    generation_budget = policy["max_repairs"] + 1 if experiment_arm == "knowledge_repair" else resample_budget
+    if repair_demo and not policy["max_repairs"]:
+        raise ValueError("Repair demo requires a repair budget")
     if inject_fault and llm.mode != "mock":
         raise ValueError("Demonstration fault injection is supported only in mock mode")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
@@ -23,7 +35,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
     events = []
     checkpoints = ResponseCheckpoints(checkpoint_dir, {"mode": llm.mode, "model": llm.model,
         "dataset_sha256": digest(dataset.read_bytes()), "seed": seed, "policy": policy,
-        "fault_injection": inject_fault}) if checkpoint_dir else None
+        "fault_injection": inject_fault, "repair_demo": repair_demo,
+        "experiment_arm": experiment_arm, "generation_budget": generation_budget, "workflow_version": 2}) if checkpoint_dir else None
 
     def ask(role, context):
         cached = checkpoints.lookup(role, context) if checkpoints else None
@@ -42,30 +55,40 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                 checkpoints.save(role, incoming, outgoing, run_id)
 
     report = {"run_id": run_id, "description": description, "status": "running",
-              "mode": llm.mode, "model": llm.model, "fault_injection": inject_fault,
+              "mode": llm.mode, "model": llm.model, "fault_injection": inject_fault or repair_demo,
+              "workflow_version": 2, "experiment_arm": experiment_arm, "complete_template_supplied": False,
+              "generation_budget_per_candidate": generation_budget,
               "dataset_sha256": digest(dataset.read_bytes()), "seed": seed, "policy": policy,
               "environment": {"python": platform.python_version(), "platform": platform.platform(),
                               **{name: importlib.metadata.version(name) for name in ("numpy", "pandas", "scikit-learn", "joblib")}},
               "knowledge": [], "experiences": [], "candidates": []}
     try:
         train, valid, test = load_split(dataset, seed)
+        profile = profile_training(train)
+        report["data_profile"] = profile
+        record("profile", {"scope": "training_only"}, profile)
         report["split"] = {"train": len(train), "validation": len(valid), "test": len(test),
                            "train_positive_rate": float(train.churn.mean())}
         spec = ask("understand", {"description": description})
-        if spec.get("task") != "churn_classification" or spec.get("target") != "churn":
-            raise ValueError("This prototype only supports churn_classification with target churn")
+        validate_spec(spec, description)
         report["task_spec"] = spec
         record("understand", {"description": description}, spec)
-        knowledge = store.retrieve(description)
-        if not knowledge:
+        knowledge = store.retrieve_grounded(description, profile["requirements"] + spec["constraints"]) if experiment_arm != "direct" else []
+        if not knowledge and experiment_arm != "direct":
             raise ValueError("No relevant knowledge found; ingest materials first")
-        experiences = store.experiences()
+        experiences = store.experiences() if experiment_arm != "direct" else []
         report.update(knowledge=knowledge, experiences=experiences)
         report["knowledge_ingestion"] = store.latest_ingestion()
         record("retrieve", {"query": description}, {"knowledge": knowledge, "experiences": experiences})
-        context = {"spec": spec, "knowledge": knowledge, "experiences": experiences, "plugins": list(plugins().values())}
+        context = {"spec": spec, "data_profile": profile, "knowledge": knowledge,
+                   "experiences": experiences, "plugins": planning_catalog(plugins())}
         plan = ask("plan", context)
+        validate_plan(plan, plugins(), knowledge, experiences, constraints=spec["constraints"])
         candidates = plan.get("candidates", [])
+        if any(word in description.lower() for word in ("比较", "compare")) and len(candidates) < 2:
+            raise ValueError("Comparison was requested; plan must contain at least two candidates")
+        if repair_demo and not any(c.get("algorithm") == "logistic" for c in candidates):
+            raise ValueError("Repair demonstration requires a logistic candidate")
         if not 1 <= len(candidates) <= 3:
             raise ValueError("Plan must contain 1 to 3 candidates")
         ids = [candidate["algorithm"] for candidate in candidates]
@@ -85,17 +108,21 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         for candidate in candidates:
             algorithm = candidate["algorithm"]
             entry = {"algorithm": algorithm, "rationale": str(candidate.get("rationale", "")),
+                     "hyperparameters": candidate["hyperparameters"], "preprocessing": plan["preprocessing"],
                      "attempts": [], "passed": False}
             report["candidates"].append(entry)
             previous = feedback = None
-            for attempt in range(policy["max_repairs"] + 1):
-                role = "generate" if attempt == 0 else "repair"
+            for attempt in range(generation_budget):
+                role = "repair" if attempt > 0 and experiment_arm == "knowledge_repair" else "generate"
                 incoming = {"algorithm": algorithm, "spec": spec, "plan": plan,
                             "knowledge": knowledge, "experiences": experiences,
+                            "data_profile": profile,
                             "features": {"numeric": NUMERIC, "categorical": CATEGORICAL},
-                            "interface_reference": template_code(algorithm),
+                            "interface_contract": INTERFACE,
                             "inject_fault": inject_fault and algorithm == "logistic" and attempt == 0,
-                            "previous_code": previous, "feedback": feedback}
+                            "previous_code": previous if role == "repair" else None,
+                            "feedback": feedback if role == "repair" else None,
+                            "independent_sample": attempt if experiment_arm != "knowledge_repair" else None}
                 try:
                     generation = ask(role, incoming)
                     code = generation["code"]
@@ -110,11 +137,21 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                 attempt_folder = folder / algorithm / f"attempt_{attempt}"
                 attempt_folder.mkdir(parents=True)
                 code_path = attempt_folder / "algorithm.py"
+                source_code_sha256 = digest(code)
+                host_injected = repair_demo and algorithm == "logistic" and attempt == 0
+                if host_injected:
+                    from .faults import inject_unknown_category_fault
+                    (attempt_folder / "model_response.py").write_text(code, encoding="utf-8")
+                    code = inject_unknown_category_fault(code)
                 code_path.write_text(code, encoding="utf-8")
-                feedback = evaluate(code_path, train, valid, policy, seed)
+                candidate_policy = dict(policy, _expected_plan={"algorithm": algorithm,
+                                        "hyperparameters": candidate["hyperparameters"], "preprocessing": plan["preprocessing"]})
+                feedback = evaluate(code_path, train, valid, candidate_policy, seed)
                 record("validate", {"code_sha256": digest(code), "split": "validation"}, feedback)
                 entry["attempts"].append(dict(feedback, attempt=attempt, code_path=code_path.relative_to(folder).as_posix(),
-                                              code_sha256=digest(code), injected=incoming["inject_fault"],
+                                              code_sha256=digest(code), injected=incoming["inject_fault"] or host_injected,
+                                              fault_origin="host_unknown_category" if host_injected else "mock_template" if incoming["inject_fault"] else None,
+                                              model_response_sha256=source_code_sha256,
                                               explanation=generation.get("explanation", "")))
                 previous = code
                 if feedback["passed"]:
@@ -128,7 +165,10 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             final_dir.mkdir()
             shutil.copy2(folder / selected["attempts"][-1]["code_path"], final_dir / "algorithm.py")
             # Never repair or reselect based on the final holdout.
-            final = evaluate(final_dir / "algorithm.py", train, test, policy, seed)
+            selected_plan = next(c for c in candidates if c["algorithm"] == selected["algorithm"])
+            final_policy = dict(policy, _expected_plan={"algorithm": selected["algorithm"],
+                                "hyperparameters": selected_plan["hyperparameters"], "preprocessing": plan["preprocessing"]})
+            final = evaluate(final_dir / "algorithm.py", train, test, final_policy, seed)
             report["test_result"] = final
             report["status"] = "passed" if final["passed"] else "test_failed"
             record("final_evaluation", {"selected": report["selected"], "split": "test"}, final)
@@ -136,6 +176,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             report["status"] = "no_valid_candidate"
     except Exception as exc:
         report.update(status="failed", error=f"{type(exc).__name__}: {exc}")
+        report["failure_kind"] = "provider" if isinstance(exc, LLMProviderError) else "contract_or_workflow"
         record("workflow_error", {}, {"error": report["error"]})
     if hasattr(llm, "calls"):
         report["llm_calls"] = list(llm.calls)
