@@ -1,0 +1,17 @@
+[
+  {
+    "label": "正常生成",
+    "run_id": "20261109T110204Z-18c6ac07",
+    "report": "runs/20261109T110204Z-18c6ac07/report.json"
+  },
+  {
+    "label": "故障注入与修复",
+    "run_id": "20261109T110253Z-8d8f8a20",
+    "report": "runs/20261109T110253Z-8d8f8a20/report.json"
+  },
+  {
+    "label": "历史经验复用",
+    "run_id": "20261109T110613Z-9556abfb",
+    "report": "runs/20261109T110613Z-9556abfb/report.json"
+  }
+]

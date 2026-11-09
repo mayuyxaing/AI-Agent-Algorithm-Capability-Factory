@@ -97,6 +97,9 @@ def test_end_to_end_repair_and_reuse(setup, tmp_path):
     assert first["test_result"]["passed"]
     graph = read_json(folder / "knowledge_graph.json")
     assert {"Source", "Capability", "AlgorithmVersion", "ValidationRun", "FailureCase", "Environment", "Metric"} <= {n["kind"] for n in graph["nodes"]}
+    run_node = next(n for n in graph["nodes"] if n["kind"] == "ValidationRun")
+    assert run_node["test_metrics"] == first["test_result"]["metrics"]
+    assert all("validation_metrics" in n for n in graph["nodes"] if n["kind"] == "AlgorithmVersion")
     _, second = run("客户流失预测，处理未知类别", data, store, MockLLM(), policy, tmp_path / "runs")
     assert second["status"] == "passed" and second["experiences"]
     assert second["plan"]["experience_applied"]

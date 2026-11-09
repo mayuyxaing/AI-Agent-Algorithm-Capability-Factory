@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "probability_contract": true,
+    "missing_column_rejected": true,
+    "column_order": true,
+    "unknown_category": true,
+    "all_missing_values": true,
+    "repeat_prediction": true,
+    "model_reload": true,
+    "minimum_roc_auc": true,
+    "minimum_f1": true
+  },
+  "check_errors": {},
+  "executed": true,
+  "worker_seconds": 2.1993,
+  "python_peak_mb": 51.009,
+  "wall_seconds": 3.0146,
+  "metrics": {
+    "roc_auc": 0.7672323564593301,
+    "f1": 0.6358974358974359,
+    "accuracy": 0.7041666666666667
+  },
+  "passed": true
+}

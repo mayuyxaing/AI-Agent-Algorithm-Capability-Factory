@@ -1,0 +1,268 @@
+{
+  "schema_version": "1.0",
+  "nodes": [
+    {
+      "id": "Environment:fc3eacc6e7f9a8f8f008",
+      "kind": "Environment",
+      "title": "Python execution environment",
+      "python": "3.14.5",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "joblib": "1.6.0"
+    },
+    {
+      "id": "Function:392229c89714ea7dd2cd",
+      "kind": "Function",
+      "title": "churn_category_encoder",
+      "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+      "line": 5,
+      "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+      "dependencies": [
+        "sklearn.preprocessing"
+      ],
+      "extraction": "python_ast",
+      "source_id": "Source:b87a64ad0e947c2be4c8",
+      "source_path": "historical_code.py"
+    },
+    {
+      "id": "Knowledge:11b9faf0a4a66e45a3a4",
+      "kind": "Knowledge",
+      "title": "客户流失预测能力与输入输出",
+      "text": "## 客户流失预测能力与输入输出\n客户流失 churn 是二分类标签，1 表示流失，0 表示留存。输入为 tenure（使用月数）、monthly_charges（月费用）、support_calls（客服次数）、contract（合同类型）、payment_method（支付方式）。输出为每位客户的流失概率，范围 [0,1]，顺序与输入一致。禁止把客户标识、取消日期、流失后的退款信息作为特征。",
+      "line": 5,
+      "evidence_quote": "## 客户流失预测能力与输入输出\n客户流失 churn 是二分类标签，1 表示流失，0 表示留存。输入为 tenure（使用月数）、monthly_charges（月费用）、support_calls（客服次数）、contract（合同类型）、payment_method（支付方式）。输出为每位客户的流失概率，范围 [0,1]，顺序与输入一致。禁止把客户标识、取消日期、流失后的退款信息作为特征。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:4018437553590d695b11",
+      "kind": "Knowledge",
+      "title": "候选算法及适用条件",
+      "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+      "line": 11,
+      "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:43937262a6fbd4c91315",
+      "kind": "Knowledge",
+      "title": "历史失败案例：未知类别",
+      "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+      "line": 20,
+      "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:78a1b7dd32ededc8b25a",
+      "kind": "Knowledge",
+      "title": "缺失值和类别编码策略",
+      "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+      "line": 8,
+      "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:8c8cd3a7810e4b6a5290",
+      "kind": "Knowledge",
+      "title": "评价指标与业务约束",
+      "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+      "line": 14,
+      "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:b59a5146ff28657c7892",
+      "kind": "Knowledge",
+      "title": "环境与模型交付",
+      "text": "## 环境与模型交付\nPython >= 3.11，使用 scikit-learn、pandas、numpy、joblib。生成模块须提供 build_model(seed=42) 和 predict(model, frame)，保存模型后重新加载的预测应保持一致。模型文件只能从可信来源加载。",
+      "line": 17,
+      "evidence_quote": "## 环境与模型交付\nPython >= 3.11，使用 scikit-learn、pandas、numpy、joblib。生成模块须提供 build_model(seed=42) 和 predict(model, frame)，保存模型后重新加载的预测应保持一致。模型文件只能从可信来源加载。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:0c15ecf4bff1605fe454",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Source:0c15ecf4bff1605fe454",
+      "kind": "Source",
+      "title": "churn_business.md",
+      "path": "churn_business.md",
+      "sha256": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab"
+    },
+    {
+      "id": "Source:b87a64ad0e947c2be4c8",
+      "kind": "Source",
+      "title": "historical_code.py",
+      "path": "historical_code.py",
+      "sha256": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a"
+    },
+    {
+      "id": "capability:churn",
+      "kind": "Capability",
+      "title": "客户流失预测",
+      "task": "churn_classification"
+    },
+    {
+      "id": "metric:accuracy",
+      "kind": "Metric",
+      "title": "accuracy",
+      "task": "churn_classification"
+    },
+    {
+      "id": "metric:f1",
+      "kind": "Metric",
+      "title": "f1",
+      "task": "churn_classification"
+    },
+    {
+      "id": "metric:roc_auc",
+      "kind": "Metric",
+      "title": "roc_auc",
+      "task": "churn_classification"
+    },
+    {
+      "id": "run:20261109T110204Z-18c6ac07",
+      "kind": "ValidationRun",
+      "title": "20261109T110204Z-18c6ac07",
+      "status": "passed",
+      "mode": "mock"
+    },
+    {
+      "id": "version:20261109T110204Z-18c6ac07:forest:0",
+      "kind": "AlgorithmVersion",
+      "title": "forest",
+      "sha256": "359118f0cf8182b2bcbf1c4a55ae38dd9abc897cd6c19da0ea26ba4c763d2d8c",
+      "run_id": "20261109T110204Z-18c6ac07",
+      "attempt": 0,
+      "passed": true,
+      "path": "forest/attempt_0/algorithm.py"
+    },
+    {
+      "id": "version:20261109T110204Z-18c6ac07:logistic:0",
+      "kind": "AlgorithmVersion",
+      "title": "logistic",
+      "sha256": "19e7486786d2ffc1faa13a53e0b2bb17f652cb7e9565158cc3abb3d20d027e75",
+      "run_id": "20261109T110204Z-18c6ac07",
+      "attempt": 0,
+      "passed": true,
+      "path": "logistic/attempt_0/algorithm.py"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Function:392229c89714ea7dd2cd",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:b87a64ad0e947c2be4c8"
+    },
+    {
+      "source": "Knowledge:11b9faf0a4a66e45a3a4",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "Knowledge:4018437553590d695b11",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "Knowledge:43937262a6fbd4c91315",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "Knowledge:78a1b7dd32ededc8b25a",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "Knowledge:8c8cd3a7810e4b6a5290",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "Knowledge:b59a5146ff28657c7892",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:0c15ecf4bff1605fe454"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "EVALUATED_BY",
+      "target": "metric:accuracy"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "EVALUATED_BY",
+      "target": "metric:f1"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "EVALUATED_BY",
+      "target": "metric:roc_auc"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261109T110204Z-18c6ac07:forest:0"
+    },
+    {
+      "source": "capability:churn",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261109T110204Z-18c6ac07:logistic:0"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "EXECUTED_IN",
+      "target": "Environment:fc3eacc6e7f9a8f8f008"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Function:392229c89714ea7dd2cd"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:11b9faf0a4a66e45a3a4"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:4018437553590d695b11"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:43937262a6fbd4c91315"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:78a1b7dd32ededc8b25a"
+    },
+    {
+      "source": "run:20261109T110204Z-18c6ac07",
+      "relation": "USED_KNOWLEDGE",
+      "target": "Knowledge:8c8cd3a7810e4b6a5290"
+    },
+    {
+      "source": "version:20261109T110204Z-18c6ac07:forest:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261109T110204Z-18c6ac07"
+    },
+    {
+      "source": "version:20261109T110204Z-18c6ac07:logistic:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261109T110204Z-18c6ac07"
+    }
+  ]
+}
