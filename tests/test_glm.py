@@ -104,6 +104,7 @@ def test_glm_launcher_uses_independent_db_and_clears_key(monkeypatch):
     monkeypatch.delenv("ZHIPU_API_KEY", raising=False)
     monkeypatch.setattr("sys.stdin.isatty", lambda: True)
     monkeypatch.setattr(module.getpass, "getpass", lambda prompt: "fake-glm-key")
+    monkeypatch.setattr(module, "reusable_materials", lambda *args: None)
     calls = []
     def fake_main(args):
         assert os.environ["ZHIPU_API_KEY"] == "fake-glm-key"

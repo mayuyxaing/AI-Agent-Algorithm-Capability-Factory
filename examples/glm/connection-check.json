@@ -1,0 +1,26 @@
+{
+  "provider": "glm",
+  "model": "glm-4.7-flash",
+  "configured": true,
+  "probe": true,
+  "task": "churn_classification",
+  "llm_calls": [
+    {
+      "role": "understand",
+      "response_id": "202611092000467e27912c47cc4cfb",
+      "usage": {
+        "completion_tokens": 48,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 129,
+        "prompt_tokens_details": {
+          "cached_tokens": 2
+        },
+        "total_tokens": 177
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 8.61
+    }
+  ]
+}

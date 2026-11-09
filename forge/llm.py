@@ -135,28 +135,32 @@ class GLMLLM:
     mode = "glm"
     endpoint = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
-    def __init__(self, model="glm-4.7-flash", timeout=180, max_output_tokens=8192):
+    def __init__(self, model="glm-4.7-flash", timeout=180, max_output_tokens=8192, max_attempts=3):
         if model != "glm-4.7-flash":
             raise ValueError("GLM mode is restricted to glm-4.7-flash; no paid-model fallback")
         if not 1 <= timeout <= 600:
             raise ValueError("LLM timeout must be between 1 and 600 seconds")
+        if not 1 <= max_attempts <= 6:
+            raise ValueError("GLM attempts must be between 1 and 6")
         if not os.environ.get("ZHIPU_API_KEY", "").strip():
             raise ValueError("ZHIPU_API_KEY is not configured; double-click check-glm.cmd and privately enter your BigModel key")
         self.model, self.timeout, self.max_output_tokens = model, timeout, max_output_tokens
         self.calls = []
+        self.max_attempts = max_attempts
 
     def call(self, role: str, context: dict) -> dict:
         # Only the documented temporary model-overload code is retried.
         # Authentication, account debt and caller rate-limit errors stop immediately.
-        for attempt in range(3):
+        delays = [10, 20, 45, 60, 60]
+        for attempt in range(self.max_attempts):
             try:
                 return self._call_once(role, context)
             except LLMProviderError as exc:
-                if exc.business_code != "1305" or attempt == 2:
+                if exc.business_code != "1305" or attempt == self.max_attempts - 1:
                     raise
-                delay = 10 * (attempt + 1)
+                delay = delays[attempt]
                 self.calls.append({"role": role, "status": "retry", "business_code": "1305", "wait_seconds": delay})
-                print(f"智谱模型暂时拥堵（1305），{delay} 秒后重试（第 {attempt + 2}/3 次请求）……", file=sys.stderr, flush=True)
+                print(f"智谱模型暂时拥堵（1305），{delay} 秒后重试（第 {attempt + 2}/{self.max_attempts} 次请求）……", file=sys.stderr, flush=True)
                 time.sleep(delay)
 
     def _call_once(self, role: str, context: dict) -> dict:

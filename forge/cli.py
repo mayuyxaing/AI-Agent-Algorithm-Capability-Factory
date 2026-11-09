@@ -16,6 +16,7 @@ def add_llm_args(parser):
     parser.add_argument("--model", default="")
     parser.add_argument("--base-url", default=None, help="仅用于 Ollama；OpenAI 使用官方 API 地址")
     parser.add_argument("--llm-timeout", type=int, default=180)
+    parser.add_argument("--llm-attempts", type=int, default=3, help="GLM 拥堵时的最大请求次数，1～6")
 
 
 def create_llm(args):
@@ -24,7 +25,7 @@ def create_llm(args):
     if args.provider == "glm":
         if args.base_url:
             raise ValueError("GLM mode uses the official BigModel endpoint")
-        return GLMLLM(args.model or "glm-4.7-flash", timeout=args.llm_timeout)
+        return GLMLLM(args.model or "glm-4.7-flash", timeout=args.llm_timeout, max_attempts=args.llm_attempts)
     if args.provider == "openai":
         if args.base_url:
             raise ValueError("OpenAI mode uses the official API; do not use chatgpt.com as base URL")
@@ -54,6 +55,7 @@ def main(argv=None):
     submit.add_argument("--output", type=Path, default=Path("runtime/runs"))
     submit.add_argument("--inject-fault", action="store_true", help="仅 mock：初版逻辑回归未知类别处理故障")
     submit.add_argument("--seed", type=int, default=42)
+    submit.add_argument("--checkpoints", type=Path, help="保存及复用成功的模型响应；算法仍重新验证")
     graph = sub.add_parser("graph", help="导出图谱 JSON 与离线 HTML")
     graph.add_argument("--output", type=Path, default=Path("runtime/knowledge_graph.json"))
     inspect = sub.add_parser("inspect", help="读取运行报告")
@@ -109,7 +111,7 @@ def main(argv=None):
                 raise ValueError("Description cannot be empty")
             llm = create_llm(args)
             folder, report = run(description, args.data, store, llm, load_policy(args.config),
-                                 args.output, args.inject_fault, args.seed)
+                                 args.output, args.inject_fault, args.seed, checkpoint_dir=args.checkpoints)
             print(json.dumps({"run_id": report["run_id"], "status": report["status"],
                               "selected": report.get("selected"), "report": str(folder / "report.md"),
                               "error": report.get("error")}, ensure_ascii=False, indent=2))

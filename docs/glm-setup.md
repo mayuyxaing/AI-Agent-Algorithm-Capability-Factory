@@ -15,7 +15,9 @@
 
 脚本优先使用仓库 `.venv`，其次使用本地开发环境 `work/.venv`，最后尝试系统 Python。新电脑需要先按 README 安装项目。密钥仅设置在当前 Python 进程的 ZHIPU_API_KEY 中，临时设置在退出时移除，不写密钥文件。
 
-真实模型数据库为 `runtime/glm/knowledge.sqlite`，报告在 `runtime/glm/runs/`，不会混入 mock 或 OpenAI 的历史示例。该目录默认不提交 Git。
+真实模型数据库为 `runtime/glm/knowledge.sqlite`，报告在 `runtime/glm/runs/`，不会混入 mock 或 OpenAI 的历史示例。该目录默认不提交 Git。再次启动完整流程时，若材料摘要、模型和抽取审计匹配，将复用已核对知识，不重复抽取；可用 --refresh-knowledge 强制重做。
+
+成功的需求理解、规划及代码响应保存到 `runtime/glm/checkpoints/`。只有模型、数据、策略、种子、提示词和该步骤完整输入一致才复用，并记录来源 run_id。验证、指标和测试结果始终重新计算，不使用缓存。生成代码响应被缓存不代表代码已经通过验证；仍需走全部检查与修复。不同任务上下文或材料改变会使相关缓存失效。
 
 ## 命令行
 
@@ -37,7 +39,7 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 
 ## 请求与错误处理
 
-使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，以减少各角色交接的等待时间；最大输出 8192 tokens，请求超时 180 秒。所有调用串行。仅遇到模型拥堵业务码 1305 时等待 10 秒、20 秒进行最多两次重试（含初次共三次请求）；仍失败则停止。认证错误、欠费、账号速率限制等不自动重试。重试事件进入调用记录，不切换其他模型。
+使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，最大输出 8192 tokens，单次请求超时 180 秒。所有调用串行。仅对模型拥堵业务码 1305 重试，通用 CLI 默认最多三次请求；Windows 完整运行入口最多六次，依次等待 10、20、45、60、60 秒。仍失败则保存已有结果并停止，下次运行可复用成功步骤。认证错误、欠费、账号速率限制等不自动重试。重试事件进入调用记录，不切换其他模型。
 
 - 缺少 ZHIPU_API_KEY：从 check-glm.cmd 在本机输入。
 - HTTP 401：核对智谱密钥是否有效。

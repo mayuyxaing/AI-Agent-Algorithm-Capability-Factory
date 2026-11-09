@@ -1,0 +1,57 @@
+{
+  "run_id": "20261109T120821Z-0fc7d770",
+  "description": "根据客户使用时长、月费用、客服次数、合同类型和支付方式预测客户流失。处理缺失值与类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价，提供统一预测接口，能够处理未知类别。",
+  "status": "failed",
+  "mode": "glm",
+  "model": "glm-4.7-flash",
+  "fault_injection": false,
+  "dataset_sha256": "876184b02cc537285eabc94ddfccda984f0ed35ba043b52e97b502a56b6be483",
+  "seed": 42,
+  "policy": {
+    "task": "churn_classification",
+    "metrics": [
+      "roc_auc",
+      "f1",
+      "accuracy"
+    ],
+    "selection_metric": "roc_auc",
+    "minimum": {
+      "roc_auc": 0.65,
+      "f1": 0.45
+    },
+    "timeout_seconds": 60,
+    "max_repairs": 2
+  },
+  "environment": {
+    "python": "3.14.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "knowledge": [],
+  "experiences": [],
+  "candidates": [],
+  "split": {
+    "train": 720,
+    "validation": 240,
+    "test": 240,
+    "train_positive_rate": 0.36527777777777776
+  },
+  "error": "LLMProviderError: BigModel HTTP 429 [business_code=1305]: 模型访问量过大，请稍后重试",
+  "llm_calls": [
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "wait_seconds": 10
+    },
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "wait_seconds": 20
+    }
+  ]
+}

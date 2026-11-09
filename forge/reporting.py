@@ -15,6 +15,8 @@ def report_markdown(report: dict) -> str:
     ingestion = report.get("knowledge_ingestion")
     if ingestion:
         lines += [f"知识抽取审计：status={ingestion['status']}，LLM 接受 {ingestion['llm_accepted']} 条，拒绝 {ingestion['llm_rejected']} 条；不合格事实未进入能力图谱。", ""]
+    if "checkpoint_hits" in report:
+        lines += [f"复用了 {len(report['checkpoint_hits'])} 次历史模型响应，来源运行见 report.json；算法验证结果没有缓存。", ""]
     for item in report["knowledge"]:
         lines.append(f"- {item['title']} — `{item.get('source_path')}`:{item.get('line')}（{item['id']}）")
     lines += ["", f"历史经验检索数：{len(report['experiences'])}", "", "## 候选比较（验证集）", "",

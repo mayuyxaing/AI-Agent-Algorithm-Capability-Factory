@@ -10,21 +10,36 @@ from .llm import LLMProviderError, plugins, template_code
 from .reporting import report_markdown, graph_html
 from .util import digest, write_json
 from .validation import evaluate
+from .checkpoints import ResponseCheckpoints
 
 
 def run(description, dataset: Path, store, llm, policy: dict, output: Path,
-        inject_fault=False, seed=42):
+        inject_fault=False, seed=42, checkpoint_dir=None):
     if inject_fault and llm.mode != "mock":
         raise ValueError("Demonstration fault injection is supported only in mock mode")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
     folder = output / run_id
     folder.mkdir(parents=True)
     events = []
+    checkpoints = ResponseCheckpoints(checkpoint_dir, {"mode": llm.mode, "model": llm.model,
+        "dataset_sha256": digest(dataset.read_bytes()), "seed": seed, "policy": policy,
+        "fault_injection": inject_fault}) if checkpoint_dir else None
+
+    def ask(role, context):
+        cached = checkpoints.lookup(role, context) if checkpoints else None
+        if cached is not None:
+            print(f"复用已保存的 {role} 模型响应；后续验证仍会执行。", flush=True)
+            return cached
+        print(f"正在执行 {role}……", flush=True)
+        return llm.call(role, context)
 
     def record(role, incoming, outgoing):
         event = {"step": len(events), "role": role, "input": incoming, "output": outgoing}
         events.append(event)
         write_json(folder / "events.json", events)
+        if checkpoints and role in {"understand", "plan", "generate", "repair"}:
+            if role not in {"generate", "repair"} or outgoing.get("code"):
+                checkpoints.save(role, incoming, outgoing, run_id)
 
     report = {"run_id": run_id, "description": description, "status": "running",
               "mode": llm.mode, "model": llm.model, "fault_injection": inject_fault,
@@ -36,7 +51,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         train, valid, test = load_split(dataset, seed)
         report["split"] = {"train": len(train), "validation": len(valid), "test": len(test),
                            "train_positive_rate": float(train.churn.mean())}
-        spec = llm.call("understand", {"description": description})
+        spec = ask("understand", {"description": description})
         if spec.get("task") != "churn_classification" or spec.get("target") != "churn":
             raise ValueError("This prototype only supports churn_classification with target churn")
         report["task_spec"] = spec
@@ -49,7 +64,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         report["knowledge_ingestion"] = store.latest_ingestion()
         record("retrieve", {"query": description}, {"knowledge": knowledge, "experiences": experiences})
         context = {"spec": spec, "knowledge": knowledge, "experiences": experiences, "plugins": list(plugins().values())}
-        plan = llm.call("plan", context)
+        plan = ask("plan", context)
         candidates = plan.get("candidates", [])
         if not 1 <= len(candidates) <= 3:
             raise ValueError("Plan must contain 1 to 3 candidates")
@@ -82,7 +97,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                             "inject_fault": inject_fault and algorithm == "logistic" and attempt == 0,
                             "previous_code": previous, "feedback": feedback}
                 try:
-                    generation = llm.call(role, incoming)
+                    generation = ask(role, incoming)
                     code = generation["code"]
                     if not isinstance(code, str) or not 1 <= len(code) <= 100_000:
                         raise ValueError("Generated code must be a string under 100KB")
@@ -124,6 +139,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         record("workflow_error", {}, {"error": report["error"]})
     if hasattr(llm, "calls"):
         report["llm_calls"] = list(llm.calls)
+    if checkpoints:
+        report["checkpoint_hits"] = checkpoints.hits
     write_json(folder / "report.json", report)
     (folder / "report.md").write_text(report_markdown(report), encoding="utf-8")
     store.save_run(report)

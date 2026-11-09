@@ -1,0 +1,20 @@
+[
+  {
+    "step": 0,
+    "role": "workflow_error",
+    "input": {},
+    "output": {
+      "error": "LLMProviderError: BigModel HTTP 429 [business_code=1305]: 模型访问量过大，请稍后重试"
+    }
+  },
+  {
+    "step": 1,
+    "role": "persist",
+    "input": {
+      "status": "failed"
+    },
+    "output": {
+      "graph": "knowledge_graph.json"
+    }
+  }
+]

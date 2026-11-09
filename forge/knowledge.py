@@ -61,6 +61,8 @@ class KnowledgeStore:
         audit = {"id": uuid.uuid4().hex, "created_at": datetime.now(timezone.utc).isoformat(),
                  "mode": getattr(llm, "mode", "deterministic"), "model": getattr(llm, "model", None),
                  "llm_accepted": 0, "llm_rejected": 0, "rejections": [], "status": "running"}
+        audit["source_hashes"] = {p.relative_to(folder).as_posix(): digest(p.read_text(encoding="utf-8"))
+                                  for p in sorted(folder.rglob("*")) if p.is_file() and p.suffix in {".md", ".py"}}
 
         def save_audit(status):
             audit.update(status=status, extracted=count)

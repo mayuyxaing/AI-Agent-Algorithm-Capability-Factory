@@ -5,11 +5,36 @@ import os
 from pathlib import Path
 import sys
 from forge.cli import main
+from forge.knowledge import KnowledgeStore
+from forge.util import digest
+from forge.data import generate
+
+
+def reusable_materials(db: Path, materials: Path):
+    if not db.exists():
+        return None
+    store = KnowledgeStore(db)
+    audit = store.latest_ingestion()
+    if not audit or audit.get("mode") != "glm" or audit.get("model") != "glm-4.7-flash" or audit.get("status") not in {"passed", "partial_llm"}:
+        return None
+    expected = {p.relative_to(materials).as_posix(): digest(p.read_text(encoding="utf-8"))
+                for p in sorted(materials.rglob("*")) if p.is_file() and p.suffix in {".md", ".py"}}
+    if not expected:
+        return None
+    if "source_hashes" in audit:
+        return audit if audit["source_hashes"] == expected else None
+    # Migrate earlier successful ingestions that predate manifest recording.
+    sources = store.nodes("Source")
+    if {n["path"] for n in sources} != set(expected):
+        return None
+    return audit if all(any(n["path"] == name and n["sha256"] == sha for n in sources)
+                        for name, sha in expected.items()) else None
 
 
 def entry(argv=None):
     parser = argparse.ArgumentParser(description="智谱 GLM-4.7-Flash：隐藏输入密钥，检查连接或运行闭环")
     parser.add_argument("--run", action="store_true", help="完整流程；默认只做一次连接检查")
+    parser.add_argument("--refresh-knowledge", action="store_true", help="强制重新抽取材料")
     args = parser.parse_args(argv)
     os.chdir(Path(__file__).resolve().parents[1])
     previous = os.environ.get("ZHIPU_API_KEY")
@@ -28,16 +53,23 @@ def entry(argv=None):
             print("正在检查连接，请等待……", flush=True)
             return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])
         db = "runtime/glm/knowledge.sqlite"
-        code = main(["--db", db, "init"])
-        if code:
-            return code
-        print("正在从模拟业务材料抽取知识……", flush=True)
-        code = main(["--db", db, "ingest", "materials", "--report", "runtime/glm/ingestion-report.json", "--provider", "glm"])
-        if code:
-            return code
+        prepared = reusable_materials(Path(db), Path("materials")) if not args.refresh_knowledge else None
+        if prepared:
+            print(f"复用已核对且材料未变的知识，LLM 接受 {prepared['llm_accepted']} 条；跳过重复抽取。", flush=True)
+            if not Path("data/churn.csv").exists():
+                generate(Path("data/churn.csv"))
+        else:
+            code = main(["--db", db, "init"])
+            if code:
+                return code
+            print("正在从模拟业务材料抽取知识……", flush=True)
+            code = main(["--db", db, "ingest", "materials", "--report", "runtime/glm/ingestion-report.json",
+                         "--llm-attempts", "6", "--provider", "glm"])
+            if code:
+                return code
         print("正在规划、生成并验证代码；每一步轨迹写入 runtime/glm/runs/。", flush=True)
         return main(["--db", db, "run", "--task-file", "examples/task.txt", "--provider", "glm",
-                     "--output", "runtime/glm/runs"])
+                     "--llm-attempts", "6", "--checkpoints", "runtime/glm/checkpoints", "--output", "runtime/glm/runs"])
     finally:
         if previous is None:
             os.environ.pop("ZHIPU_API_KEY", None)

@@ -2,7 +2,7 @@
 
 一个用于 LLM Agent 笔试/申博测试的可复现原型：从客户流失预测的自然语言需求出发，检索业务知识，规划候选算法，生成代码，独立验证，按反馈修复，并将能力版本和验证经验回写到知识库。
 
-**状态：本地原型已实现；离线 mock 闭环经过实际运行。Ollama、OpenAI Responses API 与智谱 GLM-4.7-Flash 适配器已实现并测试 HTTP 契约，本交付没有真实模型推理的实测结果。数据全部为模拟数据。**
+**状态：离线 mock 闭环经过实际运行。真实 GLM-4.7-Flash 已完成连接测试及知识抽取（接受 12 条事实）；完整算法流程因服务拥堵 1305 暂未完成。Ollama/OpenAI 仅完成接口契约测试。数据全部为模拟数据。**
 
 ## 1. 背景和目标
 
@@ -103,7 +103,7 @@ python scripts/run_glm.py
 python scripts/run_glm.py --run
 ```
 
-使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。真实账户尚未实测；模拟接口测试不代表真实模型已经成功生成算法。
+使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。已有真实连接与知识抽取证据见 [GLM 进展](examples/glm/PROGRESS.md)，尚未证明真实模型成功生成并通过算法验证。再次运行会复用材料未变的已核对知识及成功模型响应；验证与指标仍重新计算。
 
 ### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
 
