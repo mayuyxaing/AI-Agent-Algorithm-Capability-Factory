@@ -4,11 +4,28 @@ import json
 from pathlib import Path
 from .data import generate
 from .knowledge import KnowledgeStore
-from .llm import MockLLM, OllamaLLM
+from .llm import MockLLM, OllamaLLM, OpenAILLM
 from .reporting import graph_html
 from .util import read_json
 from .validation import load_policy
 from .workflow import run
+
+
+def add_llm_args(parser):
+    parser.add_argument("--provider", choices=["mock", "ollama", "openai"], default="mock")
+    parser.add_argument("--model", default="")
+    parser.add_argument("--base-url", default=None, help="仅用于 Ollama；OpenAI 使用官方 API 地址")
+    parser.add_argument("--llm-timeout", type=int, default=180)
+
+
+def create_llm(args):
+    if args.provider == "mock":
+        return MockLLM()
+    if args.provider == "openai":
+        if args.base_url:
+            raise ValueError("OpenAI mode uses the official API; do not use chatgpt.com as base URL")
+        return OpenAILLM(args.model or "gpt-4.1-mini", timeout=args.llm_timeout)
+    return OllamaLLM(args.model, args.base_url or "http://localhost:11434", timeout=args.llm_timeout)
 
 
 def main(argv=None):
@@ -20,18 +37,14 @@ def main(argv=None):
     init.add_argument("--materials", type=Path, default=Path("materials"))
     ingest = sub.add_parser("ingest", help="从 Markdown 与 Python 抽取知识")
     ingest.add_argument("folder", type=Path)
-    ingest.add_argument("--provider", choices=["mock", "ollama"], default="mock")
-    ingest.add_argument("--model", default="")
-    ingest.add_argument("--base-url", default="http://localhost:11434")
+    add_llm_args(ingest)
     submit = sub.add_parser("run", help="提交能力描述，生成代码与验证报告")
     group = submit.add_mutually_exclusive_group(required=True)
     group.add_argument("--description")
     group.add_argument("--task-file", type=Path)
     submit.add_argument("--data", type=Path, default=Path("data/churn.csv"))
     submit.add_argument("--config", type=Path, default=Path("configs/churn.json"))
-    submit.add_argument("--provider", choices=["mock", "ollama"], default="mock")
-    submit.add_argument("--model", default="")
-    submit.add_argument("--base-url", default="http://localhost:11434")
+    add_llm_args(submit)
     submit.add_argument("--output", type=Path, default=Path("runtime/runs"))
     submit.add_argument("--inject-fault", action="store_true", help="仅 mock：初版逻辑回归未知类别处理故障")
     submit.add_argument("--seed", type=int, default=42)
@@ -39,10 +52,24 @@ def main(argv=None):
     graph.add_argument("--output", type=Path, default=Path("runtime/knowledge_graph.json"))
     inspect = sub.add_parser("inspect", help="读取运行报告")
     inspect.add_argument("report", type=Path)
+    doctor = sub.add_parser("doctor", help="检查配置；--probe 会发送一次真实推理请求")
+    add_llm_args(doctor)
+    doctor.add_argument("--probe", action="store_true")
     args = parser.parse_args(argv)
     try:
         if args.command == "inspect":
             print(json.dumps(read_json(args.report), ensure_ascii=False, indent=2))
+            return 0
+        if args.command == "doctor":
+            llm = create_llm(args)
+            result = {"provider": llm.mode, "model": llm.model, "configured": True, "probe": args.probe}
+            if args.probe:
+                spec = llm.call("understand", {"description": "客户流失预测，标签为 churn，输出概率"})
+                if spec.get("task") != "churn_classification" or spec.get("target") != "churn":
+                    raise ValueError("Model responded but did not satisfy the task JSON contract")
+                result["task"] = spec["task"]
+                result["llm_calls"] = getattr(llm, "calls", [])
+            print(json.dumps(result, ensure_ascii=False, indent=2))
             return 0
         store = KnowledgeStore(args.db)
         if args.command == "init":
@@ -55,7 +82,7 @@ def main(argv=None):
         elif args.command == "ingest":
             if not args.folder.is_dir():
                 raise ValueError(f"Materials directory not found: {args.folder}")
-            llm = MockLLM() if args.provider == "mock" else OllamaLLM(args.model, args.base_url)
+            llm = create_llm(args)
             print(json.dumps({"extracted": store.ingest(args.folder, llm)}, ensure_ascii=False))
         elif args.command == "graph":
             store.export(args.output)
@@ -65,7 +92,7 @@ def main(argv=None):
             description = args.description or args.task_file.read_text(encoding="utf-8").strip()
             if not description.strip():
                 raise ValueError("Description cannot be empty")
-            llm = MockLLM() if args.provider == "mock" else OllamaLLM(args.model, args.base_url)
+            llm = create_llm(args)
             folder, report = run(description, args.data, store, llm, load_policy(args.config),
                                  args.output, args.inject_fault, args.seed)
             print(json.dumps({"run_id": report["run_id"], "status": report["status"],

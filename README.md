@@ -2,7 +2,7 @@
 
 一个用于 LLM Agent 笔试/申博测试的可复现原型：从客户流失预测的自然语言需求出发，检索业务知识，规划候选算法，生成代码，独立验证，按反馈修复，并将能力版本和验证经验回写到知识库。
 
-**状态：本地原型已实现；离线 mock 闭环经过实际运行。Ollama 适配器已实现并测试 HTTP 契约，本交付没有真实模型推理的实测结果。数据全部为模拟数据。**
+**状态：本地原型已实现；离线 mock 闭环经过实际运行。Ollama 与 OpenAI Responses API 适配器已实现并测试 HTTP 契约，本交付没有真实模型推理的实测结果。数据全部为模拟数据。**
 
 ## 1. 背景和目标
 
@@ -93,6 +93,19 @@ knowledge_graph.json / .html # 本次回写后的快照
 正常退出码为 0，运行未通过为 1，配置或输入错误为 2。数据库和默认运行目录位于 Git 忽略的 runtime/。使用 `python -m forge --db path/to/other.sqlite ...` 可创建独立实验知识库；全局参数必须放在子命令前。
 
 ## 5. 真实 LLM 模式
+
+### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
+
+账号准备、API 额度、密钥隐藏输入及故障排查见 [OpenAI 接入指南](docs/openai-setup.md)。按第 3 节安装后，在个人终端运行：
+
+```powershell
+python scripts/run_openai.py        # 隐藏输入密钥，发一次连接检查请求
+python scripts/run_openai.py --run  # 独立知识库，执行真实模型闭环
+```
+
+程序从当前进程环境读取 OPENAI_API_KEY，不保存密钥。默认 gpt-4.1-mini，可用 --model 替换。尚无真实账户调用实测结果；配置检查和模拟响应测试不能作为真实模型成功证据。
+
+### 本地 Ollama
 
 先在自己的环境部署 Ollama 并准备具有代码生成能力的模型。将下面 `YOUR_INSTALLED_MODEL` 替换为 `ollama list` 中实际可用的模型名：
 

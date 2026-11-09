@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .data import FEATURES, NUMERIC, CATEGORICAL, load_split
-from .llm import plugins, template_code
+from .llm import LLMProviderError, plugins, template_code
 from .reporting import report_markdown, graph_html
 from .util import digest, write_json
 from .validation import evaluate
@@ -85,6 +85,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                     code = generation["code"]
                     if not isinstance(code, str) or not 1 <= len(code) <= 100_000:
                         raise ValueError("Generated code must be a string under 100KB")
+                except LLMProviderError:
+                    raise
                 except Exception as exc:
                     generation = {"code": "", "explanation": f"Provider failure: {type(exc).__name__}: {exc}"}
                     code = ""
@@ -119,6 +121,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
     except Exception as exc:
         report.update(status="failed", error=f"{type(exc).__name__}: {exc}")
         record("workflow_error", {}, {"error": report["error"]})
+    if hasattr(llm, "calls"):
+        report["llm_calls"] = list(llm.calls)
     write_json(folder / "report.json", report)
     (folder / "report.md").write_text(report_markdown(report), encoding="utf-8")
     store.save_run(report)

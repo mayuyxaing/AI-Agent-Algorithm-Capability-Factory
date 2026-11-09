@@ -10,12 +10,14 @@ def report_markdown(report: dict) -> str:
              f"- 故障注入：{report['fault_injection']}",
              f"- 数据 SHA256：`{report['dataset_sha256']}`", "",
              "## 需求", "", report["description"], "", "## 检索依据", ""]
+    if report.get("error"):
+        lines += ["运行错误：", "", "```text", report["error"], "```", ""]
     for item in report["knowledge"]:
         lines.append(f"- {item['title']} — `{item.get('source_path')}`:{item.get('line')}（{item['id']}）")
     lines += ["", f"历史经验检索数：{len(report['experiences'])}", "", "## 候选比较（验证集）", "",
               "| 算法 | 通过 | 尝试次数 | ROC-AUC | F1 |", "|---|---|---|---|---|"]
     for item in report["candidates"]:
-        scores = item["attempts"][-1].get("metrics", {})
+        scores = item["attempts"][-1].get("metrics", {}) if item["attempts"] else {}
         lines.append(f"| {item['algorithm']} | {item['passed']} | {len(item['attempts'])} | {scores.get('roc_auc', 'N/A')} | {scores.get('f1', 'N/A')} |")
         lines += []
     lines += ["", "## 方案依据与修复轨迹", ""]
