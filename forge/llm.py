@@ -98,6 +98,33 @@ class LLMProviderError(RuntimeError):
     """Service/authentication failures must not be treated as algorithm defects."""
 
 
+def glm_http_hint(error):
+    """Expose only a recognized business code and our own text, never the raw body."""
+    known = {
+        "1000": "身份验证失败，请核对完整的智谱 API Key",
+        "1001": "服务未收到认证信息，请检查请求或网络代理",
+        "1003": "认证令牌已过期，请重新生成密钥",
+        "1005": "账号启用了二次认证保护，请在智谱控制台完成认证",
+        "1113": "账号处于欠费状态，请先在智谱控制台核对；不要直接切换收费模型",
+        "1220": "账号没有此 API 的访问权限",
+        "1302": "账号达到速率限制，请稍后重试",
+        "1305": "模型访问量过大，请稍后重试",
+        "1308": "账号达到使用上限，请在控制台核对重置时间",
+        "1315": "当前密钥仅限企业编程套餐，请换用普通 API 对应的密钥",
+    }
+    try:
+        body = json.loads(error.read(16384))
+        code = str(body["error"]["code"])
+        if code in known:
+            return f"BigModel HTTP {error.code} [business_code={code}]: {known[code]}"
+    except (ValueError, KeyError, TypeError, AttributeError, OSError):
+        pass
+    hints = {400: "请求参数不符合要求", 401: "认证未通过，请核对智谱密钥及账号认证状态",
+             403: "请检查账号和模型权限", 404: "免费模型当前不可用",
+             429: "请在控制台核对速率限制、额度和账号状态后重试"}
+    return f"BigModel HTTP {error.code}: {hints.get(error.code, '服务异常，请稍后重试')}"
+
+
 class GLMLLM:
     """BigModel official endpoint, pinned to the user's chosen free Flash model."""
     mode = "glm"
@@ -140,10 +167,7 @@ class GLMLLM:
                                "seconds": round(time.perf_counter() - started, 3)})
             return result
         except HTTPError as exc:
-            hints = {400: "Request rejected; check parameters", 401: "BigModel key invalid or revoked",
-                     403: "Check account/model access", 404: "Free model unavailable",
-                     429: "Free-model rate/concurrency limit reached; retry later"}
-            raise LLMProviderError(f"BigModel HTTP {exc.code}: {hints.get(exc.code, 'Service unavailable; retry later')}") from None
+            raise LLMProviderError(glm_http_hint(exc)) from None
         except (URLError, TimeoutError, OSError):
             raise LLMProviderError("BigModel connection failed or timed out; check network") from None
         except (ValueError, KeyError, TypeError, IndexError, AttributeError):

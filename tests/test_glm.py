@@ -2,6 +2,7 @@
 import importlib.util
 import json
 import os
+from io import BytesIO
 from pathlib import Path
 from urllib.error import HTTPError
 import pytest
@@ -74,6 +75,19 @@ def test_rate_limit_does_not_fallback_or_retry(monkeypatch):
     with pytest.raises(LLMProviderError, match="429"):
         GLMLLM().call("understand", {})
     assert len(calls) == 1
+
+
+@pytest.mark.parametrize("http_status,code", [(401, "1000"), (401, "1005"), (429, "1113"), (429, "1302")])
+def test_business_codes_are_preserved_without_raw_messages(monkeypatch, http_status, code):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    def fail(request, timeout):
+        body = json.dumps({"error": {"code": code, "message": "fake-glm-key raw secret"}}).encode()
+        raise HTTPError(request.full_url, http_status, "bad request", {}, BytesIO(body))
+    monkeypatch.setattr("forge.llm.urlopen", fail)
+    with pytest.raises(LLMProviderError) as error:
+        GLMLLM().call("understand", {})
+    assert f"business_code={code}" in str(error.value)
+    assert "fake-glm-key" not in str(error.value) and "raw secret" not in str(error.value)
 
 
 def test_doctor_missing_key_saves_safe_diagnostic(tmp_path, monkeypatch):
