@@ -5,6 +5,7 @@ from .data import generate
 from .knowledge import KnowledgeStore
 from .util import digest, read_json, write_json
 from .workflow import run
+from .llm import OllamaLLM
 
 ARMS = ["direct", "knowledge", "knowledge_repair"]
 CASES = {
@@ -22,6 +23,8 @@ def benchmark(factory, materials: Path, policy, output: Path, cases=("baseline",
     corpus = {p.relative_to(materials).as_posix(): digest(p.read_text(encoding="utf-8")) for p in sorted(materials.rglob("*"))
               if p.is_file() and p.suffix in {".md", ".py"}}
     protocol = {"version": 2, "mode": first.mode, "model": first.model, "cases": list(cases), "seeds": list(seeds),
+                "prompt_sha256": digest(json.dumps(OllamaLLM.prompts(), sort_keys=True, ensure_ascii=False)),
+                "structured_corrections_per_role": 1,
                 "rows": rows, "arms": ARMS, "policy": policy, "corpus": corpus,
                 "knowledge_source": "same frozen deterministic Markdown/AST corpus, rule-indexed graph",
                 "generation_budget_per_candidate": policy["max_repairs"] + 1,

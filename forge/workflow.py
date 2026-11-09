@@ -11,7 +11,8 @@ from .reporting import report_markdown, graph_html
 from .util import digest, write_json
 from .validation import evaluate
 from .checkpoints import ResponseCheckpoints
-from .planning import INTERFACE, planning_catalog, profile_training, validate_spec, validate_plan
+from .planning import INTERFACE, planning_catalog, profile_training, validate_spec, validate_plan, plan_schema
+from .structured import checked_response
 
 
 def run(description, dataset: Path, store, llm, policy: dict, output: Path,
@@ -42,9 +43,12 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         cached = checkpoints.lookup(role, context) if checkpoints else None
         if cached is not None:
             print(f"复用已保存的 {role} 模型响应；后续验证仍会执行。", flush=True)
+            record(role + "_response", {"context": context, "source": "checkpoint"}, cached)
             return cached
         print(f"正在执行 {role}……", flush=True)
-        return llm.call(role, context)
+        result = llm.call(role, context)
+        record(role + "_response", {"context": context, "source": "live"}, result)
+        return result
 
     def record(role, incoming, outgoing):
         event = {"step": len(events), "role": role, "input": incoming, "output": outgoing}
@@ -81,9 +85,15 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         report["knowledge_ingestion"] = store.latest_ingestion()
         record("retrieve", {"query": description}, {"knowledge": knowledge, "experiences": experiences})
         context = {"spec": spec, "data_profile": profile, "knowledge": knowledge,
-                   "experiences": experiences, "plugins": planning_catalog(plugins())}
-        plan = ask("plan", context)
-        validate_plan(plan, plugins(), knowledge, experiences, constraints=spec["constraints"])
+                   "experiences": experiences, "plugins": planning_catalog(plugins()), "output_schema": plan_schema()}
+        def check_plan(value):
+            validate_plan(value, plugins(), knowledge, experiences, constraints=spec["constraints"])
+            candidates = value["candidates"]
+            if any(word in description.lower() for word in ("比较", "compare")) and len(candidates) < 2:
+                raise ValueError("Comparison requested: include logistic and forest as separate candidate objects")
+            if repair_demo and not any(c["algorithm"] == "logistic" for c in candidates):
+                raise ValueError("Repair demonstration requires a logistic candidate")
+        plan = checked_response("plan", context, ask, check_plan, record)
         candidates = plan.get("candidates", [])
         if any(word in description.lower() for word in ("比较", "compare")) and len(candidates) < 2:
             raise ValueError("Comparison was requested; plan must contain at least two candidates")
@@ -182,6 +192,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         report["llm_calls"] = list(llm.calls)
     if checkpoints:
         report["checkpoint_hits"] = checkpoints.hits
+    report["structured_corrections"] = {"plan": sum(e["role"] == "plan_rejected" for e in events)}
     write_json(folder / "report.json", report)
     (folder / "report.md").write_text(report_markdown(report), encoding="utf-8")
     store.save_run(report)

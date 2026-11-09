@@ -48,6 +48,7 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 - 错误信息中的 business_code 提供更精确的原因：1000 身份验证失败、1003 令牌过期、1005 二次认证保护、1113 账号欠费、1302 速率限制。程序只输出已识别的业务码和本地提示，不回显远端原始错误正文。不要仅凭 HTTP 401 就判断为余额不足。
 - response incomplete：输出截断或过滤，不作为成功结果。
 - JSON/原文引证核对失败：模型产物未满足接口要求；保留现有证据，不冒充验证通过。
+- 规划 candidates 格式不合规：保存原响应及错误，带完整 output_schema 请求模型纠正一次；两次仍不合规则明确失败，不用默认方案冒充 LLM 规划。有效的需求理解检查点按角色提示词独立绑定，修改规划提示不会连带使需求理解缓存失效。
 
 知识抽取通过 source_chunk_id 引用编号原文片段，由宿主附加引证。单条无效来源会被拒绝并写入 `runtime/glm/ingestion-report.json`，默认继续使用通过核对的 LLM 事实及确定性抽取知识；控制台显示 llm_accepted、llm_rejected 与 partial_llm 状态。即使所有 LLM 事实被拒绝，也不会伪造 LLM 抽取成功。需要严格失败策略时，用 ingest --strict-extraction。算法报告保留最近一次知识抽取审计。
 

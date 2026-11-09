@@ -13,7 +13,7 @@ class ResponseCheckpoints:
         self.hits = []
 
     def path(self, role, context):
-        key = digest(json.dumps({"identity": self.identity, "prompts": OllamaLLM.prompts(),
+        key = digest(json.dumps({"identity": self.identity, "role_prompt": OllamaLLM.prompts()[role],
                                  "role": role, "context": context}, sort_keys=True, ensure_ascii=False))
         return self.folder / f"{key}.json"
 

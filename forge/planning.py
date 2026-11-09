@@ -48,9 +48,11 @@ def profile_training(train):
 
 
 def validate_spec(spec, description):
+    if not isinstance(spec, dict):
+        raise ValueError("Task must be a JSON object")
     if spec.get("task") != "churn_classification" or spec.get("target") != "churn":
         raise ValueError("Only churn_classification with target churn is supported")
-    if not isinstance(spec.get("metrics"), list) or not spec["metrics"] or not set(spec["metrics"]) <= {"roc_auc", "f1", "accuracy"}:
+    if not isinstance(spec.get("metrics"), list) or not spec["metrics"] or any(not isinstance(m, str) for m in spec["metrics"]) or not set(spec["metrics"]) <= {"roc_auc", "f1", "accuracy"}:
         raise ValueError("Task metrics must name supported metrics")
     constraints = spec.get("constraints")
     if not isinstance(constraints, list) or any(not isinstance(c, str) or c not in CONSTRAINTS for c in constraints):
@@ -63,14 +65,21 @@ def validate_spec(spec, description):
 
 
 def validate_plan(plan, plugins, knowledge, experiences, constraints=()):
+    if not isinstance(plan, dict):
+        raise ValueError("Plan must be a JSON object with root field candidates")
     candidates = plan.get("candidates")
     if not isinstance(candidates, list) or not 1 <= len(candidates) <= 3:
-        raise ValueError("Plan must contain 1 to 3 candidates")
+        actual = type(candidates).__name__
+        raise ValueError(f"Root field candidates must be a JSON array containing 1 to 3 candidate objects; got {actual}. Do not nest under 'plan' or use a dictionary keyed by algorithm.")
+    if any(not isinstance(c, dict) or not isinstance(c.get("algorithm"), str) for c in candidates):
+        raise ValueError("Each candidate must be an object with string algorithm and hyperparameters object")
+    if not isinstance(plan.get("experience_applied"), bool):
+        raise ValueError("experience_applied must be a JSON boolean")
     ids = [candidate.get("algorithm") for candidate in candidates]
     if len(set(ids)) != len(ids) or not set(ids) <= set(plugins):
         raise ValueError("Duplicate or unregistered candidate algorithms")
     preprocessing = plan.get("preprocessing", {})
-    if set(preprocessing) != set(PREPROCESSING):
+    if not isinstance(preprocessing, dict) or set(preprocessing) != set(PREPROCESSING):
         raise ValueError("Plan must specify all preprocessing choices")
     for name, choices in PREPROCESSING.items():
         if preprocessing[name] not in choices or (name == "scale_numeric" and not isinstance(preprocessing[name], bool)):
@@ -93,9 +102,26 @@ def validate_plan(plan, plugins, knowledge, experiences, constraints=()):
             elif value not in rule:
                 raise ValueError(f"Unsupported hyperparameter: {name}")
     for field, source in [("evidence_ids", knowledge), ("experience_ids", experiences)]:
-        values = plan.get(field, [])
-        if not isinstance(values, list) or not set(values) <= {item["id"] for item in source}:
+        values = plan.get(field)
+        if not isinstance(values, list) or any(not isinstance(v, str) for v in values) or not set(values) <= {item["id"] for item in source}:
             raise ValueError(f"Plan cites unknown {field}")
+
+
+def plan_schema():
+    candidates = []
+    for algorithm, rules in PARAMETERS.items():
+        params = {name: {"type": "integer" if rule[0] is int else "number", "minimum": rule[1], "maximum": rule[2]}
+                  if isinstance(rule, tuple) else {"enum": rule} for name, rule in rules.items()}
+        candidates.append({"type": "object", "required": ["algorithm", "rationale", "hyperparameters"],
+                           "properties": {"algorithm": {"const": algorithm}, "rationale": {"type": "string", "minLength": 1},
+                                          "hyperparameters": {"type": "object", "required": list(rules), "properties": params}}})
+    return {"type": "object", "required": ["candidates", "preprocessing", "evidence_ids", "experience_ids", "experience_applied"],
+            "properties": {"candidates": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"oneOf": candidates}},
+                           "preprocessing": {"type": "object", "required": list(PREPROCESSING), "properties": {
+                               key: {"type": "boolean"} if key == "scale_numeric" else {"enum": values} for key, values in PREPROCESSING.items()}},
+                           "evidence_ids": {"type": "array", "items": {"type": "string"}},
+                           "experience_ids": {"type": "array", "items": {"type": "string"}},
+                           "experience_applied": {"type": "boolean"}}}
 
 
 def planning_catalog(registered):
