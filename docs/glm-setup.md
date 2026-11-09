@@ -1,0 +1,55 @@
+# 智谱 GLM-4.7-Flash 接入
+
+本项目按用户选择固定使用 `glm-4.7-flash`。官方发布说明提供免费 API 调用，账户权限和速率限制以控制台为准；程序不切换 `glm-4.7`、`glm-4.7-flashx` 或其他模型，也不回退到 OpenAI。
+
+## 先准备智谱密钥
+
+登录 [智谱开放平台](https://bigmodel.cn/)，在控制台查看 GLM-4.7-Flash 是否可调用且标为免费，然后到 API Keys 创建密钥。这里需要智谱自己的密钥，不能使用 OpenAI 的密钥。密钥只在自己的终端输入，不发到聊天、截图或代码仓库。
+
+## Windows 双击运行
+
+1. 双击根目录 `check-glm.cmd`。
+2. 按提示粘贴智谱 API Key，回车；字符不显示是正常现象。
+3. 成功结果包含 provider=glm、model=glm-4.7-flash、probe=true、task=churn_classification。不含密钥的诊断保存到 `runtime/glm/connection-check.json`。
+4. 连接成功后双击 `run-glm.cmd`，再次输入密钥。完整流程先做知识抽取，再做规划、生成、验证与修复。
+
+脚本优先使用仓库 `.venv`，其次使用本地开发环境 `work/.venv`，最后尝试系统 Python。新电脑需要先按 README 安装项目。密钥仅设置在当前 Python 进程的 ZHIPU_API_KEY 中，临时设置在退出时移除，不写密钥文件。
+
+真实模型数据库为 `runtime/glm/knowledge.sqlite`，报告在 `runtime/glm/runs/`，不会混入 mock 或 OpenAI 的历史示例。该目录默认不提交 Git。
+
+## 命令行
+
+```powershell
+python scripts/run_glm.py        # 隐藏输入密钥，只做一次真实连接测试
+python scripts/run_glm.py --run  # 真实模型完整流程
+```
+
+如果已在当前终端设置 ZHIPU_API_KEY：
+
+```powershell
+python -m forge doctor --provider glm --probe --output runtime/glm/connection-check.json
+python -m forge --db runtime/glm/knowledge.sqlite init
+python -m forge --db runtime/glm/knowledge.sqlite ingest materials --provider glm
+python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.txt --provider glm --output runtime/glm/runs
+```
+
+不加 --probe 的 doctor 只检查本地配置，不证明密钥有效。
+
+## 请求与错误处理
+
+使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，以减少各角色交接的等待时间；最大输出 8192 tokens，请求超时 180 秒。所有调用串行，不自动高频重试，限流后停止并提示稍后重试。
+
+- 缺少 ZHIPU_API_KEY：从 check-glm.cmd 在本机输入。
+- HTTP 401：核对智谱密钥是否有效。
+- HTTP 403/404：核对免费模型的账号权限与服务可用性。
+- HTTP 429：核对免费模型并发/速率限制，稍后重试。
+- response incomplete：输出截断或过滤，不作为成功结果。
+- JSON/原文引证核对失败：模型产物未满足接口要求；保留现有证据，不冒充验证通过。
+
+HTTP 错误不输出远端原始错误体，避免回显敏感内容。连接或认证失败不触发算法代码修复，不回退到 mock。模型固定并不能保证未来平台价格不变，实际使用前应核对控制台标价。
+
+## 证据边界
+
+接口测试使用虚假密钥与模拟 HTTP 响应，未调用真实账户。已有模拟数据指标来自 mock 模板生成，不能改标为 GLM 实测。只有实际运行生成的 mode=glm 报告才属于真实 GLM 实验。
+
+参考：[模型调用文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.7-flash)、[免费发布说明](https://www.zhipuai.cn/zh/news/148)、[对话补全 API](https://docs.bigmodel.cn/api-reference/模型-api/对话补全)、[思考模式](https://docs.bigmodel.cn/cn/guide/capabilities/thinking-mode)。

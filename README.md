@@ -2,7 +2,7 @@
 
 一个用于 LLM Agent 笔试/申博测试的可复现原型：从客户流失预测的自然语言需求出发，检索业务知识，规划候选算法，生成代码，独立验证，按反馈修复，并将能力版本和验证经验回写到知识库。
 
-**状态：本地原型已实现；离线 mock 闭环经过实际运行。Ollama 与 OpenAI Responses API 适配器已实现并测试 HTTP 契约，本交付没有真实模型推理的实测结果。数据全部为模拟数据。**
+**状态：本地原型已实现；离线 mock 闭环经过实际运行。Ollama、OpenAI Responses API 与智谱 GLM-4.7-Flash 适配器已实现并测试 HTTP 契约，本交付没有真实模型推理的实测结果。数据全部为模拟数据。**
 
 ## 1. 背景和目标
 
@@ -32,7 +32,7 @@ flowchart TD
 |---|---|---|
 | 数据 | forge/data.py | 固定种子模拟数据，分层训练/验证/测试划分 |
 | 知识 | forge/knowledge.py | 文档/AST/LLM 抽取、来源核对、检索、图谱、版本记录 |
-| LLM | forge/llm.py | 显式 mock 与 Ollama HTTP 后端 |
+| LLM | forge/llm.py | 显式 mock、Ollama、OpenAI 与智谱 GLM 后端 |
 | 工作流 | forge/workflow.py | 角色交接、候选比较、修复预算、回写 |
 | 验证 | forge/validation.py、worker.py | 宿主指标计算和子进程接口检查 |
 | 静态检查 | forge/safety.py | AST 防误操作检查 |
@@ -93,6 +93,17 @@ knowledge_graph.json / .html # 本次回写后的快照
 正常退出码为 0，运行未通过为 1，配置或输入错误为 2。数据库和默认运行目录位于 Git 忽略的 runtime/。使用 `python -m forge --db path/to/other.sqlite ...` 可创建独立实验知识库；全局参数必须放在子命令前。
 
 ## 5. 真实 LLM 模式
+
+### 智谱 GLM-4.7-Flash（当前选择）
+
+先按 [智谱接入指南](docs/glm-setup.md) 在自己的智谱账号创建 API Key，确认免费模型可调用。Windows 双击 `check-glm.cmd` 隐藏输入密钥，连接成功后双击 `run-glm.cmd`。不会切换到其他收费模型。
+
+```powershell
+python scripts/run_glm.py
+python scripts/run_glm.py --run
+```
+
+使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。真实账户尚未实测；模拟接口测试不代表真实模型已经成功生成算法。
 
 ### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
 

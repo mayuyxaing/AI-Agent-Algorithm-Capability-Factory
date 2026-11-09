@@ -4,15 +4,15 @@ import json
 from pathlib import Path
 from .data import generate
 from .knowledge import KnowledgeStore
-from .llm import MockLLM, OllamaLLM, OpenAILLM
+from .llm import GLMLLM, MockLLM, OllamaLLM, OpenAILLM
 from .reporting import graph_html
-from .util import read_json
+from .util import read_json, write_json
 from .validation import load_policy
 from .workflow import run
 
 
 def add_llm_args(parser):
-    parser.add_argument("--provider", choices=["mock", "ollama", "openai"], default="mock")
+    parser.add_argument("--provider", choices=["mock", "ollama", "openai", "glm"], default="mock")
     parser.add_argument("--model", default="")
     parser.add_argument("--base-url", default=None, help="仅用于 Ollama；OpenAI 使用官方 API 地址")
     parser.add_argument("--llm-timeout", type=int, default=180)
@@ -21,6 +21,10 @@ def add_llm_args(parser):
 def create_llm(args):
     if args.provider == "mock":
         return MockLLM()
+    if args.provider == "glm":
+        if args.base_url:
+            raise ValueError("GLM mode uses the official BigModel endpoint")
+        return GLMLLM(args.model or "glm-4.7-flash", timeout=args.llm_timeout)
     if args.provider == "openai":
         if args.base_url:
             raise ValueError("OpenAI mode uses the official API; do not use chatgpt.com as base URL")
@@ -55,6 +59,7 @@ def main(argv=None):
     doctor = sub.add_parser("doctor", help="检查配置；--probe 会发送一次真实推理请求")
     add_llm_args(doctor)
     doctor.add_argument("--probe", action="store_true")
+    doctor.add_argument("--output", type=Path, help="保存不含密钥的连接检查结果")
     args = parser.parse_args(argv)
     try:
         if args.command == "inspect":
@@ -70,6 +75,8 @@ def main(argv=None):
                 result["task"] = spec["task"]
                 result["llm_calls"] = getattr(llm, "calls", [])
             print(json.dumps(result, ensure_ascii=False, indent=2))
+            if args.output:
+                write_json(args.output, result)
             return 0
         store = KnowledgeStore(args.db)
         if args.command == "init":
@@ -101,5 +108,8 @@ def main(argv=None):
             return 0 if report["status"] == "passed" else 1
         return 0
     except (ValueError, OSError, RuntimeError, KeyError) as exc:
-        print(json.dumps({"error": f"{type(exc).__name__}: {exc}"}, ensure_ascii=False))
+        error = {"error": f"{type(exc).__name__}: {exc}"}
+        print(json.dumps(error, ensure_ascii=False))
+        if args.command == "doctor" and args.output:
+            write_json(args.output, error)
         return 2
