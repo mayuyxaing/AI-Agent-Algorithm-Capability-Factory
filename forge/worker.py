@@ -31,6 +31,8 @@ def execute(code_path: Path, input_path: Path):
     evaluation = pd.DataFrame(payload["evaluation"], columns=FEATURES)
     spec = importlib.util.spec_from_file_location("generated", code_path)
     module = importlib.util.module_from_spec(spec)
+    # Pickle resolves custom estimators through their defining module name.
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     model = module.build_model(seed=payload["seed"])
     from sklearn.pipeline import Pipeline
