@@ -1,0 +1,299 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基于 AI Agent 的算法能力工厂 · 项目材料</title><style>
+body{margin:0;background:#f3f5f7;color:#253341;font:16px/1.85 "Microsoft YaHei","PingFang SC",sans-serif}header,main{max-width:1080px;margin:auto;padding:32px}header{background:#173d4f;color:white;box-sizing:border-box;max-width:none}header>div{max-width:1080px;margin:auto}header h1{font-size:30px;margin:0 0 12px}nav a{color:#d8ecf5;white-space:nowrap}a{color:#155d80;text-decoration:none}a:hover{text-decoration:underline}section{background:white;padding:32px;margin-bottom:24px;border-radius:8px;scroll-margin-top:20px}h2{font-size:27px;color:#173d4f;margin-top:0}h3{font-size:21px;margin-top:30px}h4{font-size:18px}.table{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #d7dfe6;padding:10px;text-align:left;vertical-align:top}th{background:#edf3f7}code{background:#edf2f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow-x:auto;padding:18px;background:#142d3c;color:#edf4f8;line-height:1.55}pre code{background:none;padding:0;font-size:13px;overflow-wrap:normal}blockquote,.flow{border-left:4px solid #43869b;background:#edf5f8;padding:16px;margin:16px 0}.flow{font-weight:600}details{margin:16px 0}li{margin:7px 0}footer{text-align:center;color:#596a77;padding-bottom:30px}@media(max-width:650px){header,main{padding:18px}section{padding:20px}header h1{font-size:24px}}@media print{body{background:white}header{background:white;color:#173d4f}nav{display:none}section{padding:0;break-before:page}section:first-child{break-before:auto}pre{white-space:pre-wrap;color:#253341;background:#f2f4f6}a{color:inherit}}
+</style><header><div><h1>基于 AI Agent 的算法能力工厂</h1><nav><a href="#section-1">项目介绍</a> · <a href="#section-2">技术报告</a> · <a href="#section-3">运行与案例</a> · <a href="#section-4">演示讲稿</a> · <a href="#section-5">技术问答</a> · <a href="#section-6">功能完成情况</a></nav></div></header><main><section id="section-1"><h2>项目介绍</h2>
+<h3>背景与目标</h3>
+<p>我关注的问题是：业务文档、历史代码和实验记录中已经存在的算法经验，能否被整理为可检索的能力知识，并进一步转化为经过验证的算法代码？</p>
+<p>直接让大模型生成一个分类器，可以得到代码，但实现依据、验证过程和后续复用往往分散。我希望把这些步骤连接起来：任务开始时利用已有知识，任务执行时记录生成与修复过程，任务结束后把算法版本和验证经验重新沉淀到知识库。</p>
+<p>因此，我设计了 Capability Forge 算法能力工厂原型。它接收自然语言能力描述，输出可运行代码、训练模型、验证报告和更新后的知识图谱。</p>
+<h3>我的主要工作</h3>
+<p>我首先选择客户流失预测作为主场景，整理模拟业务文档和历史代码，定义输入字段、标签、预处理约束与评价指标。随后将 Markdown 分段抽取、Python AST 抽取和 LLM 知识抽取接入同一存储结构，为每条知识保留来源、原文片段和内容摘要。</p>
+<p>在工作流上，我将需求理解、知识检索、方案规划、代码生成、验证、修复和结果回写拆成独立环节。模型负责给出需求结构、候选计划和代码，宿主程序负责检查契约、执行算法和计算指标。生成结果不直接决定验证结论。</p>
+<p>在验证上，我采用固定随机种子的训练、验证、测试划分。验证集用于修复和候选选择，最终测试集用于评估选定版本。同时检查未知输入、缺失数据、概率输出、重复预测和模型保存重载。</p>
+<p>我还接入客服工单紧急程度分类，复用原有工作流，替换任务插件、输入契约、算法空间和验证配置。这个过程暴露了 DataFrame 与文本序列的接口问题，我保留了失败记录，并通过显式接口补丁完成半自动验证。</p>
+<h3>运行结果</h3>
+<p>客户流失任务完成了真实 GLM 的规划、代码生成和反馈修复。修复演示由宿主显式注入未知类别缺陷，再由模型根据验证反馈修复。最终选择逻辑回归，测试 ROC-AUC 为 0.7829，F1 为 0.6432。</p>
+<p>文本任务比较字符 TF-IDF 与逻辑回归、多项式朴素贝叶斯的组合。在开发阶段完成输入接口修正后，两个候选均通过验证，最终选中逻辑回归，测试 ROC-AUC 为 0.8701，F1 为 0.8765。这个案例属于半自动修复，GLM 原始自主运行的失败状态保持不变。</p>
+<p>项目归档了 96 项自动化测试通过记录，并完成提交包解压后的文本半自动复现。</p>
+<h3>当前范围与后续方向</h3>
+<p>当前原型支持两种固定输入契约的二分类任务，提供 CLI、候选比较、多轮修复、图谱可视化、版本记录及插件扩展。系统采用串行多角色调度；执行隔离目前是 AST 检查与受限子进程。</p>
+<p>下一步，我计划构建固定任务集，在相同模型、数据与调用预算下比较直接生成、知识检索增强和失败经验增强，分析首次通过率、修复次数、最终通过率与调用成本，再进一步完善执行隔离和任务扩展。</p></section>
+<section id="section-2"><h2>算法能力工厂技术报告</h2>
+<h3>1. 问题定义</h3>
+<p>本项目的输入是自然语言算法能力描述，以及可供复用的业务文档和历史代码；输出是算法源码、模型产物、验证报告和能力知识记录。我把系统划分为两个相互连接的过程：一是从材料中抽取能力知识，二是利用知识生成、验证和沉淀算法。</p>
+<p>主任务为客户流失预测，迁移任务为客服工单紧急程度分类。两者都是二分类，但输入分别为结构化表格和文本，适合检验工作流能否复用。</p>
+<h3>2. 技术选择与架构</h3>
+<p>我采用 Python 实现显式工作流，用 SQLite 保存属性图和运行记录，用 scikit-learn Pipeline 组织预处理与分类器。真实模型后端采用 GLM-4.7-Flash，离线后端使用显式规则和模板。入口采用 CLI，以降低环境部署成本。</p>
+<div class="flow">材料抽取 → 知识图谱 → 需求理解与检索 → 候选规划 → 代码生成 → 独立验证 ⇄ 反馈修复 → 候选比较 → 最终测试 → 结果回写</div>
+<details><summary>查看 Mermaid 架构图源码</summary>
+<pre><code>flowchart TD
+  D[业务文档与历史代码] --&gt; E[分段抽取 / AST / LLM]
+  E --&gt; K[(SQLite 属性知识图谱)]
+  U[自然语言能力描述] --&gt; A[需求理解]
+  A --&gt; R[知识与失败经验检索]
+  K --&gt; R
+  R --&gt; P[候选方案规划]
+  P --&gt; G[代码生成]
+  G --&gt; V[独立验证]
+  V --&gt;|失败且预算未耗尽| F[反馈修复]
+  F --&gt; V
+  V --&gt; C[验证集候选比较]
+  C --&gt; T[最终测试评估]
+  T --&gt; O[代码 / 模型 / 报告]
+  O --&gt; K</code></pre>
+</details>
+<p>状态机让我能够显式控制每个环节的输入输出、重试和修复预算，并在失败时保留已经完成的工作。角色共享模型适配器、按顺序执行；这是多角色工作流，当前没有加入多个自治智能体的协商机制。</p>
+<h3>3. 知识抽取与图谱</h3>
+<p>我设计了 Capability、Source、Knowledge、Function、Requirement、Strategy、AlgorithmVersion、ValidationRun、Metric、Environment 和 FailureCase 等节点。关系包括 SUPPORTED_BY、ADDRESSED_BY、IMPLEMENTED_BY、VALIDATED_IN 和 REUSED_EXPERIENCE。</p>
+<p>Markdown 按二级标题切分，Python 文件通过 AST 提取顶层函数、注释和导入依赖。LLM 抽取时，我先为材料片段编号，再要求模型引用 <code>source_chunk_id</code>。宿主依据编号补入原文与行号，并拒绝未知编号和冲突引文。这样能够核对来源，但知识是否完整、语义是否充分仍需要后续评价。</p>
+<p>检索结合显式条件与文本重叠：根据训练画像和需求约束，从 Requirement 经 Strategy 到达支持的 Knowledge/Function，再对结果排序。每条返回记录保留路径。历史失败经验按任务过滤，进入规划和修复上下文。</p>
+<p>图谱以 SQLite 节点表和边表实现，同时保存运行及抽取审计表；可导出 JSON 和离线 SVG/HTML 视图。算法版本以运行、候选、尝试编号及源码 SHA256 追溯。</p>
+<h3>4. Agent 工作流</h3>
+<p>需求理解阶段输出任务、目标、指标与约束，宿主检查任务是否受支持。数据画像只基于训练集计算，包括缺失率、类别比例、字段类型或文本长度。</p>
+<p>规划阶段输出候选算法、参数、预处理、设计理由与证据 ID。参数必须位于注册的有界空间，引用必须来自本次检索结果。代码生成阶段提供接口契约、当前候选估计器与参数，要求实现两个顶层函数：</p>
+<pre><code>def build_model(seed=42):
+    # 返回未拟合的 sklearn Pipeline
+    ...
+
+def predict(model, frame):
+    # 返回与输入行顺序一致的一维正类概率
+    ...</code></pre>
+<p>宿主执行验证后，将旧代码、结构化失败信息和规则式修复建议交给下一轮。默认每个候选首次生成一次，最多修复两轮。输出格式错误和代码错误消耗既定预算；认证、服务和网络错误分别处理。通过校验的模型响应可以缓存，但算法验证仍重新执行。</p>
+<h3>5. 验证设计</h3>
+<p>数据以固定随机种子分层划分为 60% 训练集、20% 验证集和 20% 测试集。子进程获得训练数据和待预测特征，评估标签保留在宿主，由宿主独立计算 ROC-AUC、F1、accuracy 等指标。</p>
+<p>验证包含四个层面：</p>
+<div class="table"><table><thead><tr><th>层面</th><th>检查内容</th></tr></thead><tbody>
+<tr><td>功能与计划一致性</td><td>代码可执行、分类器类型、参数、预处理及随机种子</td></tr>
+<tr><td>接口契约</td><td>必要字段、概率长度、范围、顺序和有限值</td></tr>
+<tr><td>稳定性</td><td>缺失输入、未知类别/未见词表、重复预测、保存重载</td></tr>
+<tr><td>指标与资源</td><td>配置门槛、运行超时、worker/wall 时间和 Python 分配峰值</td></tr>
+</tbody></table></div>
+<p>验证通过的候选按配置指标选择，再对选中版本执行最终测试。客户流失按验证 ROC-AUC 选择；文本按验证 F1 选择。文本案例两候选的验证 F1 相同，程序保留顺序靠前的逻辑回归。</p>
+<p>AST 导入检查、独立子进程、环境变量过滤、超时和线程限制用于减少误操作。当前没有操作系统级的文件、网络和进程隔离，部署到不可信环境仍需容器或虚拟机。</p>
+<h3>6. 案例与结果</h3>
+<h4>客户流失预测</h4>
+<p>真实 GLM 案例接收缺失值、未知类别和不平衡约束，生成候选计划与算法代码。宿主对逻辑回归编码器显式注入未知类别缺陷，验证器检测后返回反馈，模型完成修复。</p>
+<p>最终选择逻辑回归，测试 ROC-AUC=0.7829，F1=0.6432，accuracy=0.7042，12 项检查通过。随机森林原运行出现动态模块序列化问题；修正宿主加载器后，同一份源码通过验证集复核。原始报告与复核结果分别保留。</p>
+<h4>工单文本分类</h4>
+<p>文本任务采用字符级 TF-IDF，比较逻辑回归与多项式朴素贝叶斯。真实 GLM 的自主尝试出现输出格式、分类器选择和 DataFrame 输入处理错误。</p>
+<p>开发过程中，我借助编码助手对已有代码增加 DataFrame 到 <code>text</code> 列的接口处理，并保留逐行补丁。两个候选随后通过验证，验证 ROC-AUC 分别为 0.8455 和 0.8369，验证 F1 均为 0.8221。最终选择逻辑回归，测试 ROC-AUC=0.8701，F1=0.8765，balanced_accuracy=0.8750，12 项检查通过。</p>
+<p>该结果记录为 <code>assisted_glm</code>：它复用了真实模型源码，并包含开发阶段的外部接口补丁。复现不产生新的 API 调用。原自主尝试的失败记录保留，补丁没有修改估计器、参数或指标门槛。</p>
+<h4>测试与复现</h4>
+<p>项目归档了 96 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
+<p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。当前三组对照仅完成离线流程检查，没有真实模型的知识增强效果结论。</p>
+<h3>7. 开发中的问题与处理</h3>
+<div class="table"><table><thead><tr><th>问题</th><th>我的处理</th></tr></thead><tbody>
+<tr><td>模型返回结构不稳定</td><td>增加输出 schema、原始响应审计、有限纠正及单层包装解包</td></tr>
+<tr><td>服务拥堵和网络中断</td><td>区分业务码、网络与认证错误，设置有限退避重试及阶段缓存</td></tr>
+<tr><td>动态模块无法重载</td><td>在加载器中注册模块，复核原始代码，保留原失败记录</td></tr>
+<tr><td>文本清洗器误用 DataFrame</td><td>明确宿主调用形状，提供当前候选契约及针对性修复建议</td></tr>
+<tr><td>失败日志难以复用</td><td>将可归类的失败保存为 FailureCase，并按任务检索</td></tr>
+<tr><td>生成结果与计划不一致</td><td>由宿主检查分类器、超参数与预处理，不接受模型自报成功</td></tr>
+</tbody></table></div>
+<h3>8. 可扩展性与研究计划</h3>
+<p>任务、算法与指标具有注册接口。兼容算法可增加元数据或安装入口；新任务需实现读取、画像、接口及验证契约。当前指标选择采用高者更优，损失型指标需要进一步扩展排序方向。</p>
+<p>后续我将建立固定任务集，在相同模型和预算下比较 direct、knowledge、knowledge_repair 三组，统计首次通过率、最终通过率、修复次数、tokens、耗时和最终性能。进一步的工作包括真实数据验证、完整代码隔离、仓库级能力抽取，以及面向算法方案的搜索策略。</p>
+<p>代码、测试及结果入口见 <a href="提交说明.md">项目材料索引</a>。</p></section>
+<section id="section-3"><h2>运行与案例说明</h2>
+<p>我准备了客户流失流程与修复演示，以及真实文本代码的半自动接口修复复现。真实 GLM 历史报告保存在 examples 中。</p>
+<h3>环境配置</h3>
+<p>在解压后的 capability-forge 目录执行，推荐 Python 3.12：</p>
+<pre><code>python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pip install -e .</code></pre>
+<p>以下 Windows 命令直接使用虚拟环境解释器。Linux/macOS 将路径替换为 <code>.venv/bin/python</code>。</p>
+<h3>案例一：客户流失预测</h3>
+<p>输入需求保存在 <a href="examples/task.txt">task.txt</a>。材料包含客户字段、缺失值处理、未知类别编码及评价要求。</p>
+<pre><code>.\.venv\Scripts\python.exe -m forge init
+.\.venv\Scripts\python.exe -m forge run --task-file examples/task.txt --provider mock --output runtime/demo-churn
+.\.venv\Scripts\python.exe -m forge run --task-file examples/task.txt --provider mock --inject-fault --output runtime/demo-churn-repair
+.\.venv\Scripts\python.exe -m forge graph --output runtime/demo-graph.json</code></pre>
+<p>第一条 run 演示生成、候选比较、最终测试与回写；第二条演示显式故障后的有限修复；graph 导出 JSON 和同名 HTML。上述命令使用 mock，重点是本地流程复现。</p>
+<p>真实 GLM 客户流失案例：</p>
+<ul>
+<li><a href="examples/v2/real-success/report.md">完整报告</a></li>
+<li><a href="examples/v2/real-success/events.json">逐步记录</a></li>
+<li><a href="examples/v2/real-success/logistic/attempt_0/model_response.py">模型原始代码</a></li>
+<li><a href="examples/v2/real-success/logistic/attempt_0/algorithm.py">宿主注入故障后的代码</a></li>
+<li><a href="examples/v2/real-success/logistic/attempt_1/algorithm.py">GLM 修复代码</a></li>
+</ul>
+<p>该真实案例选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432。未知类别故障由宿主显式注入，修复响应来自真实 GLM。</p>
+<h3>案例二：工单文本分类</h3>
+<p>输入需求保存在 <a href="examples/text_task.txt">text_task.txt</a>，数据为带缺失值和标签噪声的模拟工单。我把文本输入、字符 TF-IDF 和模型检查放在任务插件中，复用同一套工作流。</p>
+<pre><code>.\.venv\Scripts\python.exe scripts/assisted_text_example.py --source-run examples/v3/text-assisted-repair/source-run --output runtime/demo-text</code></pre>
+<p>这条命令读取归档的真实 GLM 代码，恢复图谱，应用固定 DataFrame 接口补丁，再重新训练、比较候选和评估测试集；不需要 API Key。输出须为新目录，重复复现时可更换名称。</p>
+<p>归档结果见 <a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">文本报告</a>。两候选验证 F1 均为 0.8221，按配置与候选顺序选择逻辑回归。测试 ROC-AUC=0.8701、F1=0.8765，12 项检查通过。</p>
+<p>我在开发阶段借助编码助手完成输入接口修正，该案例记录为 <code>assisted_glm</code>。原始自主失败、修改差异和修正后的代码均保留。</p>
+<h3>输出与预测</h3>
+<p>每个运行目录包含 <code>report.md</code>、<code>report.json</code>、<code>events.json</code>、图谱 JSON/HTML，以及各候选的 algorithm.py、模型和验证结果。最终选中版本位于 selected。</p>
+<p>使用本次重新训练的文本模型预测：</p>
+<pre><code>$textRun = Get-ChildItem runtime/demo-text/runs -Directory | Sort-Object Name -Descending | Select-Object -First 1
+.\.venv\Scripts\python.exe scripts/predict.py --task text_classification --artifact &quot;$($textRun.FullName)/selected&quot; --input examples/text_predict_input.csv --output runtime/text-predictions.csv</code></pre>
+<p>输出新增 <code>urgent_probability</code> 和 <code>predicted_label</code>，三条工单的<a href="examples/v3/text-assisted-repair/predictions.csv">预测结果样例</a>已一并提供。</p>
+<h3>自动测试</h3>
+<pre><code>.\.venv\Scripts\python.exe -m pytest -q</code></pre>
+<p>已归档 <a href="examples/test-results.txt">96 项测试通过记录</a>。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。</p>
+<h3>真实调用与版本历史</h3>
+<p>安装依赖后，可双击 <code>check-glm.cmd</code> 检查连接、<code>run-glm.cmd</code> 执行客户流失、<code>repair-glm.cmd</code> 执行显式修复演示、<code>text-glm.cmd</code> 执行文本任务。密钥在终端隐藏输入，不保存在项目中。平台权限与拥堵会影响实时调用，历史报告和离线案例可独立查看。</p>
+<p>提交包含 <code>git-history.bundle</code>，可恢复分阶段提交：</p>
+<pre><code>git clone git-history.bundle ../capability-forge-history</code></pre></section>
+<section id="section-4"><h2>五分钟项目演示讲稿</h2>
+<h3>0:00–0:40　问题与目标</h3>
+<p>我实现的是一个算法能力工厂原型。我的出发点是，算法经验通常分散在业务文档、历史代码和实验记录中，单次代码生成没有把这些经验与验证结果连接起来。</p>
+<p>因此，我将系统设计成闭环：从材料中抽取能力，理解自然语言需求，检索知识并规划方案，生成代码后独立验证，再按反馈修复，最后保存版本和经验。</p>
+<p>本项目以客户流失预测为主场景，再扩展到客服工单文本分类。</p>
+<h3>0:40–1:20　架构与知识</h3>
+<p>我先展示材料和图谱。客户流失文档包含字段、缺失值、未知类别和评价要求，历史代码示例提供函数级经验。</p>
+<p>抽取后，知识保留来源文件、内容摘要和原文片段。图谱还包含能力、策略、算法版本、验证运行和失败案例。</p>
+<p>系统根据任务约束沿“需求—策略—知识”路径检索，将相关知识与历史失败交给规划角色。存储采用 SQLite，便于本地复现与导出。</p>
+<p>展示文件：<a href="materials/churn_business.md">业务材料</a>、<a href="docs/schema.md">图谱 schema</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.html">图谱视图</a>。</p>
+<h3>1:20–2:30　客户流失真实生成与修复</h3>
+<p>这里展示真实 GLM 运行。输入需求要求处理缺失值、未知类别和类别不平衡，并比较候选方案。</p>
+<p>规划包含算法、参数、预处理和证据 ID。模型生成代码后，宿主调用统一接口训练和检查。</p>
+<p>为了演示反馈修复，我让宿主对生成的编码器显式注入未知类别故障。第一次验证检测到错误，GLM 根据反馈修复，下一轮通过。这里可以对比原始输出、注入版本和修复版本。</p>
+<p>最终选中逻辑回归，测试 ROC-AUC 为 0.7829，F1 为 0.6432，12 项检查通过。测试结果没有用于修复或重选方案。</p>
+<p>展示文件：<a href="examples/v2/real-success/report.md">真实报告</a>、<a href="examples/v2/real-success/events.json">交接轨迹</a>、<a href="examples/v2/real-success/logistic/attempt_1/algorithm.py">修复后代码</a>。</p>
+<h3>2:30–3:30　文本迁移与半自动修复</h3>
+<p>接下来是工单紧急程度分类。我复用同一工作流，将输入改为 text 列，接入字符 TF-IDF、逻辑回归和多项式朴素贝叶斯。</p>
+<p>真实 GLM 自主尝试中，清洗器没有正确处理 DataFrame，导致样本数量不一致。我保留了失败记录，在开发阶段借助编码助手增加提取 text 列的接口补丁。</p>
+<p>修正后两个候选通过验证，按配置的 F1 和候选顺序选择逻辑回归。测试 ROC-AUC 为 0.8701，F1 为 0.8765。这个案例记录为半自动修复，可查看原始失败与逐行补丁，也可不调用 API 重新训练复现。</p>
+<p>展示文件：<a href="examples/v3/text-assisted-repair/README.md">文本案例</a>、<a href="examples/v3/text-assisted-repair/sources/text_nb/interface.patch">接口补丁</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">完整报告</a>。</p>
+<h3>3:30–4:20　验证与沉淀</h3>
+<p>我把验证独立放在宿主侧。模型负责生成代码，评估标签保留在宿主，指标由宿主计算；同时检查概率接口、缺失输入、未见词表、重复预测和保存重载。</p>
+<p>运行结束后，每版源码摘要、指标、环境和失败原因写入图谱，后续任务可检索同一任务下的失败经验。算法、任务和指标也有注册接口。</p>
+<p>目前归档了 96 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
+<h3>4:20–5:00　总结与后续研究</h3>
+<p>我完成的核心工作，是把知识抽取、受约束生成、独立验证和经验沉淀连接为可追溯流程，并在表格与文本场景中验证复用方式。</p>
+<p>当前采用模拟数据和串行多角色调度。下一步，我会在固定任务集上开展真实模型对照，比较直接生成、知识增强与失败经验增强的首次通过率、修复次数和成本，再完善执行隔离和任务插件。</p>
+<p>运行命令见 <a href="submission/run-and-results.md">运行与案例说明</a>，技术细节见 <a href="submission/technical-report.md">技术报告</a>，问答见 <a href="submission/questions-and-answers.md">技术问答</a>。</p></section>
+<section id="section-5"><h2>技术问答</h2>
+<h3>1. 这个项目解决了什么问题？</h3>
+<p>我希望把分散在文档、历史代码和运行记录中的算法经验，转化为可检索、可执行、可验证的能力。产出除了分类器，还有来源、计划、生成代码、验证结果和可复用的失败经验。</p>
+<h3>2. 与直接让大模型写代码相比，增加了什么？</h3>
+<p>我增加了知识抽取与来源记录、受约束的规划、独立验证、有限修复和结果回写。模型不能直接判定自己的代码成功，结论由宿主的检查和指标计算给出。</p>
+<h3>3. 为什么采用 SQLite？</h3>
+<p>当前图谱规模较小，我更重视本地复现和可追溯性。SQLite 用节点表、边表和 JSON 属性表达关系，并用外键保证端点存在。规模增大或查询复杂时，可以替换存储层。</p>
+<h3>4. 为什么没有使用 LangChain 等框架？</h3>
+<p>我采用显式 Python 状态机，使角色输入输出、预算和错误处理更直接。现阶段重点是验证能力闭环，后续可将独立角色接口迁移到其他编排框架。</p>
+<h3>5. 项目是不是多智能体系统？</h3>
+<p>当前是串行多角色工作流。理解、规划、生成与修复分开调用，但共享模型适配器，还没有独立自治智能体的协商与并行调度。</p>
+<h3>6. 知识图谱如何参与生成？</h3>
+<p>我把训练画像和需求约束映射到 Requirement，再沿 Strategy 找到知识和函数。结果及来源 ID 进入规划和代码上下文，历史失败按任务过滤后单独提供。路径可在图谱中核对。</p>
+<h3>7. 如何处理虚构来源？</h3>
+<p>我预先编号材料片段，要求模型引用已有编号，宿主附加原文和行号。未知编号或冲突引文会被拒绝并写入审计。来源存在不自动证明模型概括在语义上充分，后续仍需评估知识质量。</p>
+<h3>8. 如何防止数据泄漏？</h3>
+<p>我先划分训练、验证和测试集，只用训练集画像，要求预处理在训练 Pipeline 内拟合。评估标签由宿主保存，子进程返回预测。修复与候选选择使用验证集，最终测试结果不回流调参。</p>
+<h3>9. 为什么检查模型保存重载？</h3>
+<p>内存中能预测不等于产物可复用。项目遇到过自定义类的动态模块注册问题，导致序列化失败。我修正加载器并复核同一份源码，因此保留了保存重载检查。</p>
+<h3>10. 真实 GLM 的修复证据是什么？</h3>
+<p>客户流失案例中，宿主对生成的编码器显式注入未知类别故障，真实 GLM 根据反馈完成修复。该案例验证了反馈修复链路，报告明确记录了故障来源。</p>
+<h3>11. 文本任务为什么采用半自动修复？</h3>
+<p>GLM 在有限轮次内没有解决输出格式和 DataFrame 输入处理错误。我保留失败记录，在开发阶段借助编码助手增加列提取处理，再用同一验证机制评估候选。结果记录为 assisted_glm。</p>
+<h3>12. 文本候选如何选择？</h3>
+<p>文本配置按验证 F1 选择。两候选 F1 相同，程序取顺序中的第一个最大值，因此选择逻辑回归。ROC-AUC 是另一项报告指标；客户流失任务则按 ROC-AUC 选择。</p>
+<h3>13. 能否证明知识增强提高了生成质量？</h3>
+<p>当前记录证明知识和经验进入了工作流，真实模型对照尚未完成。我已实现三组实验流程，下一步固定任务、模型和预算，比较首次通过率、最终通过率、修复次数及成本。</p>
+<h3>14. 代码执行是否安全？</h3>
+<p>目前有 AST 检查、环境变量过滤、独立子进程、超时和线程限制，适合受控本地演示。公共服务还需要容器或虚拟机实现文件、网络和进程隔离。</p>
+<h3>15. 为什么使用模拟数据？</h3>
+<p>我先用固定种子模拟数据验证工程闭环，便于复现并控制缺失、类别变化和标签噪声。真实行业效果需要另行使用真实数据检验。</p>
+<h3>16. 如何接入新任务或算法？</h3>
+<p>兼容算法可扩展元数据、模板或安装入口。新任务需定义输入、读取、画像、接口和验证规则；指标可注册评分函数。任务变化不能只改提示词，还要同步扩展独立验证。</p>
+<h3>17. 96 项测试说明了什么？</h3>
+<p>这些测试检查抽取、接口、适配、缓存、工作流和插件行为，用于工程回归。真实模型能力由单独的实际运行报告记录，测试数量不代表通用成功率。</p>
+<h3>18. 下一步优先做什么？</h3>
+<p>我优先开展固定任务集上的真实模型对照，再评估真实数据和失败经验质量。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p></section>
+<section id="section-6"><h2>功能与要求对应表</h2>
+<p>我按照任务要求，将项目功能、实现位置和运行结果整理如下。</p>
+<h3>当前结论</h3>
+<p>我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环及真实三组对照尚未成功完成。本次交付包含本地源码、分阶段 Git 历史和运行材料，尚未发布 GitHub 仓库。</p>
+<p>状态含义：<strong>已实现</strong>表示存在可核对代码及相关验证；<strong>部分实现</strong>表示只覆盖该要求的一部分；<strong>未实现</strong>表示没有对应能力；<strong>待提交</strong>表示本地交付存在，但远程提交未执行。</p>
+<h3>一、题目六项核心要求</h3>
+<div class="table"><table><thead><tr><th>编号</th><th>要求</th><th>状态与范围</th><th>实现或运行证据</th></tr></thead><tbody>
+<tr><td>C01</td><td>使用开源模型或 LLM 接口</td><td>已实现；真实 GLM 接口有运行记录。Ollama/OpenAI 适配器不等于已在本机实测</td><td><a href="forge/llm.py">LLM 适配器</a>、<a href="examples/v2/REAL-RESULTS.md">真实客户流失结果</a></td></tr>
+<tr><td>C02</td><td>选择具体行业场景</td><td>已实现；客户流失预测、客服工单紧急程度分类；均使用模拟材料和模拟数据</td><td><a href="materials/churn_business.md">客户材料</a>、<a href="materials/text_business.md">文本材料</a>、<a href="forge/tasks.py">任务插件</a></td></tr>
+<tr><td>C03</td><td>能力知识库或知识图谱</td><td>已实现；SQLite 属性图，含输入输出、条件、指标、环境、版本与验证关系</td><td><a href="docs/schema.md">schema</a>、<a href="forge/knowledge.py">存储与检索</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.json">图谱样例</a></td></tr>
+<tr><td>C04</td><td>自然语言到可运行算法的自动/半自动复刻</td><td>已实现；真实客户流失成功，真实文本为明确标注的辅助修复成功</td><td><a href="examples/v2/real-success/report.md">客户流失报告</a>、<a href="examples/v3/text-assisted-repair/README.md">文本辅助修复说明</a></td></tr>
+<tr><td>C05</td><td>统一验证正确性、指标、稳定性、接口</td><td>已实现；独立宿主计算指标，按任务选择检查，合格最终版本再评估测试集</td><td><a href="forge/validation.py">验证入口</a>、<a href="forge/worker.py">执行器</a>、<a href="configs/text.json">测试配置</a></td></tr>
+<tr><td>C06</td><td>简洁界面、CLI 或 API</td><td>已实现 CLI；没有 Web 界面或 HTTP API。CLI 已满足题目中的任选要求</td><td><a href="forge/cli.py">命令入口</a>、<a href="README.md">运行指南</a></td></tr>
+</tbody></table></div>
+<h3>二、完整工作流 a–g</h3>
+<div class="table"><table><thead><tr><th>环节</th><th>状态</th><th>可核对行为</th></tr></thead><tbody>
+<tr><td>a. 理解能力描述</td><td>已实现</td><td><code>understand</code> 返回任务、目标、约束、指标；宿主校验，不接受任意未知任务</td></tr>
+<tr><td>b. 检索知识</td><td>已实现</td><td>文档/函数及历史失败检索；Requirement → Strategy → Knowledge/Function 固定两跳路径</td></tr>
+<tr><td>c. 规划实现</td><td>已实现</td><td>候选算法、预处理、有界超参数、理由、证据 ID；结构及引用校验</td></tr>
+<tr><td>d. 生成代码</td><td>已实现</td><td>返回 <code>build_model</code> 和 <code>predict</code> 的完整源码；保留原始响应、源码和摘要</td></tr>
+<tr><td>e. 执行测试评估</td><td>已实现</td><td>AST 检查、独立子进程、宿主指标、接口与模型重载检查</td></tr>
+<tr><td>f. 根据错误修复</td><td>已实现</td><td>代码生成/修复共用预算；默认首次生成加最多两轮修复，服务故障与代码缺陷分别处理</td></tr>
+<tr><td>g. 验证结果沉淀</td><td>已实现</td><td>保存运行、算法版本、环境、失败经验及关系；导出 JSON 和 HTML</td></tr>
+</tbody></table></div>
+<p>统一实现见 <a href="forge/workflow.py">workflow.py</a>；可沿着<a href="examples/v2/real-success/events.json">真实客户流失 events.json</a>核对角色输入输出。该真实案例包含宿主显式注入的未知类别缺陷，不是自然生成错误修复成功的证明。</p>
+<h3>三、基础交付清单</h3>
+<div class="table"><table><thead><tr><th>编号</th><th>交付要求</th><th>状态</th><th>对应文件</th></tr></thead><tbody>
+<tr><td>B01</td><td>完整项目代码库</td><td>已具备本地 Git 仓库</td><td><a href="pyproject.toml">包配置</a>、<a href="README.md">项目说明</a></td></tr>
+<tr><td>B02</td><td>示例行业数据、文档或模拟材料</td><td>已提供</td><td><a href="data/churn.csv">客户数据</a>、<a href="data/tickets.csv">文本数据</a>、<a href="materials/historical_code.py">历史示例代码</a></td></tr>
+<tr><td>B03</td><td>知识图谱 schema 设计说明</td><td>已提供</td><td><a href="docs/schema.md">schema.md</a></td></tr>
+<tr><td>B04</td><td>知识抽取结果文件</td><td>已提供 JSON；图谱包含 Knowledge、Function、Source 等节点</td><td><a href="examples/knowledge_graph.json">抽取与回写样例</a>、<a href="examples/v3/text-assisted-repair/source-run/knowledge_graph.json">真实文本原始图谱</a></td></tr>
+<tr><td>B05</td><td>Agent 工作流代码或配置</td><td>已提供</td><td><a href="forge/workflow.py">工作流</a>、<a href="docs/architecture.md">架构</a></td></tr>
+<tr><td>B06</td><td>至少一个完整生成示例</td><td>已提供，须说明运行模式</td><td><a href="examples/v2/real-success/report.md">真实 GLM 客户流失</a>、<a href="examples/v3/text-assisted-repair/README.md">文本半自动案例</a></td></tr>
+<tr><td>B07</td><td>自动验证脚本</td><td>已提供；流程内验证与独立重新验证均可用</td><td><a href="scripts/validate.py">validate.py</a>、<a href="forge/validation.py">验证实现</a></td></tr>
+<tr><td>B08</td><td>验证报告样例</td><td>已提供 Markdown/JSON</td><td><a href="examples/v2/real-success/report.json">客户报告</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">文本报告</a></td></tr>
+<tr><td>B09</td><td>README.md</td><td>已提供；覆盖题目要求的十项内容</td><td><a href="README.md">README</a></td></tr>
+<tr><td>B10</td><td>环境依赖文件</td><td>已提供范围依赖、开发依赖及历史锁定文件</td><td><a href="requirements.txt">requirements.txt</a>、<a href="requirements-dev.txt">开发依赖</a>、<a href="requirements-lock.txt">环境锁定</a></td></tr>
+<tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 96 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
+<tr><td>B12</td><td>GitHub 仓库提交</td><td>待发布；已提供本地源码和 Git 历史</td><td>本地 Git 分阶段提交；远程仓库尚未发布</td></tr>
+</tbody></table></div>
+<p>源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。</p>
+<h3>四、8 项进阶要求</h3>
+<div class="table"><table><thead><tr><th>编号</th><th>要求</th><th>状态与证据</th><th>实现范围</th></tr></thead><tbody>
+<tr><td>A01</td><td>Web、CLI 或 API 接口</td><td>已实现：<a href="forge/cli.py">CLI</a></td><td>提供 CLI，没有 Web/HTTP API</td></tr>
+<tr><td>A02</td><td>多轮代码修复</td><td>已实现：<a href="forge/workflow.py">工作流</a>、<a href="tests/test_v2.py">修复测试</a>、<a href="examples/v2/real-success/logistic/attempt_1/algorithm.py">真实修复版本</a></td><td>支持配置修复预算；不保证所有模型每次都能修好</td></tr>
+<tr><td>A03</td><td>多候选自动比较</td><td>已实现：<a href="forge/tasks.py">客户与文本配置</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.json">文本完整报告</a></td><td>只在通过验证的候选中，按配置指定的验证指标选择</td></tr>
+<tr><td>A04</td><td>图谱可视化</td><td>已实现：<a href="forge/reporting.py">HTML 生成</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.html">离线图谱</a></td><td>SVG 关系图、悬停信息和节点表；不是图数据库管理界面</td></tr>
+<tr><td>A05</td><td>自动生成验证报告</td><td>已实现：<a href="forge/reporting.py">报告模块</a>、<a href="examples/v2/real-success/report.md">报告样例</a></td><td>自动生成 Markdown、JSON 及逐步轨迹</td></tr>
+<tr><td>A06</td><td>验证结果回写知识库</td><td>已实现：<a href="forge/knowledge.py">save_run</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.json">回写图谱</a></td><td>保存版本、运行、指标、环境及失败关系；支持后续检索</td></tr>
+<tr><td>A07</td><td>不同任务验证配置</td><td>已实现：<a href="configs/churn.json">churn.json</a>、<a href="configs/text.json">text.json</a>、<a href="tests/test_task_plugins.py">跨任务测试</a></td><td>支持两类已注册二分类任务，不能直接处理任意字段/任务</td></tr>
+<tr><td>A08</td><td>算法模板或指标插件扩展</td><td>已实现：<a href="docs/plugin-tasks.md">插件契约</a>、<a href="forge/plugins/text_nb.json">算法元数据</a>、<a href="tests/test_task_plugins.py">扩展测试</a></td><td>注册任务、算法元数据/安装入口及指标函数；新任务仍需实现验证契约</td></tr>
+</tbody></table></div>
+<p>文本案例的 <code>selection_metric</code> 为 F1；两个候选的验证 F1 相同，现实现保留候选顺序中的第一个最大值，即 text_logistic。文本模型按 F1 选择，客户流失模型按 ROC-AUC 选择。</p>
+<h3>五、10 项加分要求</h3>
+<div class="table"><table><thead><tr><th>编号</th><th>要求</th><th>核对结果</th><th>证据及限制</th></tr></thead><tbody>
+<tr><td>P01</td><td>图搜索、Beam Search 或 MCTS 方案搜索</td><td>部分实现</td><td><a href="forge/knowledge.py">固定两跳图检索</a>属于检索；没有 Beam/MCTS 或搜索式算法规划，不能宣称已完整实现这一加分项</td></tr>
+<tr><td>P02</td><td>多智能体协作</td><td>未实现自主多智能体</td><td><a href="docs/architecture.md">串行多角色状态机</a>共享 LLM 后端；多次调用和多个角色不等于自主协商/并行多智能体</td></tr>
+<tr><td>P03</td><td>从真实仓库抽取函数、依赖、能力</td><td>部分实现</td><td><a href="forge/knowledge.py">AST 抽取</a>可递归扫描本地目录，已验证的是模拟历史代码；没有外部真实仓库提取案例、类方法/调用图/完整依赖解析</td></tr>
+<tr><td>P04</td><td>安全检查和沙箱执行</td><td>部分实现</td><td><a href="forge/safety.py">AST 检查</a>、<a href="forge/validation.py">子进程执行</a>及超时/线程限制；没有 OS 级文件、网络、进程隔离，不能称安全沙箱</td></tr>
+<tr><td>P05</td><td>自动分析失败并形成经验</td><td>已实现规则版本</td><td><a href="forge/failures.py">错误分类</a>、<a href="forge/knowledge.py">经验回写</a>、<a href="tests/test_task_plugins.py">文本错误测试</a>；不是通用模型根因推断，未证明复用带来统计提升</td></tr>
+<tr><td>P06</td><td>算法能力版本管理</td><td>已实现基础版本</td><td>每轮源码摘要、attempt、run、指标、环境及 AlgorithmVersion 关系；没有发布版本审批、回滚或迁移服务</td></tr>
+<tr><td>P07</td><td>自然语言说明设计依据</td><td>已实现</td><td><a href="examples/v2/real-success/report.md">真实计划与解释</a>、<a href="examples/v2/real-success/events.json">生成轨迹</a>；引用存在和原文匹配不等于解释必然正确</td></tr>
+<tr><td>P08</td><td>跨场景迁移</td><td>已实现限定范围</td><td><a href="forge/tasks.py">两任务插件</a>、<a href="examples/v3/text-assisted-repair/README.md">文本完整半自动结果</a>；数据均模拟，文本自主模型生成尚未通过</td></tr>
+<tr><td>P09</td><td>自动接口文档或部署配置</td><td>部分实现</td><td><a href="docs/generated-interfaces.md">自动 CLI/插件契约目录</a>可生成；没有 HTTP OpenAPI、容器或线上部署配置</td></tr>
+<tr><td>P10</td><td>性能优化和资源消耗分析</td><td>部分实现</td><td>报告有 worker/wall 时间、Python 分配峰值和线程限制；没有优化前后对照，峰值不是 RSS，没有系统级 CPU/内存基准</td></tr>
+</tbody></table></div>
+<h3>六、开发要求核对</h3>
+<div class="table"><table><thead><tr><th>要求</th><th>当前状态</th></tr></thead><tbody>
+<tr><td>Git 与清晰提交信息</td><td>本地 Git 分阶段提交；提交包附完整 history bundle</td></tr>
+<tr><td>项目说明、环境、运行、示例文档</td><td>README 与 docs 已提供；最终演示稿在后续准备步骤更新</td></tr>
+<tr><td>结构清晰、模块化、注释</td><td>数据、任务、知识、规划、模型、验证、报告、入口分模块；不能仅凭此保证所有代码质量评分</td></tr>
+<tr><td>本地可复现</td><td>已完成离线测试与提交包解压后的辅助修复复现；真实 API 调用受服务可用性影响</td></tr>
+<tr><td>Python 主语言</td><td>已采用 Python</td></tr>
+<tr><td>技术选择理由</td><td><a href="docs/architecture.md">架构说明</a>：SQLite、显式工作流、sklearn、CLI 的选择与限制</td></tr>
+<tr><td>无大模型时可 mock</td><td>显式 mock 可演示；真实、mock、辅助修复模式分别保留，不混为同一证据</td></tr>
+</tbody></table></div>
+<h3>七、README 十项内容索引</h3>
+<div class="table"><table><thead><tr><th>文档内容</th><th>对应位置</th></tr></thead><tbody>
+<tr><td>1. 背景和目标</td><td>README 第 1 节</td></tr>
+<tr><td>2. 架构和模块</td><td>README 第 2 节、architecture.md</td></tr>
+<tr><td>3. 图谱 schema 和示例</td><td>README 第 6 节、schema.md、归档图谱</td></tr>
+<tr><td>4. Agent 工作流</td><td>README 第 2、7 节、workflow.py</td></tr>
+<tr><td>5. 配置和运行</td><td>README 第 3–5 节</td></tr>
+<tr><td>6. 数据与测试任务</td><td>README 第 6 节、data 与 materials</td></tr>
+<tr><td>7. 生成代码示例</td><td>README 第 7 节及生成的 algorithm.py</td></tr>
+<tr><td>8. 验证结果与报告</td><td>README 第 8 节、examples 中的分类证据</td></tr>
+<tr><td>9. 挑战和解决办法</td><td>README 第 9 节</td></tr>
+<tr><td>10. 可扩展方向</td><td>README 第 10 节、plugin-tasks.md</td></tr>
+</tbody></table></div>
+<h3>八、项目概述</h3>
+<blockquote>我实现了一个基于 LLM、多角色工作流和 SQLite 属性图的算法能力工厂原型，覆盖能力抽取、知识检索、方案规划、代码生成、独立验证、有限修复和结果回写。客户流失任务有真实 GLM 运行记录，其中修复演示的缺陷由宿主显式注入；文本分类通过任务插件接入，真实模型代码经明确标注的助手接口补丁后完成半自动验证。系统还支持多候选比较、离线图谱视图、版本追溯及规则式失败经验复用。</blockquote>
+<p>当前实现采用串行多角色调度和子进程执行，暂未加入自主多智能体、MCTS 与操作系统级沙箱。真实行业数据和真实模型三组对照是后续实验方向。</p>
+<h3>九、后续工作</h3>
+<p>后续我将优先开展固定任务集上的真实模型对照实验，统计首次通过率、修复成本和最终通过率；再完善生成代码执行隔离，并扩展任务与算法插件。报告摘要、文件摘要及测试计数见 <a href="docs/acceptance-evidence.json">acceptance-evidence.json</a>。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>

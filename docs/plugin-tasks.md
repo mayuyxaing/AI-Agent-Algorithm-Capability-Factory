@@ -6,7 +6,7 @@
 
 原真实 GLM 森林代码在加载器修复后重新执行验证集检查，全部通过，包括自定义类保存加载，见 examples/v3/loader-recheck/recheck.json。源码摘要未变，原失败报告保留；未重新选择模型或调优测试集。
 
-文本离线闭环已运行：字符 TF-IDF + LogisticRegression / MultinomialNB，含缺失/空文本、未见词表、接口及模型重载检查。源数据为带随机标签噪声的模拟工单，相似模板较多，不能证明真实业务泛化效果。文本真实 GLM 和真实三组对照尚未运行，现有真实 API 证据属于客户流失任务。
+文本离线闭环已运行：字符 TF-IDF + LogisticRegression / MultinomialNB，含缺失/空文本、未见词表、接口及模型重载检查。源数据为带随机标签噪声的模拟工单，相似模板较多，不能证明真实业务泛化效果。真实 GLM 文本代码已完成半自动接口修复后的验证，见 examples/v3/text-assisted-repair/README.md；GLM 文本自主运行仍未通过，真实三组对照尚未完成。
 
 ## 运行第二场景
 

@@ -1,14 +1,14 @@
 # Capability Forge · 基于 AI Agent 的算法能力工厂
 
-一个用于 LLM Agent 笔试/申博测试的可复现原型：从客户流失预测的自然语言需求出发，检索业务知识，规划候选算法，生成代码，独立验证，按反馈修复，并将能力版本和验证经验回写到知识库。
+我围绕客户流失预测和客服工单分类，设计并实现了一个算法能力工厂原型。系统接收自然语言需求，从业务材料中抽取并检索知识，规划候选算法，生成代码，执行独立验证，再将版本、指标和失败经验写回知识库。
 
-**真实 GLM 客户流失规划、生成、显式故障修复及最终验证已通过。新增文本任务、插件接口及跨场景验证；真实 GLM 文本代码经过明确标注的助手接口补丁后，完成半自动生成代码复现、候选比较和最终测试。原始自主失败记录保留，尚无 GLM 文本自主闭环成功或真实模型三组对照结论。数据全部为模拟数据。**
+我完成了客户流失任务的真实 GLM 生成、显式故障修复和验证，并通过任务插件扩展到工单文本分类。文本真实代码采用开发阶段接口补丁完成半自动复现。两类任务均保留代码、指标、修复轨迹与图谱记录，数据采用固定种子生成的模拟数据。
 
 升级对比、修复演示和实验协议见 [v2-upgrade.md](docs/v2-upgrade.md)。离线新版案例见 [examples/v2](examples/v2/README.md)。
 
 新增 [多任务与插件扩展](docs/plugin-tasks.md)：文本分类已接入独立配置与验证用例，任务/算法/指标支持注册与安装入口发现，并生成 [接口目录](docs/generated-interfaces.md)。文本离线结果及森林加载器复核见 [v3 验收](examples/v3/README.md)。
 
-逐条对应老师要求的实现状态、运行证据和介绍边界见 [提交前验收清单](docs/acceptance-checklist.md)。
+项目材料入口见 [提交说明](提交说明.md)；功能与要求对应关系见 [功能完成情况](docs/acceptance-checklist.md)。
 
 ## 1. 背景和目标
 
@@ -109,7 +109,7 @@ python scripts/run_glm.py
 python scripts/run_glm.py --run
 ```
 
-使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。归档的 [v1 GLM 实测结果](examples/glm/PROGRESS.md)：知识抽取接受 12 条，选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432；它提供了完整模板参考。当前入口运行 v2，生成上下文只提供接口和计划，旧响应不会冒充新版结果。真实修复演示入口为 repair-glm.cmd，对照实验入口为 benchmark-glm.cmd。
+使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。归档的 [v1 GLM 实测结果](examples/glm/PROGRESS.md)：知识抽取接受 12 条，选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432；它提供了完整模板参考。当前入口运行 v2，生成上下文只提供接口和计划，历史结果与当前运行分别保存。真实修复演示入口为 repair-glm.cmd，对照实验入口为 benchmark-glm.cmd。
 
 知识抽取若返回缺少 `facts` 的对象，会携带原始响应、错误和 JSON schema 请求一次格式纠正；仍不合规则终止，不替换成 mock 结果。原始解析响应、拒绝原因及最终状态保存在 SQLite 抽取审计和 `ingestion-report.json` 中（包含业务材料片段，分享前注意数据隐私）。客户流失报告位于 `runtime/glm/`，文本任务位于 `runtime/glm/text_classification/`。来源编号和原文核对继续执行；格式纠正不会放宽依据要求。服务连接或鉴权错误不进入格式纠正流程，HTTP 重试仍由供应商适配器单独控制。
 
@@ -121,7 +121,7 @@ GLM 连接超时、中断或 DNS 失败会有限重试：每次角色调用最�
 
 文本生成明确提供宿主 `model.fit(DataFrame, y)` 的调用形状、当前候选估计器与参数，以及按错误分类的修复建议，防止把 DataFrame 列名当作文档。可直接查看或不调用 API 复现[真实文本代码辅助修复案例](examples/v3/text-assisted-repair/README.md)：两种候选通过，最终测试 ROC-AUC=0.8701、F1=0.8765；来源与助手补丁均可审计，模式为 `assisted_glm`。
 
-### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
+### OpenAI API（可选后端）
 
 账号准备、API 额度、密钥隐藏输入及故障排查见 [OpenAI 接入指南](docs/openai-setup.md)。按第 3 节安装后，在个人终端运行：
 
@@ -212,7 +212,7 @@ python -m forge inspect RUN_DIR/report.json
 
 ## 10. 限制与扩展
 
-当前支持客户流失和工单文本二分类，通过同一执行框架跨输入场景复用；真实文本代码已有半自动辅助修复的完整验证，GLM 自主修复仍未通过。没有 Web 服务或 MCTS。已有客户流失三组对照代码及离线验证，尚无真实 LLM 对照结论，不提前宣称知识增强有效。
+当前支持客户流失和工单文本二分类，通过同一执行框架跨输入场景复用；真实文本代码已有半自动辅助修复的完整验证，GLM 自主修复仍未通过。没有 Web 服务或 MCTS。已有客户流失三组对照代码及离线验证，尚无真实 LLM 对照结论，知识增强的效果留待真实对照实验评估。
 
 可通过 forge/plugins/*.json 扩展受信任算法模板，通过 validation.METRICS 扩展指标。新任务需要同时扩展字段 schema、模板和验证器，不能仅改 prompt。失败建议目前是规则，不是模型自动根因分析。
 
@@ -220,7 +220,7 @@ python -m forge inspect RUN_DIR/report.json
 
 后续研究可比较直接生成、文档知识增强、历史失败经验增强，在相同模型与预算下测量首次通过率、修复次数、调用成本和最终表现。当前经验复用示例只证明信息进入工作流，没有证明统计显著的质量提升。
 
-五分钟演示流程及常见追问见 [demo.md](docs/demo.md)。本地 Git 仓库有分阶段提交；推送自己的 GitHub 仓库时使用：
+项目演示讲稿见 [demo.md](docs/demo.md)，技术报告与答辩问答见 [提交说明](提交说明.md)。项目采用 Git 分阶段记录，远程仓库配置示例如下：
 
 ```powershell
 git remote add origin YOUR_GITHUB_REPOSITORY_URL

@@ -1,6 +1,6 @@
 # 智谱 GLM-4.7-Flash 接入
 
-本项目按用户选择固定使用 `glm-4.7-flash`。官方发布说明提供免费 API 调用，账户权限和速率限制以控制台为准；程序不切换 `glm-4.7`、`glm-4.7-flashx` 或其他模型，也不回退到 OpenAI。
+我在项目中固定使用 `glm-4.7-flash`，账户权限、价格和速率限制以控制台显示为准；程序不切换 `glm-4.7`、`glm-4.7-flashx` 或其他模型，也不回退到 OpenAI。
 
 ## 先准备智谱密钥
 
@@ -39,7 +39,7 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 
 ## 请求与错误处理
 
-使用智谱官方 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，Bearer 认证，非流式 JSON 输出。默认关闭 thinking，最大输出 8192 tokens，单次请求超时 180 秒。所有调用串行。仅对模型拥堵业务码 1305 重试，通用 CLI 默认最多三次请求；Windows 完整运行入口最多六次，依次等待 10、20、45、60、60 秒。仍失败则保存已有结果并停止，下次运行可复用成功步骤。认证错误、欠费、账号速率限制等不自动重试。重试事件进入调用记录，不切换其他模型。
+我使用 `https://open.bigmodel.cn/api/paas/v4/chat/completions`，采用 Bearer 认证和非流式 JSON 输出。默认关闭 thinking，最大输出 8192 tokens，单次请求超时 180 秒，调用串行执行。业务码 1305 采用退避重试：通用 CLI 默认最多三次请求，Windows 完整运行入口最多六次，等待 10、20、45、60、60 秒。网络中断、超时或 DNS 失败最多出现三次，且不超过总请求上限；证书、权限和认证错误直接停止。成功阶段的响应可复用，后续算法验证重新执行。
 
 - 缺少 ZHIPU_API_KEY：从 check-glm.cmd 在本机输入。
 - HTTP 401：核对智谱密钥是否有效。
@@ -47,14 +47,14 @@ python -m forge --db runtime/glm/knowledge.sqlite run --task-file examples/task.
 - HTTP 429：核对免费模型并发/速率限制，稍后重试。
 - 错误信息中的 business_code 提供更精确的原因：1000 身份验证失败、1003 令牌过期、1005 二次认证保护、1113 账号欠费、1302 速率限制。程序只输出已识别的业务码和本地提示，不回显远端原始错误正文。不要仅凭 HTTP 401 就判断为余额不足。
 - response incomplete：输出截断或过滤，不作为成功结果。
-- JSON/原文引证核对失败：模型产物未满足接口要求；保留现有证据，不冒充验证通过。
-- 规划 candidates 格式不合规：保存原响应及错误，带完整 output_schema 请求模型纠正一次；两次仍不合规则明确失败，不用默认方案冒充 LLM 规划。有效的需求理解检查点按角色提示词独立绑定，修改规划提示不会连带使需求理解缓存失效。
+- JSON/原文引证核对失败：模型产物未满足接口要求；保存失败记录与原始返回。
+- 规划 candidates 格式不合规：保存原响应及错误，带完整 output_schema 请求模型纠正一次；两次仍不合规则明确失败，不以默认方案替代模型规划。有效的需求理解检查点按角色提示词独立绑定，修改规划提示不会连带使需求理解缓存失效。
 
-知识抽取通过 source_chunk_id 引用编号原文片段，由宿主附加引证。单条无效来源会被拒绝并写入 `runtime/glm/ingestion-report.json`，默认继续使用通过核对的 LLM 事实及确定性抽取知识；控制台显示 llm_accepted、llm_rejected 与 partial_llm 状态。即使所有 LLM 事实被拒绝，也不会伪造 LLM 抽取成功。需要严格失败策略时，用 ingest --strict-extraction。算法报告保留最近一次知识抽取审计。
+知识抽取通过 source_chunk_id 引用原文片段，由宿主附加引证。客户流失审计位于 `runtime/glm/ingestion-report.json`，文本审计位于 `runtime/glm/text_classification/ingestion-report.json`。无效事实被拒绝后，默认继续使用已核对知识并报告数量；`ingest --strict-extraction` 在出现拒绝时终止。模型格式可进行一次纠正，代码生成中的格式错误消耗既定修复预算。算法报告保留最近一次抽取审计。
 
 HTTP 错误不输出远端原始错误体，避免回显敏感内容。连接或认证失败不触发算法代码修复，不回退到 mock。模型固定并不能保证未来平台价格不变，实际使用前应核对控制台标价。
 
-## 证据边界
+## 运行记录
 
 单元测试使用虚假密钥与模拟 HTTP 响应，不调用真实账户。另已完成一次真实 GLM 完整流程，证据位于 examples/glm/successful-run/，摘要见 examples/glm/PROGRESS.md。mock 和真实模型的报告分开保存；相同数据和参考模板导致指标一致，不能据此证明真实模型优于 mock。真实样例没有触发 repair，且需求 constraints 出现占位值，报告保留原样并列明限制。
 
