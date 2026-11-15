@@ -7,6 +7,8 @@ import re
 import os
 import time
 import sys
+import socket
+import ssl
 from pathlib import Path
 from string import Template
 from urllib.error import HTTPError, URLError
@@ -134,9 +136,10 @@ class OllamaLLM:
 class LLMProviderError(RuntimeError):
     """Service/authentication failures must not be treated as algorithm defects."""
 
-    def __init__(self, message, business_code=None):
+    def __init__(self, message, business_code=None, retryable=False):
         super().__init__(message)
         self.business_code = business_code
+        self.retryable = retryable
 
 
 def glm_http_error(error):
@@ -185,18 +188,22 @@ class GLMLLM:
         self.max_attempts = max_attempts
 
     def call(self, role: str, context: dict) -> dict:
-        # Only the documented temporary model-overload code is retried.
+        # Retry model overload and bounded transient network failures.
         # Authentication, account debt and caller rate-limit errors stop immediately.
         delays = [10, 20, 45, 60, 60]
+        network_failures = 0
         for attempt in range(self.max_attempts):
             try:
                 return self._call_once(role, context)
             except LLMProviderError as exc:
-                if exc.business_code != "1305" or attempt == self.max_attempts - 1:
+                network_failures += int(exc.retryable)
+                if (not exc.retryable and exc.business_code != "1305") or attempt == self.max_attempts - 1 or network_failures >= 3:
                     raise
                 delay = delays[attempt]
-                self.calls.append({"role": role, "status": "retry", "business_code": "1305", "wait_seconds": delay})
-                print(f"智谱模型暂时拥堵（1305），{delay} 秒后重试（第 {attempt + 2}/{self.max_attempts} 次请求）……", file=sys.stderr, flush=True)
+                self.calls.append({"role": role, "status": "retry", "business_code": exc.business_code,
+                                   "reason": "network" if exc.retryable else "model_overload", "wait_seconds": delay})
+                reason = "智谱连接中断或超时" if exc.retryable else "智谱模型暂时拥堵（1305）"
+                print(f"{reason}，{delay} 秒后重试（第 {attempt + 2}/{self.max_attempts} 次请求）……", file=sys.stderr, flush=True)
                 time.sleep(delay)
 
     def _call_once(self, role: str, context: dict) -> dict:
@@ -227,8 +234,17 @@ class GLMLLM:
             return result
         except HTTPError as exc:
             raise glm_http_error(exc) from None
-        except (URLError, TimeoutError, OSError):
-            raise LLMProviderError("BigModel connection failed or timed out; check network") from None
+        except (URLError, TimeoutError, OSError) as exc:
+            reason = exc.reason if isinstance(exc, URLError) else exc
+            if isinstance(reason, ssl.SSLError):
+                message, retryable = "BigModel TLS/certificate failure; check system clock, certificates and HTTPS proxy", False
+            elif isinstance(reason, PermissionError):
+                message, retryable = "BigModel network access denied; check firewall and application network permissions", False
+            elif isinstance(reason, socket.gaierror):
+                message, retryable = "BigModel DNS lookup failed; check DNS/network", True
+            else:
+                message, retryable = "BigModel connection failed or timed out; check network", True
+            raise LLMProviderError(message, retryable=retryable) from None
         except (ValueError, KeyError, TypeError, IndexError, AttributeError):
             raise LLMProviderError("GLM returned invalid JSON or an unexpected response; no mock or paid-model fallback") from None
 

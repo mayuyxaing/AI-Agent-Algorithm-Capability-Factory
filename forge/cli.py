@@ -16,7 +16,7 @@ def add_llm_args(parser):
     parser.add_argument("--model", default="")
     parser.add_argument("--base-url", default=None, help="仅用于 Ollama；OpenAI 使用官方 API 地址")
     parser.add_argument("--llm-timeout", type=int, default=180)
-    parser.add_argument("--llm-attempts", type=int, default=3, help="GLM 拥堵时的最大请求次数，1～6")
+    parser.add_argument("--llm-attempts", type=int, default=3, help="GLM 最大请求次数，1～6；网络失败最多尝试 3 次")
 
 
 def create_llm(args):

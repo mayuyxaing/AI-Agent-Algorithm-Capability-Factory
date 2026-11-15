@@ -2,9 +2,11 @@
 import importlib.util
 import json
 import os
+import socket
+import ssl
 from io import BytesIO
 from pathlib import Path
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 import pytest
 from forge.cli import main
 from forge.llm import GLMLLM, LLMProviderError
@@ -145,3 +147,45 @@ def test_persistent_overload_stops_after_three_attempts(monkeypatch):
     with pytest.raises(LLMProviderError, match="1305"):
         GLMLLM().call("understand", {})
     assert len(calls) == 3 and delays == [10, 20]
+
+
+def test_network_timeout_retries_then_recovers(monkeypatch):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    calls, delays = [], []
+
+    def timeout_then_ok(request, timeout):
+        calls.append(timeout)
+        if len(calls) == 1:
+            raise URLError(TimeoutError("fake-glm-key"))
+        return response({"choices": [{"finish_reason": "stop", "message": {"content": '{"facts":[]}'}}]})
+
+    monkeypatch.setattr("forge.llm.urlopen", timeout_then_ok)
+    monkeypatch.setattr("forge.llm.time.sleep", delays.append)
+    llm = GLMLLM()
+    assert llm.call("extract", {}) == {"facts": []}
+    assert len(calls) == 2 and delays == [10]
+    assert llm.calls[0]["reason"] == "network"
+    assert "fake-glm-key" not in json.dumps(llm.calls)
+
+
+@pytest.mark.parametrize("failure,expected,count", [
+    (TimeoutError("secret"), "timed out", 3),
+    (socket.gaierror("secret"), "DNS", 3),
+    (ssl.SSLCertVerificationError("secret"), "TLS", 1),
+    (PermissionError("secret"), "access denied", 1),
+])
+def test_network_retry_is_bounded_and_diagnostics_are_safe(monkeypatch, failure, expected, count):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    calls, delays = [], []
+
+    def fail(request, timeout):
+        calls.append(1)
+        raise URLError(failure)
+
+    monkeypatch.setattr("forge.llm.urlopen", fail)
+    monkeypatch.setattr("forge.llm.time.sleep", delays.append)
+    with pytest.raises(LLMProviderError, match=expected) as error:
+        GLMLLM(max_attempts=6).call("understand", {})
+    assert len(calls) == count
+    assert len(delays) == count - 1
+    assert "secret" not in str(error.value)
