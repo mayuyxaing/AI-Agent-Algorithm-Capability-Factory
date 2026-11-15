@@ -1,0 +1,13 @@
+--- original.py
++++ algorithm.py
+@@ -10,6 +10,10 @@
+         return self
+ 
+     def transform(self, X):
++        if isinstance(X, pd.DataFrame):
++            if "text" not in X.columns:
++                raise ValueError("Missing text column")
++            X = X["text"]
+         if isinstance(X, pd.Series):
+             return X.fillna('').astype(str)
+         elif isinstance(X, np.ndarray):

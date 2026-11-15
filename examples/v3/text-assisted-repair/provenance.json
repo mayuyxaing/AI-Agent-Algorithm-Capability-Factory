@@ -1,0 +1,22 @@
+{
+  "kind": "assisted_reproduction",
+  "source_run_id": "20261115T044624Z-10c203ec",
+  "original_status": "no_valid_candidate",
+  "new_api_calls": 0,
+  "modification_author": "coding assistant, outside the GLM workflow",
+  "change": "Select the text column when the cleaner receives a DataFrame; no estimator/parameter/metric changes",
+  "changes": [
+    {
+      "algorithm": "text_logistic",
+      "source_code_path": "text_logistic/attempt_2/algorithm.py",
+      "source_sha256": "0f2f9d5751e19ab319c27edd4180bfd17bbe09aa8fec44fb999d857a8bd5326e",
+      "patched_sha256": "609180ec862b51416c9dfd66b97e882d7d10fcf7428574977b9505f286288ef1"
+    },
+    {
+      "algorithm": "text_nb",
+      "source_code_path": "text_nb/attempt_2/algorithm.py",
+      "source_sha256": "c7d46b96df0906658ae9deee004bc7c6e2e62a09eea52418e0ac11460744f08c",
+      "patched_sha256": "3787299af078e1ea59b82b76c6949f3a5663bc1e4677b7e9c452a9efc045df06"
+    }
+  ]
+}

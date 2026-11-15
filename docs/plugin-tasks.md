@@ -46,7 +46,7 @@ register_metric(name,scorer) 注册接收 `(y_true,positive_probabilities)` 的�
 
 ## 失败经验
 
-规则归因为 validator_loader、unknown_category、plan_noncompliance、resource_limit、serialization、unclassified，记录 category/confidence/remedy/reusable。加载器故障和未知原因不作为算法修复经验复用，检索按 task 隔离。这是规则假设，不是通用 LLM 根因推断；原始 traceback 和版本均保留。
+规则归因为 validator_loader、unknown_category、plan_noncompliance、text_dataframe_contract、resource_limit、serialization、unclassified，记录 category/confidence/remedy/reusable。文本输入形状错误提供提取 `X['text']` 的针对性建议；当前轮修复和后续经验检索均可使用。加载器故障和未知原因不作为算法修复经验复用，检索按 task 隔离。这是规则假设，不是通用 LLM 根因推断；原始 traceback 和版本均保留。
 
 ## 自动接口目录
 

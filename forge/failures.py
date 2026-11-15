@@ -3,6 +3,8 @@
 
 def analyze_failure(attempt):
     text = str(attempt.get("error", "")) + str(attempt.get("check_errors", {}))
+    if "Cannot construct a Series from a DataFrame" in text or "inconsistent numbers of samples: [1," in text:
+        return {"category": "text_dataframe_contract", "confidence": "high", "remedy": "The host fits a DataFrame with text column. Select X['text'] in the first transformer, fill missing values, return one string per input row, and use the same pipeline input contract during prediction.", "reusable": True}
     if "No module named 'generated'" in text and "pickle" in text.lower():
         return {"category": "validator_loader", "confidence": "high", "remedy": "Register the dynamic module in sys.modules before execution; revalidate without modifying model code.", "reusable": False}
     if "unknown categor" in text.lower():

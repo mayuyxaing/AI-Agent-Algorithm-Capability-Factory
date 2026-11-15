@@ -12,6 +12,9 @@ def report_markdown(report: dict) -> str:
              "## 需求", "", report["description"], "", "## 检索依据", ""]
     if report.get("error"):
         lines += ["运行错误：", "", "```text", report["error"], "```", ""]
+    if report.get("response_provenance"):
+        lines += ["## 响应来源与辅助修改", "", "```json",
+                  __import__('json').dumps(report["response_provenance"], ensure_ascii=False, indent=2), "```", ""]
     ingestion = report.get("knowledge_ingestion")
     if ingestion:
         lines += [f"知识抽取审计：status={ingestion['status']}，LLM 接受 {ingestion['llm_accepted']} 条，拒绝 {ingestion['llm_rejected']} 条；不合格事实未进入能力图谱。", ""]

@@ -120,6 +120,8 @@
           "1": "urgent"
         },
         "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+        "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+        "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
         "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."
       },
       "algorithms": [

@@ -25,4 +25,5 @@
 完整最新图谱：[JSON](knowledge_graph.json) / [离线 HTML](knowledge_graph.html)。
 
 另有已完成的 [真实 GLM-4.7-Flash 实测](glm/PROGRESS.md)，含实际 API 交接、生成代码及测试报告；与这里的 mock 示例分开保存。
+新增[文本真实代码辅助修复案例](v3/text-assisted-repair/README.md)：显式助手接口补丁后，两候选通过验证，测试 ROC-AUC=0.8701、F1=0.8765。模式为 assisted_glm，不是 GLM 自主修复成功。
 预测结果示例：[predictions.csv](predictions.csv)。测试执行记录：[test-results.txt](test-results.txt)。

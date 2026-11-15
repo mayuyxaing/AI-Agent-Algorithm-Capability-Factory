@@ -18,4 +18,4 @@
 
 任务统一注册/接口，算法 JSON 描述与安装入口，指标注册与安装入口，任务配置选择，以及按任务隔离的失败经验均已接入。详见 [插件说明](../../docs/plugin-tasks.md) 与 [自动接口目录](../../docs/generated-interfaces.md)。
 
-真实 GLM 文本代码已有[验证集复核记录](text-response-recheck/README.md)：原始逻辑回归代码解包后通过验证，原失败报告保留；尚无真实文本端到端成功结果。也没有真实多组对照结论、完整 OS 沙箱或通用多智能体协商。
+真实 GLM 文本代码已有[验证集复核记录](text-response-recheck/README.md)及[半自动接口修复完整案例](text-assisted-repair/README.md)。后者保留原始自主失败记录，在显式助手补丁后比较两种候选并完成最终测试；不冒充 GLM 自主修复成功。也没有真实多组对照结论、完整 OS 沙箱或通用多智能体协商。

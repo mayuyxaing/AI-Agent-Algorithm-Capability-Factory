@@ -1,0 +1,2462 @@
+[
+  {
+    "step": 0,
+    "role": "profile",
+    "input": {
+      "scope": "training_only"
+    },
+    "output": {
+      "scope": "training_only",
+      "rows": 480,
+      "positive_rate": 0.5020833333333333,
+      "minority_rate": 0.4979166666666667,
+      "missing_rate": 0.027083333333333334,
+      "mean_length": 19.38125,
+      "requirements": [
+        "train_only_preprocessing",
+        "missing_values",
+        "unseen_vocabulary"
+      ]
+    }
+  },
+  {
+    "step": 1,
+    "role": "understand_response",
+    "input": {
+      "context": {
+        "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。",
+        "task_id": "text_classification",
+        "metrics_available": [
+          "roc_auc",
+          "f1",
+          "accuracy",
+          "balanced_accuracy"
+        ]
+      },
+      "source": "recorded_glm_with_explicit_assistant_patch"
+    },
+    "output": {
+      "task": "text_classification",
+      "target": "label",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "train_only_preprocessing",
+        "missing_values",
+        "unseen_vocabulary"
+      ],
+      "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+    }
+  },
+  {
+    "step": 2,
+    "role": "understand",
+    "input": {
+      "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。",
+      "task_id": "text_classification",
+      "metrics_available": [
+        "roc_auc",
+        "f1",
+        "accuracy",
+        "balanced_accuracy"
+      ]
+    },
+    "output": {
+      "task": "text_classification",
+      "target": "label",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "train_only_preprocessing",
+        "missing_values",
+        "unseen_vocabulary"
+      ],
+      "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+    }
+  },
+  {
+    "step": 3,
+    "role": "retrieve",
+    "input": {
+      "query": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+    },
+    "output": {
+      "knowledge": [
+        {
+          "id": "Knowledge:261e56010fb50a81babe",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 74,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:261e56010fb50a81babe"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:e11b360accf27c182e8b",
+          "kind": "Knowledge",
+          "title": "预处理方法",
+          "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 67,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:e11b360accf27c182e8b"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:0fedab0953762cb5b063",
+          "kind": "Knowledge",
+          "title": "适用条件",
+          "text": "未知词表应正常输出概率。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 61,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:0fedab0953762cb5b063"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:24ac209bc38141c65561",
+          "kind": "Knowledge",
+          "title": "特征处理",
+          "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+          "line": 9,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:24ac209bc38141c65561"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:24ac209bc38141c65561"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:78a1b7dd32ededc8b25a",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:69e822e936d0938355b4",
+          "kind": "Knowledge",
+          "title": "特征缺失值处理",
+          "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 46,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:69e822e936d0938355b4"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:69e822e936d0938355b4"
+            ]
+          ]
+        }
+      ],
+      "experiences": [
+        {
+          "id": "FailureCase:ea52f5c1366f3c151bb9",
+          "kind": "FailureCase",
+          "title": "execution",
+          "task": "text_classification",
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+          "checks": {},
+          "injected": false,
+          "resolved_in_run": false,
+          "category": "plan_noncompliance",
+          "confidence": "high",
+          "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+          "reusable": true
+        }
+      ]
+    }
+  },
+  {
+    "step": 4,
+    "role": "plan_response",
+    "input": {
+      "context": {
+        "task_id": "text_classification",
+        "spec": {
+          "task": "text_classification",
+          "target": "label",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ],
+          "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+        },
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 480,
+          "positive_rate": 0.5020833333333333,
+          "minority_rate": 0.4979166666666667,
+          "missing_rate": 0.027083333333333334,
+          "mean_length": 19.38125,
+          "requirements": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ]
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:261e56010fb50a81babe",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 74,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:261e56010fb50a81babe"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:e11b360accf27c182e8b",
+            "kind": "Knowledge",
+            "title": "预处理方法",
+            "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 67,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:e11b360accf27c182e8b"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:0fedab0953762cb5b063",
+            "kind": "Knowledge",
+            "title": "适用条件",
+            "text": "未知词表应正常输出概率。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 61,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:0fedab0953762cb5b063"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:24ac209bc38141c65561",
+            "kind": "Knowledge",
+            "title": "特征处理",
+            "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+            "line": 9,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:24ac209bc38141c65561"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:24ac209bc38141c65561"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:78a1b7dd32ededc8b25a",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:69e822e936d0938355b4",
+            "kind": "Knowledge",
+            "title": "特征缺失值处理",
+            "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 46,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:69e822e936d0938355b4"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:69e822e936d0938355b4"
+              ]
+            ]
+          }
+        ],
+        "experiences": [
+          {
+            "id": "FailureCase:ea52f5c1366f3c151bb9",
+            "kind": "FailureCase",
+            "title": "execution",
+            "task": "text_classification",
+            "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+            "checks": {},
+            "injected": false,
+            "resolved_in_run": false,
+            "category": "plan_noncompliance",
+            "confidence": "high",
+            "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+            "reusable": true
+          }
+        ],
+        "plugins": [
+          {
+            "id": "text_logistic",
+            "name": "文本逻辑回归",
+            "rationale": "字符 TF-IDF 与线性模型，兼容中文工单。",
+            "defaults": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced"
+            },
+            "parameter_space": {
+              "C": [
+                "float",
+                0.01,
+                100
+              ],
+              "max_iter": [
+                "int",
+                100,
+                3000
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ]
+            }
+          },
+          {
+            "id": "text_nb",
+            "name": "多项式朴素贝叶斯",
+            "rationale": "非负 TF-IDF 上的轻量分类基线，与线性模型比较。",
+            "defaults": {
+              "alpha": 1.0,
+              "fit_prior": true
+            },
+            "parameter_space": {
+              "alpha": [
+                "float",
+                0.01,
+                10
+              ],
+              "fit_prior": [
+                true,
+                false
+              ]
+            }
+          }
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "candidates",
+            "preprocessing",
+            "evidence_ids",
+            "experience_ids",
+            "experience_applied"
+          ],
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "text_logistic"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "C",
+                          "max_iter",
+                          "class_weight"
+                        ],
+                        "properties": {
+                          "C": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 100
+                          },
+                          "max_iter": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 3000
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "text_nb"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "alpha",
+                          "fit_prior"
+                        ],
+                        "properties": {
+                          "alpha": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 10
+                          },
+                          "fit_prior": {
+                            "enum": [
+                              true,
+                              false
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "preprocessing": {
+              "type": "object",
+              "required": [
+                "ngram_max",
+                "max_features"
+              ],
+              "properties": {
+                "ngram_max": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2
+                },
+                "max_features": {
+                  "type": "integer",
+                  "minimum": 500,
+                  "maximum": 5000
+                }
+              }
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_applied": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "source": "recorded_glm_with_explicit_assistant_patch"
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "text_logistic",
+          "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced"
+          }
+        },
+        {
+          "algorithm": "text_nb",
+          "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+          "hyperparameters": {
+            "alpha": 1.0,
+            "fit_prior": true
+          }
+        }
+      ],
+      "preprocessing": {
+        "ngram_max": 2,
+        "max_features": 2000
+      },
+      "evidence_ids": [
+        "Knowledge:261e56010fb50a81babe",
+        "Knowledge:e11b360accf27c182e8b",
+        "Knowledge:0fedab0953762cb5b063",
+        "Knowledge:24ac209bc38141c65561"
+      ],
+      "experience_ids": [],
+      "experience_applied": false
+    }
+  },
+  {
+    "step": 5,
+    "role": "plan",
+    "input": {
+      "task_id": "text_classification",
+      "spec": {
+        "task": "text_classification",
+        "target": "label",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ],
+        "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+      },
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 480,
+        "positive_rate": 0.5020833333333333,
+        "minority_rate": 0.4979166666666667,
+        "missing_rate": 0.027083333333333334,
+        "mean_length": 19.38125,
+        "requirements": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ]
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:261e56010fb50a81babe",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 74,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:261e56010fb50a81babe"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:e11b360accf27c182e8b",
+          "kind": "Knowledge",
+          "title": "预处理方法",
+          "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 67,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:e11b360accf27c182e8b"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:0fedab0953762cb5b063",
+          "kind": "Knowledge",
+          "title": "适用条件",
+          "text": "未知词表应正常输出概率。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 61,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:0fedab0953762cb5b063"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:24ac209bc38141c65561",
+          "kind": "Knowledge",
+          "title": "特征处理",
+          "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+          "line": 9,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:24ac209bc38141c65561"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:24ac209bc38141c65561"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:78a1b7dd32ededc8b25a",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:69e822e936d0938355b4",
+          "kind": "Knowledge",
+          "title": "特征缺失值处理",
+          "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 46,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:69e822e936d0938355b4"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:69e822e936d0938355b4"
+            ]
+          ]
+        }
+      ],
+      "experiences": [
+        {
+          "id": "FailureCase:ea52f5c1366f3c151bb9",
+          "kind": "FailureCase",
+          "title": "execution",
+          "task": "text_classification",
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+          "checks": {},
+          "injected": false,
+          "resolved_in_run": false,
+          "category": "plan_noncompliance",
+          "confidence": "high",
+          "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+          "reusable": true
+        }
+      ],
+      "plugins": [
+        {
+          "id": "text_logistic",
+          "name": "文本逻辑回归",
+          "rationale": "字符 TF-IDF 与线性模型，兼容中文工单。",
+          "defaults": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced"
+          },
+          "parameter_space": {
+            "C": [
+              "float",
+              0.01,
+              100
+            ],
+            "max_iter": [
+              "int",
+              100,
+              3000
+            ],
+            "class_weight": [
+              null,
+              "balanced"
+            ]
+          }
+        },
+        {
+          "id": "text_nb",
+          "name": "多项式朴素贝叶斯",
+          "rationale": "非负 TF-IDF 上的轻量分类基线，与线性模型比较。",
+          "defaults": {
+            "alpha": 1.0,
+            "fit_prior": true
+          },
+          "parameter_space": {
+            "alpha": [
+              "float",
+              0.01,
+              10
+            ],
+            "fit_prior": [
+              true,
+              false
+            ]
+          }
+        }
+      ],
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "preprocessing",
+          "evidence_ids",
+          "experience_ids",
+          "experience_applied"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "algorithm",
+                    "rationale",
+                    "hyperparameters"
+                  ],
+                  "properties": {
+                    "algorithm": {
+                      "const": "text_logistic"
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hyperparameters": {
+                      "type": "object",
+                      "required": [
+                        "C",
+                        "max_iter",
+                        "class_weight"
+                      ],
+                      "properties": {
+                        "C": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 100
+                        },
+                        "max_iter": {
+                          "type": "integer",
+                          "minimum": 100,
+                          "maximum": 3000
+                        },
+                        "class_weight": {
+                          "enum": [
+                            null,
+                            "balanced"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "algorithm",
+                    "rationale",
+                    "hyperparameters"
+                  ],
+                  "properties": {
+                    "algorithm": {
+                      "const": "text_nb"
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hyperparameters": {
+                      "type": "object",
+                      "required": [
+                        "alpha",
+                        "fit_prior"
+                      ],
+                      "properties": {
+                        "alpha": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 10
+                        },
+                        "fit_prior": {
+                          "enum": [
+                            true,
+                            false
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "preprocessing": {
+            "type": "object",
+            "required": [
+              "ngram_max",
+              "max_features"
+            ],
+            "properties": {
+              "ngram_max": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2
+              },
+              "max_features": {
+                "type": "integer",
+                "minimum": 500,
+                "maximum": 5000
+              }
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience_applied": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "text_logistic",
+          "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced"
+          }
+        },
+        {
+          "algorithm": "text_nb",
+          "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+          "hyperparameters": {
+            "alpha": 1.0,
+            "fit_prior": true
+          }
+        }
+      ],
+      "preprocessing": {
+        "ngram_max": 2,
+        "max_features": 2000
+      },
+      "evidence_ids": [
+        "Knowledge:261e56010fb50a81babe",
+        "Knowledge:e11b360accf27c182e8b",
+        "Knowledge:0fedab0953762cb5b063",
+        "Knowledge:24ac209bc38141c65561"
+      ],
+      "experience_ids": [],
+      "experience_applied": false
+    }
+  },
+  {
+    "step": 6,
+    "role": "generate_response",
+    "input": {
+      "context": {
+        "task_id": "text_classification",
+        "algorithm": "text_logistic",
+        "spec": {
+          "task": "text_classification",
+          "target": "label",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ],
+          "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+        },
+        "plan": {
+          "candidates": [
+            {
+              "algorithm": "text_logistic",
+              "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+              "hyperparameters": {
+                "C": 1.0,
+                "max_iter": 1000,
+                "class_weight": "balanced"
+              }
+            },
+            {
+              "algorithm": "text_nb",
+              "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+              "hyperparameters": {
+                "alpha": 1.0,
+                "fit_prior": true
+              }
+            }
+          ],
+          "preprocessing": {
+            "ngram_max": 2,
+            "max_features": 2000
+          },
+          "evidence_ids": [
+            "Knowledge:261e56010fb50a81babe",
+            "Knowledge:e11b360accf27c182e8b",
+            "Knowledge:0fedab0953762cb5b063",
+            "Knowledge:24ac209bc38141c65561"
+          ],
+          "experience_ids": [],
+          "experience_applied": false
+        },
+        "candidate_contract": {
+          "id": "text_logistic",
+          "estimator": "LogisticRegression",
+          "seeded": true
+        },
+        "active_hyperparameters": {
+          "C": 1.0,
+          "max_iter": 1000,
+          "class_weight": "balanced"
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:261e56010fb50a81babe",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 74,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:261e56010fb50a81babe"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:e11b360accf27c182e8b",
+            "kind": "Knowledge",
+            "title": "预处理方法",
+            "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 67,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:e11b360accf27c182e8b"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:0fedab0953762cb5b063",
+            "kind": "Knowledge",
+            "title": "适用条件",
+            "text": "未知词表应正常输出概率。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 61,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:0fedab0953762cb5b063"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:24ac209bc38141c65561",
+            "kind": "Knowledge",
+            "title": "特征处理",
+            "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+            "line": 9,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:24ac209bc38141c65561"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:24ac209bc38141c65561"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:78a1b7dd32ededc8b25a",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:69e822e936d0938355b4",
+            "kind": "Knowledge",
+            "title": "特征缺失值处理",
+            "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 46,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:69e822e936d0938355b4"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:69e822e936d0938355b4"
+              ]
+            ]
+          }
+        ],
+        "experiences": [
+          {
+            "id": "FailureCase:ea52f5c1366f3c151bb9",
+            "kind": "FailureCase",
+            "title": "execution",
+            "task": "text_classification",
+            "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+            "checks": {},
+            "injected": false,
+            "resolved_in_run": false,
+            "category": "plan_noncompliance",
+            "confidence": "high",
+            "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+            "reusable": true
+          }
+        ],
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 480,
+          "positive_rate": 0.5020833333333333,
+          "minority_rate": 0.4979166666666667,
+          "missing_rate": 0.027083333333333334,
+          "mean_length": 19.38125,
+          "requirements": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ]
+        },
+        "features": {
+          "numeric": [],
+          "categorical": [
+            "text"
+          ]
+        },
+        "interface_contract": {
+          "build_model": "build_model(seed=42) returns an unfitted sklearn Pipeline",
+          "predict": "predict(model, frame) returns 1D finite class-1 probabilities in row order",
+          "features": [
+            "text"
+          ],
+          "target": "label",
+          "classes": {
+            "0": "ordinary",
+            "1": "urgent"
+          },
+          "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+          "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+          "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
+          "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100000
+            },
+            "explanation": {
+              "type": "string"
+            }
+          }
+        },
+        "inject_fault": false,
+        "previous_code": null,
+        "feedback": null,
+        "repair_guidance": null,
+        "previous_response": null,
+        "independent_sample": null
+      },
+      "source": "recorded_glm_with_explicit_assistant_patch"
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.pipeline import Pipeline\n\nclass TextCleaner:\n    \"\"\"Module-level text cleaning transformer.\"\"\"\n    def fit(self, X, y=None):\n        return self\n\n    def transform(self, X):\n        if isinstance(X, pd.DataFrame):\n            if \"text\" not in X.columns:\n                raise ValueError(\"Missing text column\")\n            X = X[\"text\"]\n        if isinstance(X, pd.Series):\n            return X.fillna('').astype(str)\n        elif isinstance(X, np.ndarray):\n            return np.where(pd.isna(X), '', X.astype(str))\n        else:\n            return np.array([str(x) if pd.isna(x) else str(x) for x in X])\n\ndef build_model(seed=42):\n    \"\"\"\n    Builds a sklearn Pipeline for text classification.\n    Uses character-level TF-IDF and Logistic Regression with balanced class weights.\n    \"\"\"\n    return Pipeline([\n        ('cleaner', TextCleaner()),\n        ('tfidf', TfidfVectorizer(\n            analyzer='char',\n            ngram_range=(1, 2),\n            max_features=2000\n        )),\n        ('classifier', LogisticRegression(\n            C=1.0,\n            max_iter=1000,\n            class_weight='balanced',\n            random_state=seed\n        ))\n    ])\n\ndef predict(model, frame):\n    \"\"\"\n    Predicts class-1 probabilities for the 'text' column in a DataFrame.\n    \n    Parameters:\n    - model: Fitted sklearn Pipeline.\n    - frame: DataFrame with a 'text' column.\n    \n    Returns:\n    - 1D array of probabilities for class 1.\n    \n    Raises:\n    - ValueError if 'text' column is missing.\n    \"\"\"\n    if 'text' not in frame.columns:\n        raise ValueError(\"Input DataFrame must contain a 'text' column.\")\n    \n    # Ensure text column is filled with empty strings for missing values\n    text_series = frame['text'].fillna('')\n    \n    # Get class 1 probabilities from the fitted pipeline\n    probabilities = model.predict_proba(text_series)[:, 1]\n    \n    return probabilities\n",
+      "explanation": "Recorded GLM source with an explicit coding-assistant DataFrame boundary patch; no new API call or autonomous GLM repair."
+    }
+  },
+  {
+    "step": 7,
+    "role": "generate",
+    "input": {
+      "task_id": "text_classification",
+      "algorithm": "text_logistic",
+      "spec": {
+        "task": "text_classification",
+        "target": "label",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ],
+        "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+      },
+      "plan": {
+        "candidates": [
+          {
+            "algorithm": "text_logistic",
+            "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced"
+            }
+          },
+          {
+            "algorithm": "text_nb",
+            "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+            "hyperparameters": {
+              "alpha": 1.0,
+              "fit_prior": true
+            }
+          }
+        ],
+        "preprocessing": {
+          "ngram_max": 2,
+          "max_features": 2000
+        },
+        "evidence_ids": [
+          "Knowledge:261e56010fb50a81babe",
+          "Knowledge:e11b360accf27c182e8b",
+          "Knowledge:0fedab0953762cb5b063",
+          "Knowledge:24ac209bc38141c65561"
+        ],
+        "experience_ids": [],
+        "experience_applied": false
+      },
+      "candidate_contract": {
+        "id": "text_logistic",
+        "estimator": "LogisticRegression",
+        "seeded": true
+      },
+      "active_hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "class_weight": "balanced"
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:261e56010fb50a81babe",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 74,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:261e56010fb50a81babe"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:e11b360accf27c182e8b",
+          "kind": "Knowledge",
+          "title": "预处理方法",
+          "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 67,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:e11b360accf27c182e8b"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:0fedab0953762cb5b063",
+          "kind": "Knowledge",
+          "title": "适用条件",
+          "text": "未知词表应正常输出概率。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 61,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:0fedab0953762cb5b063"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:24ac209bc38141c65561",
+          "kind": "Knowledge",
+          "title": "特征处理",
+          "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+          "line": 9,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:24ac209bc38141c65561"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:24ac209bc38141c65561"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:78a1b7dd32ededc8b25a",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:69e822e936d0938355b4",
+          "kind": "Knowledge",
+          "title": "特征缺失值处理",
+          "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 46,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:69e822e936d0938355b4"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:69e822e936d0938355b4"
+            ]
+          ]
+        }
+      ],
+      "experiences": [
+        {
+          "id": "FailureCase:ea52f5c1366f3c151bb9",
+          "kind": "FailureCase",
+          "title": "execution",
+          "task": "text_classification",
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+          "checks": {},
+          "injected": false,
+          "resolved_in_run": false,
+          "category": "plan_noncompliance",
+          "confidence": "high",
+          "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+          "reusable": true
+        }
+      ],
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 480,
+        "positive_rate": 0.5020833333333333,
+        "minority_rate": 0.4979166666666667,
+        "missing_rate": 0.027083333333333334,
+        "mean_length": 19.38125,
+        "requirements": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ]
+      },
+      "features": {
+        "numeric": [],
+        "categorical": [
+          "text"
+        ]
+      },
+      "interface_contract": {
+        "build_model": "build_model(seed=42) returns an unfitted sklearn Pipeline",
+        "predict": "predict(model, frame) returns 1D finite class-1 probabilities in row order",
+        "features": [
+          "text"
+        ],
+        "target": "label",
+        "classes": {
+          "0": "ordinary",
+          "1": "urgent"
+        },
+        "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+        "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+        "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
+        "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "explanation"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100000
+          },
+          "explanation": {
+            "type": "string"
+          }
+        }
+      },
+      "inject_fault": false,
+      "previous_code": null,
+      "feedback": null,
+      "repair_guidance": null,
+      "previous_response": null,
+      "independent_sample": null
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.pipeline import Pipeline\n\nclass TextCleaner:\n    \"\"\"Module-level text cleaning transformer.\"\"\"\n    def fit(self, X, y=None):\n        return self\n\n    def transform(self, X):\n        if isinstance(X, pd.DataFrame):\n            if \"text\" not in X.columns:\n                raise ValueError(\"Missing text column\")\n            X = X[\"text\"]\n        if isinstance(X, pd.Series):\n            return X.fillna('').astype(str)\n        elif isinstance(X, np.ndarray):\n            return np.where(pd.isna(X), '', X.astype(str))\n        else:\n            return np.array([str(x) if pd.isna(x) else str(x) for x in X])\n\ndef build_model(seed=42):\n    \"\"\"\n    Builds a sklearn Pipeline for text classification.\n    Uses character-level TF-IDF and Logistic Regression with balanced class weights.\n    \"\"\"\n    return Pipeline([\n        ('cleaner', TextCleaner()),\n        ('tfidf', TfidfVectorizer(\n            analyzer='char',\n            ngram_range=(1, 2),\n            max_features=2000\n        )),\n        ('classifier', LogisticRegression(\n            C=1.0,\n            max_iter=1000,\n            class_weight='balanced',\n            random_state=seed\n        ))\n    ])\n\ndef predict(model, frame):\n    \"\"\"\n    Predicts class-1 probabilities for the 'text' column in a DataFrame.\n    \n    Parameters:\n    - model: Fitted sklearn Pipeline.\n    - frame: DataFrame with a 'text' column.\n    \n    Returns:\n    - 1D array of probabilities for class 1.\n    \n    Raises:\n    - ValueError if 'text' column is missing.\n    \"\"\"\n    if 'text' not in frame.columns:\n        raise ValueError(\"Input DataFrame must contain a 'text' column.\")\n    \n    # Ensure text column is filled with empty strings for missing values\n    text_series = frame['text'].fillna('')\n    \n    # Get class 1 probabilities from the fitted pipeline\n    probabilities = model.predict_proba(text_series)[:, 1]\n    \n    return probabilities\n",
+      "explanation": "Recorded GLM source with an explicit coding-assistant DataFrame boundary patch; no new API call or autonomous GLM repair."
+    }
+  },
+  {
+    "step": 8,
+    "role": "validate",
+    "input": {
+      "code_sha256": "609180ec862b51416c9dfd66b97e882d7d10fcf7428574977b9505f286288ef1",
+      "split": "validation"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unseen_vocabulary": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.2948,
+      "python_peak_mb": 51.368,
+      "wall_seconds": 2.782,
+      "metrics": {
+        "roc_auc": 0.8455227379278013,
+        "f1": 0.8220858895705522,
+        "accuracy": 0.81875,
+        "balanced_accuracy": 0.8186435380528208
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 9,
+    "role": "generate_response",
+    "input": {
+      "context": {
+        "task_id": "text_classification",
+        "algorithm": "text_nb",
+        "spec": {
+          "task": "text_classification",
+          "target": "label",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ],
+          "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+        },
+        "plan": {
+          "candidates": [
+            {
+              "algorithm": "text_logistic",
+              "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+              "hyperparameters": {
+                "C": 1.0,
+                "max_iter": 1000,
+                "class_weight": "balanced"
+              }
+            },
+            {
+              "algorithm": "text_nb",
+              "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+              "hyperparameters": {
+                "alpha": 1.0,
+                "fit_prior": true
+              }
+            }
+          ],
+          "preprocessing": {
+            "ngram_max": 2,
+            "max_features": 2000
+          },
+          "evidence_ids": [
+            "Knowledge:261e56010fb50a81babe",
+            "Knowledge:e11b360accf27c182e8b",
+            "Knowledge:0fedab0953762cb5b063",
+            "Knowledge:24ac209bc38141c65561"
+          ],
+          "experience_ids": [],
+          "experience_applied": false
+        },
+        "candidate_contract": {
+          "id": "text_nb",
+          "estimator": "MultinomialNB",
+          "seeded": false
+        },
+        "active_hyperparameters": {
+          "alpha": 1.0,
+          "fit_prior": true
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:261e56010fb50a81babe",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 74,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:261e56010fb50a81babe"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:261e56010fb50a81babe"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:e11b360accf27c182e8b",
+            "kind": "Knowledge",
+            "title": "预处理方法",
+            "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 67,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:e11b360accf27c182e8b"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:e11b360accf27c182e8b"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:0fedab0953762cb5b063",
+            "kind": "Knowledge",
+            "title": "适用条件",
+            "text": "未知词表应正常输出概率。",
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 61,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:0fedab0953762cb5b063"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:0fedab0953762cb5b063"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:24ac209bc38141c65561",
+            "kind": "Knowledge",
+            "title": "特征处理",
+            "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+            "line": 9,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:cdf49d7daa4e10e0317a",
+            "source_path": "text_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:24ac209bc38141c65561"
+              ],
+              [
+                "requirement:unseen_vocabulary",
+                "strategy:train_fitted_tfidf",
+                "Knowledge:24ac209bc38141c65561"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:78a1b7dd32ededc8b25a",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 48,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:78a1b7dd32ededc8b25a"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:69e822e936d0938355b4",
+            "kind": "Knowledge",
+            "title": "特征缺失值处理",
+            "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "extraction": "llm_with_source_chunk",
+            "source_id": "Source:0c15ecf4bff1605fe454",
+            "source_path": "churn_business.md",
+            "score": 46,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:69e822e936d0938355b4"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:69e822e936d0938355b4"
+              ]
+            ]
+          }
+        ],
+        "experiences": [
+          {
+            "id": "FailureCase:ea52f5c1366f3c151bb9",
+            "kind": "FailureCase",
+            "title": "execution",
+            "task": "text_classification",
+            "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+            "checks": {},
+            "injected": false,
+            "resolved_in_run": false,
+            "category": "plan_noncompliance",
+            "confidence": "high",
+            "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+            "reusable": true
+          }
+        ],
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 480,
+          "positive_rate": 0.5020833333333333,
+          "minority_rate": 0.4979166666666667,
+          "missing_rate": 0.027083333333333334,
+          "mean_length": 19.38125,
+          "requirements": [
+            "train_only_preprocessing",
+            "missing_values",
+            "unseen_vocabulary"
+          ]
+        },
+        "features": {
+          "numeric": [],
+          "categorical": [
+            "text"
+          ]
+        },
+        "interface_contract": {
+          "build_model": "build_model(seed=42) returns an unfitted sklearn Pipeline",
+          "predict": "predict(model, frame) returns 1D finite class-1 probabilities in row order",
+          "features": [
+            "text"
+          ],
+          "target": "label",
+          "classes": {
+            "0": "ordinary",
+            "1": "urgent"
+          },
+          "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+          "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+          "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
+          "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100000
+            },
+            "explanation": {
+              "type": "string"
+            }
+          }
+        },
+        "inject_fault": false,
+        "previous_code": null,
+        "feedback": null,
+        "repair_guidance": null,
+        "previous_response": null,
+        "independent_sample": null
+      },
+      "source": "recorded_glm_with_explicit_assistant_patch"
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.naive_bayes import MultinomialNB\n\nclass TextCleaningTransformer:\n    \"\"\"Module-level text cleaning transformer.\"\"\"\n    def fit(self, X, y=None):\n        return self\n\n    def transform(self, X):\n        if isinstance(X, pd.DataFrame):\n            if \"text\" not in X.columns:\n                raise ValueError(\"Missing text column\")\n            X = X[\"text\"]\n        if not isinstance(X, pd.Series):\n            X = pd.Series(X)\n        return X.fillna(\"\")\n\ndef build_model(seed=42):\n    preprocessing = TextCleaningTransformer()\n    vectorizer = TfidfVectorizer(\n        analyzer=\"char\",\n        ngram_range=(1, 2),\n        max_features=2000\n    )\n    classifier = MultinomialNB(\n        alpha=1.0,\n        fit_prior=True\n    )\n    pipeline = Pipeline([\n        (\"cleaning\", preprocessing),\n        (\"tfidf\", vectorizer),\n        (\"classifier\", classifier)\n    ])\n    return pipeline\n\n# Note: The predict function is expected to be implemented by the test harness\ndef predict(model, frame):\n    if 'text' not in frame.columns:\n        raise ValueError(\"DataFrame must contain a 'text' column\")\n    return model.predict_proba(frame['text'])[:, 1]",
+      "explanation": "Recorded GLM source with an explicit coding-assistant DataFrame boundary patch; no new API call or autonomous GLM repair."
+    }
+  },
+  {
+    "step": 10,
+    "role": "generate",
+    "input": {
+      "task_id": "text_classification",
+      "algorithm": "text_nb",
+      "spec": {
+        "task": "text_classification",
+        "target": "label",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ],
+        "description": "对客服工单文本进行紧急程度分类，label=1 表示紧急，0 表示普通。比较两个候选算法，处理缺失和空文本、未见过的词，使用 ROC-AUC、F1 和 balanced_accuracy，词表只在训练集拟合。"
+      },
+      "plan": {
+        "candidates": [
+          {
+            "algorithm": "text_logistic",
+            "rationale": "逻辑回归是线性模型，与字符级TF-IDF特征结合效果良好，且能处理中文文本。相比朴素贝叶斯，它对未见词汇的处理能力更强，且不需要严格的非负特征假设。使用class_weight='balanced'处理正负样本不平衡。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced"
+            }
+          },
+          {
+            "algorithm": "text_nb",
+            "rationale": "多项式朴素贝叶斯作为基线模型，适合处理词袋特征，计算效率高。但它要求特征非负，且对未见词汇的概率估计可能不如逻辑回归稳健。",
+            "hyperparameters": {
+              "alpha": 1.0,
+              "fit_prior": true
+            }
+          }
+        ],
+        "preprocessing": {
+          "ngram_max": 2,
+          "max_features": 2000
+        },
+        "evidence_ids": [
+          "Knowledge:261e56010fb50a81babe",
+          "Knowledge:e11b360accf27c182e8b",
+          "Knowledge:0fedab0953762cb5b063",
+          "Knowledge:24ac209bc38141c65561"
+        ],
+        "experience_ids": [],
+        "experience_applied": false
+      },
+      "candidate_contract": {
+        "id": "text_nb",
+        "estimator": "MultinomialNB",
+        "seeded": false
+      },
+      "active_hyperparameters": {
+        "alpha": 1.0,
+        "fit_prior": true
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:261e56010fb50a81babe",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 74,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:261e56010fb50a81babe"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:261e56010fb50a81babe"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:e11b360accf27c182e8b",
+          "kind": "Knowledge",
+          "title": "预处理方法",
+          "text": "中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 67,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:e11b360accf27c182e8b"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:e11b360accf27c182e8b"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:0fedab0953762cb5b063",
+          "kind": "Knowledge",
+          "title": "适用条件",
+          "text": "未知词表应正常输出概率。",
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 61,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:0fedab0953762cb5b063"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:0fedab0953762cb5b063"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:24ac209bc38141c65561",
+          "kind": "Knowledge",
+          "title": "特征处理",
+          "text": "多项式朴素贝叶斯要求非负特征。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+          "line": 9,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:cdf49d7daa4e10e0317a",
+          "source_path": "text_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:24ac209bc38141c65561"
+            ],
+            [
+              "requirement:unseen_vocabulary",
+              "strategy:train_fitted_tfidf",
+              "Knowledge:24ac209bc38141c65561"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:78a1b7dd32ededc8b25a",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 48,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:78a1b7dd32ededc8b25a"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:69e822e936d0938355b4",
+          "kind": "Knowledge",
+          "title": "特征缺失值处理",
+          "text": "数值特征使用训练集的中位数填补，再进行标准化；类别特征使用训练集众数填补并做独热编码。",
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "extraction": "llm_with_source_chunk",
+          "source_id": "Source:0c15ecf4bff1605fe454",
+          "source_path": "churn_business.md",
+          "score": 46,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:69e822e936d0938355b4"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:69e822e936d0938355b4"
+            ]
+          ]
+        }
+      ],
+      "experiences": [
+        {
+          "id": "FailureCase:ea52f5c1366f3c151bb9",
+          "kind": "FailureCase",
+          "title": "execution",
+          "task": "text_classification",
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+          "checks": {},
+          "injected": false,
+          "resolved_in_run": false,
+          "category": "plan_noncompliance",
+          "confidence": "high",
+          "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+          "reusable": true
+        }
+      ],
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 480,
+        "positive_rate": 0.5020833333333333,
+        "minority_rate": 0.4979166666666667,
+        "missing_rate": 0.027083333333333334,
+        "mean_length": 19.38125,
+        "requirements": [
+          "train_only_preprocessing",
+          "missing_values",
+          "unseen_vocabulary"
+        ]
+      },
+      "features": {
+        "numeric": [],
+        "categorical": [
+          "text"
+        ]
+      },
+      "interface_contract": {
+        "build_model": "build_model(seed=42) returns an unfitted sklearn Pipeline",
+        "predict": "predict(model, frame) returns 1D finite class-1 probabilities in row order",
+        "features": [
+          "text"
+        ],
+        "target": "label",
+        "classes": {
+          "0": "ordinary",
+          "1": "urgent"
+        },
+        "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+        "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+        "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
+        "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "explanation"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100000
+          },
+          "explanation": {
+            "type": "string"
+          }
+        }
+      },
+      "inject_fault": false,
+      "previous_code": null,
+      "feedback": null,
+      "repair_guidance": null,
+      "previous_response": null,
+      "independent_sample": null
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.naive_bayes import MultinomialNB\n\nclass TextCleaningTransformer:\n    \"\"\"Module-level text cleaning transformer.\"\"\"\n    def fit(self, X, y=None):\n        return self\n\n    def transform(self, X):\n        if isinstance(X, pd.DataFrame):\n            if \"text\" not in X.columns:\n                raise ValueError(\"Missing text column\")\n            X = X[\"text\"]\n        if not isinstance(X, pd.Series):\n            X = pd.Series(X)\n        return X.fillna(\"\")\n\ndef build_model(seed=42):\n    preprocessing = TextCleaningTransformer()\n    vectorizer = TfidfVectorizer(\n        analyzer=\"char\",\n        ngram_range=(1, 2),\n        max_features=2000\n    )\n    classifier = MultinomialNB(\n        alpha=1.0,\n        fit_prior=True\n    )\n    pipeline = Pipeline([\n        (\"cleaning\", preprocessing),\n        (\"tfidf\", vectorizer),\n        (\"classifier\", classifier)\n    ])\n    return pipeline\n\n# Note: The predict function is expected to be implemented by the test harness\ndef predict(model, frame):\n    if 'text' not in frame.columns:\n        raise ValueError(\"DataFrame must contain a 'text' column\")\n    return model.predict_proba(frame['text'])[:, 1]",
+      "explanation": "Recorded GLM source with an explicit coding-assistant DataFrame boundary patch; no new API call or autonomous GLM repair."
+    }
+  },
+  {
+    "step": 11,
+    "role": "validate",
+    "input": {
+      "code_sha256": "3787299af078e1ea59b82b76c6949f3a5663bc1e4677b7e9c452a9efc045df06",
+      "split": "validation"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unseen_vocabulary": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.2947,
+      "python_peak_mb": 51.485,
+      "wall_seconds": 2.7899,
+      "metrics": {
+        "roc_auc": 0.8369276449445227,
+        "f1": 0.8220858895705522,
+        "accuracy": 0.81875,
+        "balanced_accuracy": 0.8186435380528208
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 12,
+    "role": "final_evaluation",
+    "input": {
+      "selected": "text_logistic",
+      "split": "test"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unseen_vocabulary": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.2886,
+      "python_peak_mb": 51.365,
+      "wall_seconds": 2.7783,
+      "metrics": {
+        "roc_auc": 0.8700781249999999,
+        "f1": 0.8765432098765432,
+        "accuracy": 0.875,
+        "balanced_accuracy": 0.875
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 13,
+    "role": "persist",
+    "input": {
+      "status": "passed"
+    },
+    "output": {
+      "graph": "knowledge_graph.json"
+    }
+  }
+]

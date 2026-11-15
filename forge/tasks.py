@@ -96,6 +96,8 @@ class TextTask:
                  "predict": "predict(model, frame) returns 1D finite class-1 probabilities in row order",
                  "features": ["text"], "target": "label", "classes": {"0": "ordinary", "1": "urgent"},
                  "empty": "Treat missing/empty text as empty string, reject absent text column with ValueError",
+                 "training_call": "host calls model.fit(train[['text']], y): X is a DataFrame of shape (n,1), not a Series; the first transformer must select X['text'] and return n strings",
+                 "prediction_call": "predict(model, frame) receives the same DataFrame schema; keep training and prediction preprocessing consistent",
                  "preprocessing": "Fit character-level TF-IDF on training data only. Handle unseen vocabulary."}
 
     def generate(self, path, rows=800, seed=42):
@@ -190,10 +192,13 @@ class TextTask:
         return ('Return exactly {"code":"complete Python source","explanation":"design reasoning"}, matching output_schema. '
                 'Put code at the top level, without an answer wrapper. Implement interface_contract with sklearn Pipeline: '
                 'a module-level text cleaning transformer, character-level TfidfVectorizer(analyzer="char",ngram_range=(1,ngram_max),max_features=max_features), '
-                'and exactly the planned classifier/hyperparameters. Use random_state=seed for LogisticRegression. '
-                'Inputs are DataFrames with text column. Fill missing values with empty string and return 1D class-1 probabilities. '
+                'and candidate_contract.estimator with the active candidate hyperparameters. Implement only algorithm, not the other candidate in plan. '
+                'Use random_state=seed only when candidate_contract.seeded is true. '
+                'The host calls model.fit(DataFrame({"text":["example",None]}), y). The cleaner must select X["text"] before fillna and return one string per row. '
+                'Never iterate a DataFrame as documents or construct pd.Series from a DataFrame. Define BOTH module-level build_model and predict functions. '
+                'predict must return 1D class-1 probabilities; keep the pipeline input shape consistent with training. '
                 'Absent text column raises ValueError. Only sklearn,numpy,pandas imports; no files/network/dunder access. '
-                'Do not fit at module import. For repair use previous_code and feedback, do not relax tests.')
+                'Do not fit at module import. For repair use previous_code, feedback and repair_guidance, do not relax tests.')
 
     def mock_call(self, role, context):
         from .llm import plugins

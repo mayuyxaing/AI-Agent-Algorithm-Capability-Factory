@@ -28,6 +28,13 @@ def test_text_pipeline_uses_same_workflow_and_persists_custom_transformer(tmp_pa
     graph = read_json(folder / "knowledge_graph.json")
     capability = next(n for n in graph["nodes"] if n["id"] == "capability:text_classification")
     assert capability["input"]["required_columns"] == ["text"]
+    events = read_json(folder / "events.json")
+    for event in events:
+        if event["role"] == "generate_response":
+            context = event["input"]["context"]
+            expected = plugins(task.id)[context["algorithm"]]
+            assert context["candidate_contract"]["estimator"] == expected["estimator"]
+            assert "model.fit" in context["interface_contract"]["training_call"]
 
 
 def test_task_registry_rejects_incomplete_plugins():
@@ -64,6 +71,14 @@ def test_validator_error_is_not_reused_as_algorithm_knowledge():
     result = analyze_failure(item)
     assert result["category"] == "validator_loader" and result["reusable"] is False
     assert analyze_failure({"error": "Found unknown categories"})["reusable"] is True
+
+
+@pytest.mark.parametrize("message", ["Found input variables with inconsistent numbers of samples: [1, 480]",
+                                    "Cannot construct a Series from a DataFrame"])
+def test_text_dataframe_failure_produces_specific_reusable_guidance(message):
+    result = analyze_failure({"error": message})
+    assert result["category"] == "text_dataframe_contract"
+    assert result["reusable"] is True and "X['text']" in result["remedy"]
 
 
 def test_no_wrong_task_history_leaks_into_text_retrieval(tmp_path):

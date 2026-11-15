@@ -58,7 +58,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             return cached
         print(f"正在执行 {role}……", flush=True)
         result = structured_call(llm, role, context)
-        record(role + "_response", {"context": context, "source": "live"}, result)
+        record(role + "_response", {"context": context, "source": getattr(llm, "response_source", "live")}, result)
         return result
 
     def record(role, incoming, outgoing):
@@ -78,6 +78,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
               "environment": {"python": platform.python_version(), "platform": platform.platform(),
                               **{name: importlib.metadata.version(name) for name in ("numpy", "pandas", "scikit-learn", "joblib")}},
               "knowledge": [], "experiences": [], "candidates": []}
+    if hasattr(llm, "provenance"):
+        report["response_provenance"] = llm.provenance
     try:
         train, valid, test = load_split(dataset, seed)
         profile = profile_training(train)
@@ -137,8 +139,11 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             report["candidates"].append(entry)
             previous = feedback = previous_response = None
             for attempt in range(generation_budget):
+                from .failures import analyze_failure
                 role = "repair" if attempt > 0 and experiment_arm == "knowledge_repair" else "generate"
                 incoming = {"task_id": task.id, "algorithm": algorithm, "spec": spec, "plan": plan,
+                            "candidate_contract": {key: plugins()[algorithm][key] for key in ("id", "estimator", "seeded")},
+                            "active_hyperparameters": candidate["hyperparameters"],
                             "knowledge": knowledge, "experiences": experiences,
                             "data_profile": profile,
                             "features": {"numeric": NUMERIC, "categorical": CATEGORICAL},
@@ -149,6 +154,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                             "inject_fault": inject_fault and algorithm == "logistic" and attempt == 0,
                             "previous_code": previous if role == "repair" else None,
                             "feedback": feedback if role == "repair" else None,
+                            "repair_guidance": analyze_failure(feedback) if role == "repair" and feedback else None,
                             "previous_response": previous_response if role == "repair" else None,
                             "independent_sample": attempt if experiment_arm != "knowledge_repair" else None}
                 try:
