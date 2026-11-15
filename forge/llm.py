@@ -142,6 +142,27 @@ class LLMProviderError(RuntimeError):
         self.retryable = retryable
 
 
+class LLMResponseFormatError(LLMProviderError):
+    """Completed model text is malformed; service/auth errors use the base class."""
+
+    def __init__(self, content):
+        super().__init__("GLM completed model output is not a valid JSON object")
+        # Persist model text only, never the HTTP envelope/headers or credentials.
+        for name in ("ZHIPU_API_KEY", "OPENAI_API_KEY"):
+            secret = os.environ.get(name, "").strip()
+            if secret:
+                content = content.replace(secret, "[REDACTED]")
+        self.raw_content = content[:200_000]
+
+
+def structured_call(llm, role, context):
+    """Expose malformed model text to bounded contract correction, not execution."""
+    try:
+        return llm.call(role, context)
+    except LLMResponseFormatError as exc:
+        return {"model_output_format_error": str(exc), "raw_content": exc.raw_content}
+
+
 def glm_http_error(error):
     """Expose only a recognized business code and our own text, never the raw body."""
     known = {
@@ -225,12 +246,19 @@ class GLMLLM:
             if choice.get("finish_reason") != "stop":
                 raise LLMProviderError("GLM response incomplete or filtered; check output budget and model access")
             content = choice["message"]["content"]
-            result = json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip()))
-            if not isinstance(result, dict):
-                raise ValueError("Expected JSON object")
+            if not isinstance(content, str):
+                raise LLMProviderError("GLM response has no textual final content")
             self.calls.append({"role": role, "response_id": body.get("id"),
                                "usage": body.get("usage", {}), "model": body.get("model"),
                                "seconds": round(time.perf_counter() - started, 3)})
+            try:
+                result = json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip()))
+            except ValueError:
+                self.calls[-1]["status"] = "invalid_model_json"
+                raise LLMResponseFormatError(content) from None
+            if not isinstance(result, dict):
+                self.calls[-1]["status"] = "invalid_model_json"
+                raise LLMResponseFormatError(content)
             return result
         except HTTPError as exc:
             raise glm_http_error(exc) from None

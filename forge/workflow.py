@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .data import FEATURES, NUMERIC, CATEGORICAL, load_split
-from .llm import LLMProviderError, plugins
+from .llm import LLMProviderError, plugins, structured_call
 from .reporting import report_markdown, graph_html
 from .util import digest, write_json
 from .validation import evaluate
@@ -57,7 +57,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             record(role + "_response", {"context": context, "source": "checkpoint"}, cached)
             return cached
         print(f"正在执行 {role}……", flush=True)
-        result = llm.call(role, context)
+        result = structured_call(llm, role, context)
         record(role + "_response", {"context": context, "source": "live"}, result)
         return result
 
@@ -87,8 +87,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                            "train_positive_rate": float(train[task.target].mean())}
         from .validation import METRICS
         understand_context = {"description": description, "task_id": task.id, "metrics_available": list(METRICS)}
-        spec = ask("understand", understand_context)
-        validate_spec(spec, description)
+        spec = checked_response("understand", understand_context, ask,
+                                lambda value: validate_spec(value, description), record)
         report["task_spec"] = spec
         record("understand", understand_context, spec)
         knowledge = store.retrieve_grounded(description, profile["requirements"] + spec["constraints"]) if experiment_arm != "direct" else []
@@ -178,7 +178,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                 candidate_policy = dict(policy, _expected_plan={"algorithm": algorithm,
                                         "hyperparameters": candidate["hyperparameters"], "preprocessing": plan["preprocessing"]})
                 feedback = (evaluate(code_path, train, valid, candidate_policy, seed) if code else
-                            {"passed": False, "checks": {"generation_contract": False},
+                            {"passed": False, "failure_kind": "generation_contract", "checks": {"generation_contract": False},
                              "metrics": {}, "error": generation["explanation"]})
                 record("validate", {"code_sha256": digest(code), "split": "validation"}, feedback)
                 entry["attempts"].append(dict(feedback, attempt=attempt, code_path=code_path.relative_to(folder).as_posix(),
@@ -215,7 +215,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         report["llm_calls"] = list(llm.calls)
     if checkpoints:
         report["checkpoint_hits"] = checkpoints.hits
-    report["structured_corrections"] = {"plan": sum(e["role"] == "plan_rejected" for e in events)}
+    report["structured_corrections"] = {role: sum(e["role"] == role + "_rejected" for e in events)
+                                        for role in ("understand", "plan")}
     write_json(folder / "report.json", report)
     (folder / "report.md").write_text(report_markdown(report), encoding="utf-8")
     store.save_run(report)

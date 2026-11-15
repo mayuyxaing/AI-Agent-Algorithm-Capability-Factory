@@ -98,7 +98,8 @@ def test_workflow_audits_bad_response_and_caches_only_corrected_plan(tmp_path, m
     assert len(plans) == 1 and isinstance(plans[0]["output"]["candidates"], list)
 
 
-def test_generation_contract_feedback_then_wrapped_code_is_evaluated(tmp_path, monkeypatch):
+@pytest.mark.parametrize("malformed_json", [False, True])
+def test_generation_contract_feedback_then_wrapped_code_is_evaluated(tmp_path, monkeypatch, malformed_json):
     from forge.workflow import run
     from forge.knowledge import KnowledgeStore
     from forge.validation import load_policy
@@ -113,10 +114,16 @@ def test_generation_contract_feedback_then_wrapped_code_is_evaluated(tmp_path, m
         def call(self, role, context):
             if role == "generate":
                 assert context["output_schema"]["required"] == ["code", "explanation"]
+                if malformed_json:
+                    from forge.llm import LLMResponseFormatError
+                    raise LLMResponseFormatError('{"code":"unterminated')
                 return {"unexpected": "no source"}
             if role == "repair":
                 assert context["feedback"]["checks"] == {"generation_contract": False}
-                assert context["previous_response"] == {"unexpected": "no source"}
+                if malformed_json:
+                    assert context["previous_response"]["raw_content"] == '{"code":"unterminated'
+                else:
+                    assert context["previous_response"] == {"unexpected": "no source"}
                 return {"answer": super().call(role, context)}
             return super().call(role, context)
 

@@ -110,7 +110,8 @@ class KnowledgeStore:
                                                ("title", "text", "source_chunk_id")}}}}}}
 
                     def ask(role, request):
-                        response = llm.call(role, request)
+                        from .llm import structured_call
+                        response = structured_call(llm, role, request)
                         record(role + "_response", {}, {"response": response})
                         return response
 

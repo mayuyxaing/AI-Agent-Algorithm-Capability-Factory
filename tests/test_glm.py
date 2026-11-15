@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 import pytest
 from forge.cli import main
-from forge.llm import GLMLLM, LLMProviderError
+from forge.llm import GLMLLM, LLMProviderError, LLMResponseFormatError, structured_call
 from forge.util import read_json
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -189,3 +189,30 @@ def test_network_retry_is_bounded_and_diagnostics_are_safe(monkeypatch, failure,
     assert len(calls) == count
     assert len(delays) == count - 1
     assert "secret" not in str(error.value)
+
+
+@pytest.mark.parametrize("content", ['{"code": "unterminated', '["wrong root"]', '```python\nprint(1)\n```'])
+def test_completed_malformed_model_text_is_preserved_for_contract_correction(monkeypatch, content):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    monkeypatch.setattr("forge.llm.urlopen", lambda *a, **kw: response({"id": "bad-json",
+        "usage": {"total_tokens": 13}, "choices": [{"finish_reason": "stop", "message": {"content": content}}]}))
+    llm = GLMLLM()
+    result = structured_call(llm, "generate", {})
+    assert result["raw_content"] == content
+    assert "model_output_format_error" in result
+    assert llm.calls[0]["status"] == "invalid_model_json"
+    assert llm.calls[0]["usage"]["total_tokens"] == 13
+
+
+def test_format_error_redacts_keys_without_changing_safe_error_message(monkeypatch):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-secret-key")
+    error = LLMResponseFormatError('bad JSON fake-secret-key')
+    assert "fake-secret-key" not in str(error) and "fake-secret-key" not in error.raw_content
+
+
+def test_service_failure_is_not_returned_as_malformed_model_text(monkeypatch):
+    monkeypatch.setenv("ZHIPU_API_KEY", "fake-glm-key")
+    monkeypatch.setattr("forge.llm.urlopen", lambda *a, **kw: response({"choices": []}))
+    with pytest.raises(LLMProviderError) as error:
+        structured_call(GLMLLM(), "generate", {})
+    assert not isinstance(error.value, LLMResponseFormatError)

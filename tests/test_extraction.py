@@ -139,3 +139,23 @@ def test_provider_failure_is_reported_without_format_retry(material, tmp_path):
     assert llm.calls == 1
     assert store.latest_ingestion()["status"] == "provider_error"
     assert store.latest_ingestion()["llm_accepted"] == 0
+
+
+def test_malformed_json_text_is_audited_and_corrected(material, tmp_path):
+    from forge.llm import LLMResponseFormatError
+
+    class Correcting(MixedExtractor):
+        calls = 0
+
+        def call(self, role, context):
+            self.calls += 1
+            if self.calls == 1:
+                raise LLMResponseFormatError('{"facts":')
+            assert context["previous_response"]["raw_content"] == '{"facts":'
+            return {"facts": [{"title": "策略", "text": "未知类别允许忽略", "source_chunk_id": "section_1"}]}
+
+    llm = Correcting()
+    store = KnowledgeStore(tmp_path / "kb.sqlite")
+    assert store.ingest(material, llm) == 3
+    assert llm.calls == 2
+    assert store.latest_ingestion()["responses"][0]["response"]["raw_content"] == '{"facts":'
