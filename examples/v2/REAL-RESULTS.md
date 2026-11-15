@@ -1,5 +1,7 @@
 # 工作流 v2 真实 GLM 结果
 
+后续更新：加载器修正后，同一份森林代码已通过全部验证集复核，见 [加载器回归结果](../v3/loader-recheck/recheck.json)。没有改变下述原始运行的失败记录，也没有追加测试集调优。
+
 实际运行：20261115T024040Z-c6fa258d，glm-4.7-flash，status=passed，选中 logistic。
 
 - [原始报告](real-success/report.md) / [JSON](real-success/report.json)

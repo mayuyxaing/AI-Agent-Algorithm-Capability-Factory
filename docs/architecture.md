@@ -42,7 +42,7 @@ def predict(model, frame):
 
 ## 可扩展点
 
-- 候选算法：需要同步扩展 forge/plugins/*.json、planning.py 的参数空间/默认值、mock 模板以及 worker 的分类器/计划一致性检查。插件是受信任项目代码，仍须通过 AST 检查和统一验证；当前只内置两类分类器。
+- 同任务兼容算法可通过 JSON 描述或 capability_forge.algorithms 安装入口加入，分类器名、参数空间和默认值由注册表提供；新型预处理仍需任务插件实现检查。参见 plugin-tasks.md。插件是受信任代码，仍须通过独立验证。
 - 指标：在 validation.METRICS 注册高者更优的函数，再加入配置；若是低者更优指标，须扩展排序方向。
 - 任务：新增字段 schema、数据读取、模板、接口检查、配置任务分派；当前只提供一个任务类型，没有宣称完成跨场景迁移。
 - LLM：实现 mode、model、call(role, context)；真实模型输出必须通过宿主校验。

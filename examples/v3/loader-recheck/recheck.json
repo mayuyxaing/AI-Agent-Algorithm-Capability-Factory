@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "probability_contract": true,
+    "estimator_matches_plan": true,
+    "hyperparameters_match_plan": true,
+    "preprocessing_matches_plan": true,
+    "missing_column_rejected": true,
+    "column_order": true,
+    "repeat_prediction": true,
+    "model_reload": true,
+    "unknown_category": true,
+    "all_missing_values": true,
+    "minimum_roc_auc": true,
+    "minimum_f1": true
+  },
+  "check_errors": {},
+  "executed": true,
+  "worker_seconds": 2.9835,
+  "python_peak_mb": 54.273,
+  "wall_seconds": 3.5735,
+  "metrics": {
+    "roc_auc": 0.7424865430622009,
+    "f1": 0.6387434554973822,
+    "accuracy": 0.7125
+  },
+  "passed": true,
+  "source_run_id": "20261115T024040Z-c6fa258d",
+  "source_code_sha256": "d5c4054e9db794c59288f1a30bef82f92f23192bea990dd782d2b3284100a946",
+  "scope": "validation_only; original report preserved; not a new LLM repair",
+  "validator_fix": "register dynamic module in sys.modules"
+}
