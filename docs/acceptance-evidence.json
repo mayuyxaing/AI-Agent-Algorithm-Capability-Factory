@@ -1,0 +1,153 @@
+{
+  "audit_date": "2026-11-15",
+  "scope": "archived local evidence; no new LLM calls or metric experiments",
+  "implementation_commit": "0874bb31f456eefe9cb9f4d0b5c60345e4c8e2dd",
+  "pytest": {
+    "tests": 96,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "runs": [
+    {
+      "report": "examples/v2/real-success/report.json",
+      "run_id": "20261115T024040Z-c6fa258d",
+      "task": "churn_classification",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "status": "passed",
+      "selected": "logistic",
+      "selection_metric": "roc_auc",
+      "test_metrics": {
+        "roc_auc": 0.7828947368421052,
+        "f1": 0.6432160804020101,
+        "accuracy": 0.7041666666666667
+      },
+      "test_check_count": 12,
+      "dataset": "data/churn.csv",
+      "dataset_sha256": "876184b02cc537285eabc94ddfccda984f0ed35ba043b52e97b502a56b6be483",
+      "fault_injection": true,
+      "response_provenance": null
+    },
+    {
+      "report": "examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.json",
+      "run_id": "20261115T045921Z-76a2bd42",
+      "task": "text_classification",
+      "mode": "assisted_glm",
+      "model": "glm-4.7-flash",
+      "status": "passed",
+      "selected": "text_logistic",
+      "selection_metric": "f1",
+      "test_metrics": {
+        "roc_auc": 0.8700781249999999,
+        "f1": 0.8765432098765432,
+        "accuracy": 0.875,
+        "balanced_accuracy": 0.875
+      },
+      "test_check_count": 12,
+      "dataset": "data/tickets.csv",
+      "dataset_sha256": "4bc3314375da20388db5328d768f8c7c413c85c8393ee7aba181aeaca3223029",
+      "fault_injection": false,
+      "response_provenance": {
+        "kind": "assisted_reproduction",
+        "source_run_id": "20261115T044624Z-10c203ec",
+        "original_status": "no_valid_candidate",
+        "new_api_calls": 0,
+        "modification_author": "coding assistant, outside the GLM workflow",
+        "change": "Select the text column when the cleaner receives a DataFrame; no estimator/parameter/metric changes",
+        "changes": [
+          {
+            "algorithm": "text_logistic",
+            "source_code_path": "text_logistic/attempt_2/algorithm.py",
+            "source_sha256": "0f2f9d5751e19ab319c27edd4180bfd17bbe09aa8fec44fb999d857a8bd5326e",
+            "patched_sha256": "609180ec862b51416c9dfd66b97e882d7d10fcf7428574977b9505f286288ef1"
+          },
+          {
+            "algorithm": "text_nb",
+            "source_code_path": "text_nb/attempt_2/algorithm.py",
+            "source_sha256": "c7d46b96df0906658ae9deee004bc7c6e2e62a09eea52418e0ac11460744f08c",
+            "patched_sha256": "3787299af078e1ea59b82b76c6949f3a5663bc1e4677b7e9c452a9efc045df06"
+          }
+        ]
+      }
+    },
+    {
+      "report": "examples/v3/text-runs/20261115T030742Z-eb4a692d/report.json",
+      "run_id": "20261115T030742Z-eb4a692d",
+      "task": "text_classification",
+      "mode": "mock",
+      "model": "deterministic-templates-v1",
+      "status": "passed",
+      "selected": "text_logistic",
+      "selection_metric": "f1",
+      "test_metrics": {
+        "roc_auc": 0.8700781249999999,
+        "f1": 0.8765432098765432,
+        "accuracy": 0.875,
+        "balanced_accuracy": 0.875
+      },
+      "test_check_count": 12,
+      "dataset": "data/tickets.csv",
+      "dataset_sha256": "4bc3314375da20388db5328d768f8c7c413c85c8393ee7aba181aeaca3223029",
+      "fault_injection": false,
+      "response_provenance": null
+    }
+  ],
+  "evidence_file_sha256": {
+    "README.md": "18543a2d7d972a2b72d67a54bbcd7572b98a3a116b0bbc58e846c78288ef6dee",
+    "configs/churn.json": "92fd8fe029d9649cf0a9e6c0135a89aadeca7eebeaa68df3cb17da6491a20bf2",
+    "configs/text.json": "0306b5436a3579d41633c62c2fb215cf6ad449faa098fa1e84d97bb3c4d14697",
+    "data/churn.csv": "876184b02cc537285eabc94ddfccda984f0ed35ba043b52e97b502a56b6be483",
+    "data/tickets.csv": "4bc3314375da20388db5328d768f8c7c413c85c8393ee7aba181aeaca3223029",
+    "docs/architecture.md": "5242b8fb70a238c9cf9283fff2cf968bb15f1fd3014fb9158b50aee38cc3d96e",
+    "docs/generated-interfaces.md": "df0ec36effa616b73abfd489aaae3ab02fc7de88269eb55a58f4fc6d111e8f99",
+    "docs/plugin-tasks.md": "6aea2c47cb450c2b41b8c231ad5d6020ed440ce8f41ad5ac0c1aa1a225c36eb4",
+    "docs/schema.md": "ccfbef9355811cb56183b6459890d70c625fee2e82d27d168f372c9cbbf77194",
+    "examples/knowledge_graph.json": "4e128548441b2c88847d3db2b9e4db8551112b42aeb6778d8ec73416a5180d9f",
+    "examples/test-results.txt": "48ff6bfa0f14b2436bbcb3070d8f9123cf63b94f6b25c548def048cb8a824e52",
+    "examples/test-results.xml": "ba5c8628ce5aa3c323cbbd617a51f0d7851eb687bc83e7a8ab41b3957e621686",
+    "examples/v2/REAL-RESULTS.md": "60698d64d181f8c8116e176df8d5b96ebe8624896eb3140effb34176a1294fb7",
+    "examples/v2/real-success/events.json": "472328ec255d96ccd6c3b55b1925173af29e56a749cbaa7efc9e6738dc883e43",
+    "examples/v2/real-success/logistic/attempt_1/algorithm.py": "b8d6737b9c1a32a9e6ff5bda30eedf8d08f279fecdfc047816c23c7d9c114d45",
+    "examples/v2/real-success/report.json": "29bbf9c33ded27e79556226479c0e922247154b692d38212f77e1b39c2ac9f6c",
+    "examples/v2/real-success/report.md": "03b46fe808a389aaea4dcfcdb788f2efef4be57403e74773f6d6b5dae77ec444",
+    "examples/v3/text-assisted-repair/README.md": "a96bc37746e8f66cd7d4e8b8149cc6bc5b4501925853f5c13f4c59d1d6a2597b",
+    "examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.html": "829c6e33210988d1ccac8ad8b46cec44bf4e94ce798ef47c33caa6f61e57bc80",
+    "examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.json": "bdf69dd0cafcfabc464f9a9291a97ef8059a7e503452c8ae2cead3e82f29b668",
+    "examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.json": "9dca4d8807ae18fcc267a728aca8274b9ba8b51c00758a335c291e6b291c54d7",
+    "examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md": "2028a14b63747e997d04b0cc7edf533912e1e50b722e8364812d5d9739c42a36",
+    "examples/v3/text-assisted-repair/source-run/knowledge_graph.json": "f583d725853d81be05cc060403599c890173b871df2a118928c1d65a089b907f",
+    "forge/cli.py": "b826d28d934d2118eee9f53c7bcbb97909a1cd30af65bd742d3ba1cb8560babd",
+    "forge/failures.py": "90ce33c0217e0ef28b4d5303b43c3ec8a180ae98b1b60864d3e59a18de93011d",
+    "forge/knowledge.py": "222230a7cfe88b722e8fd51f2f37789ae9b5604e01af775afa411fe69363bd65",
+    "forge/llm.py": "1e5f6559be2eaa49d629689a2db12d3724e0f70d1933da71325ac236f1bb02d8",
+    "forge/plugins/text_nb.json": "d1b792224b8dd43721c84abe01438d6bac8bea62bbeedd0d623068c257da86e8",
+    "forge/reporting.py": "f5970e10d2f9a33e3f98078ae13dd3ce428821346b4d60a2f5a729d6d029b585",
+    "forge/safety.py": "4348af738678b8fb633e889d9025fff8fbde5357edc847786965c786359d1451",
+    "forge/tasks.py": "2de0ee798ab7cc1cf114764eb99fe44167630aa21cb565eb9b0ff2bbcf9cfc6a",
+    "forge/validation.py": "9114b3f0ba8cf698b7a56b2318c17b81b93cdd76baaaaf37d12af5696b6322d8",
+    "forge/worker.py": "25733701886b9d8e1602398715fdff9e287f7d90d5aeea87a6c832ea8918fef8",
+    "forge/workflow.py": "032d8cf45a61b132c8e662db79266101b8b806eb1802f5d7563768857c90ced2",
+    "materials/churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+    "materials/historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
+    "materials/text_business.md": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659",
+    "pyproject.toml": "dd8af98426837d456fec0f7e888408714c3327b5039653c258c77bf8a30e6d91",
+    "requirements-dev.txt": "8636f9ab1a075be9f3039e2a6471837259c4f36b625bcaf7a3d9a1edd2419c6d",
+    "requirements-lock.txt": "35276444d557efb26cc23820746a2565632ec49fc3ad275cb741f896679e07cb",
+    "requirements.txt": "c77f1bc3adb89eb44111c3b056f8efd252bb3ea88fafadf94593914aaa00bada",
+    "scripts/validate.py": "3b60981ea395c47db08c07c06157c5f3bfc5ba7d5715d1f15f31cf7d9070dfae",
+    "tests/test_factory.py": "d01c73d4a2e4fc04142600361522590d5d1087d3b8ef0867a833d7adc4e43756",
+    "tests/test_task_plugins.py": "d86eed9853b6bb25ef0ce4eaa6b413d486ae1ef58d273116ebf87190a6766a16",
+    "tests/test_v2.py": "5dcfbb04698aa11b5e42f9bff7ace52bd4dcef8a28b9cc7fcd8b49d05487e478"
+  },
+  "excluded_from_hashes": [
+    "docs/acceptance-evidence.json"
+  ],
+  "limits": [
+    "A linked implementation is not proof of general model success.",
+    "Real churn repair used a host-injected fault.",
+    "Real text autonomous runs failed; assisted_glm includes an explicit external assistant patch.",
+    "Graph traversal, process execution and role scheduling do not prove MCTS, security isolation or autonomous multi-agent collaboration.",
+    "GitHub has not been submitted."
+  ]
+}
