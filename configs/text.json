@@ -1,0 +1,1 @@
+{"task":"text_classification","metrics":["roc_auc","f1","accuracy","balanced_accuracy"],"selection_metric":"f1","minimum":{"roc_auc":0.65,"f1":0.6},"timeout_seconds":60,"max_repairs":2}

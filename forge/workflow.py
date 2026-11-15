@@ -18,6 +18,16 @@ from .structured import checked_response
 def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         inject_fault=False, seed=42, checkpoint_dir=None, experiment_arm="knowledge_repair", repair_demo=False,
         resample_budget=1):
+    from .tasks import get_task
+    from .llm import plugins as registered_plugins
+    task = get_task(policy.get("task", "churn_classification"))
+    FEATURES, NUMERIC, CATEGORICAL, INTERFACE = task.features, task.numeric, task.categorical, task.interface
+    load_split, profile_training = task.load_split, task.profile
+    validate_spec, validate_plan = task.validate_spec, task.validate_plan
+    planning_catalog, plan_schema = task.catalog, task.schema
+    plugins = lambda: registered_plugins(task.id)
+    if task.id != "churn_classification" and (repair_demo or inject_fault):
+        raise ValueError("Unknown-category fault demo is specific to the churn task")
     if experiment_arm not in {"direct", "knowledge", "knowledge_repair"}:
         raise ValueError("Unknown experiment arm")
     if not 1 <= resample_budget <= 6:
@@ -37,7 +47,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
     checkpoints = ResponseCheckpoints(checkpoint_dir, {"mode": llm.mode, "model": llm.model,
         "dataset_sha256": digest(dataset.read_bytes()), "seed": seed, "policy": policy,
         "fault_injection": inject_fault, "repair_demo": repair_demo,
-        "experiment_arm": experiment_arm, "generation_budget": generation_budget, "workflow_version": 2}) if checkpoint_dir else None
+        "experiment_arm": experiment_arm, "generation_budget": generation_budget, "workflow_version": 2,
+        "task_id": task.id, "task_contract": task.interface}) if checkpoint_dir else None
 
     def ask(role, context):
         cached = checkpoints.lookup(role, context) if checkpoints else None
@@ -61,6 +72,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
     report = {"run_id": run_id, "description": description, "status": "running",
               "mode": llm.mode, "model": llm.model, "fault_injection": inject_fault or repair_demo,
               "workflow_version": 2, "experiment_arm": experiment_arm, "complete_template_supplied": False,
+              "task_id": task.id, "task_title": task.title, "features": FEATURES, "target": task.target,
               "generation_budget_per_candidate": generation_budget,
               "dataset_sha256": digest(dataset.read_bytes()), "seed": seed, "policy": policy,
               "environment": {"python": platform.python_version(), "platform": platform.platform(),
@@ -72,19 +84,21 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         report["data_profile"] = profile
         record("profile", {"scope": "training_only"}, profile)
         report["split"] = {"train": len(train), "validation": len(valid), "test": len(test),
-                           "train_positive_rate": float(train.churn.mean())}
-        spec = ask("understand", {"description": description})
+                           "train_positive_rate": float(train[task.target].mean())}
+        from .validation import METRICS
+        understand_context = {"description": description, "task_id": task.id, "metrics_available": list(METRICS)}
+        spec = ask("understand", understand_context)
         validate_spec(spec, description)
         report["task_spec"] = spec
-        record("understand", {"description": description}, spec)
+        record("understand", understand_context, spec)
         knowledge = store.retrieve_grounded(description, profile["requirements"] + spec["constraints"]) if experiment_arm != "direct" else []
         if not knowledge and experiment_arm != "direct":
             raise ValueError("No relevant knowledge found; ingest materials first")
-        experiences = store.experiences() if experiment_arm != "direct" else []
+        experiences = store.experiences(task.id) if experiment_arm != "direct" else []
         report.update(knowledge=knowledge, experiences=experiences)
         report["knowledge_ingestion"] = store.latest_ingestion()
         record("retrieve", {"query": description}, {"knowledge": knowledge, "experiences": experiences})
-        context = {"spec": spec, "data_profile": profile, "knowledge": knowledge,
+        context = {"task_id": task.id, "spec": spec, "data_profile": profile, "knowledge": knowledge,
                    "experiences": experiences, "plugins": planning_catalog(plugins()), "output_schema": plan_schema()}
         def check_plan(value):
             validate_plan(value, plugins(), knowledge, experiences, constraints=spec["constraints"])
@@ -113,8 +127,8 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
         # A transparent constant-probability reference, computed by the trusted host.
         import numpy as np
         from .validation import METRICS
-        constant = np.full(len(valid), float(train.churn.mean()))
-        report["baseline"] = {name: METRICS[name](valid.churn, constant) for name in policy["metrics"]}
+        constant = np.full(len(valid), float(train[task.target].mean()))
+        report["baseline"] = {name: METRICS[name](valid[task.target], constant) for name in policy["metrics"]}
         for candidate in candidates:
             algorithm = candidate["algorithm"]
             entry = {"algorithm": algorithm, "rationale": str(candidate.get("rationale", "")),
@@ -124,7 +138,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
             previous = feedback = None
             for attempt in range(generation_budget):
                 role = "repair" if attempt > 0 and experiment_arm == "knowledge_repair" else "generate"
-                incoming = {"algorithm": algorithm, "spec": spec, "plan": plan,
+                incoming = {"task_id": task.id, "algorithm": algorithm, "spec": spec, "plan": plan,
                             "knowledge": knowledge, "experiences": experiences,
                             "data_profile": profile,
                             "features": {"numeric": NUMERIC, "categorical": CATEGORICAL},

@@ -4,6 +4,8 @@ cd /d "%~dp0"
 set "PYTHONUTF8=1"
 set "FORGE_PYTHON=%~dp0.venv\Scripts\python.exe"
 if exist "%FORGE_PYTHON%" goto ready
+set "FORGE_PYTHON=%~dp0..\..\work\.venv312\Scripts\python.exe"
+if exist "%FORGE_PYTHON%" goto ready
 set "FORGE_PYTHON=%~dp0..\..\work\.venv\Scripts\python.exe"
 if exist "%FORGE_PYTHON%" goto ready
 set "FORGE_PYTHON=python"

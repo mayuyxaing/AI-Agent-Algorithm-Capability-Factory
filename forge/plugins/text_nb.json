@@ -1,0 +1,1 @@
+{"id":"text_nb","tasks":["text_classification"],"name":"多项式朴素贝叶斯","estimator":"MultinomialNB","seeded":false,"import":"from sklearn.naive_bayes import MultinomialNB","defaults":{"alpha":1.0,"fit_prior":true},"parameter_space":{"alpha":["float",0.01,10],"fit_prior":[true,false]},"rationale":"非负 TF-IDF 上的轻量分类基线，与线性模型比较。"}

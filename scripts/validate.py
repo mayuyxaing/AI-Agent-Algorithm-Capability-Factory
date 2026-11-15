@@ -15,11 +15,13 @@ def main():
     parser.add_argument("--config", type=Path, default=Path("configs/churn.json"))
     parser.add_argument("--output", type=Path, default=Path("runtime/revalidation.json"))
     args = parser.parse_args()
-    train, valid, _ = load_split(args.data)
+    from forge.tasks import get_task
+    policy = load_policy(args.config)
+    train, valid, _ = get_task(policy["task"]).load_split(args.data, 42)
     with tempfile.TemporaryDirectory() as scratch:
         code = Path(scratch) / "algorithm.py"
         shutil.copy2(args.code, code)
-        result = evaluate(code, train, valid, load_policy(args.config), 42)
+        result = evaluate(code, train, valid, policy, 42)
     write_json(args.output, result)
     print(args.output)
     return 0 if result["passed"] else 1

@@ -149,6 +149,7 @@ class KnowledgeStore:
             "unknown_categories": ("未知类别", "unknown_safe_encoding", "允许未知类别的编码", ["未知类别", "handle_unknown", "unknown categor"]),
             "class_imbalance": ("类别不平衡", "class_weighting", "类别权重处理不平衡", ["不平衡", "class_weight", "imbalanc"]),
             "train_only_preprocessing": ("训练集内拟合", "train_only_pipeline", "训练集拟合预处理 Pipeline", ["训练集", "pipeline", "泄漏"]),
+            "unseen_vocabulary": ("未见词表", "train_fitted_tfidf", "训练集拟合的文本词表", ["未知词", "词表", "tf-idf", "tfidf", "未见"]),
         }
         for fact in self.nodes():
             if fact["kind"] not in {"Knowledge", "Function"}:
@@ -157,9 +158,9 @@ class KnowledgeStore:
             for key, (requirement, strategy, title, cues) in rules.items():
                 if not any(cue.lower() in text for cue in cues):
                     continue
-                rid = self.node("Requirement", requirement, {"task": "churn_classification", "key": key,
+                rid = self.node("Requirement", requirement, {"task": "shared_binary_tasks", "key": key,
                                 "extraction": "rule_index"}, "requirement:" + key)
-                sid = self.node("Strategy", title, {"task": "churn_classification", "key": strategy,
+                sid = self.node("Strategy", title, {"task": "shared_binary_tasks", "key": strategy,
                                 "extraction": "rule_index"}, "strategy:" + strategy)
                 self.edge(rid, "ADDRESSED_BY", sid)
                 self.edge(sid, "SUPPORTED_BY", fact["id"])
@@ -205,19 +206,20 @@ class KnowledgeStore:
                 matches.append(dict(node, score=score))
         return sorted(matches, key=lambda x: (-x["score"], x["id"]))[:limit]
 
-    def experiences(self):
-        return [n for n in self.nodes("FailureCase") if n.get("task") == "churn_classification"][-6:]
+    def experiences(self, task="churn_classification"):
+        return [n for n in self.nodes("FailureCase") if n.get("task") == task and n.get("reusable", False)][-6:]
 
     def save_run(self, report: dict):
         run_id = report["run_id"]
         with self.connect() as con:
             con.execute("INSERT OR REPLACE INTO runs VALUES(?,?)", (run_id, json.dumps(report, ensure_ascii=False)))
-        capability = self.node("Capability", "客户流失预测", {
-            "task": "churn_classification", "input": {"format": "pandas.DataFrame", "required_columns":
-                ["tenure", "monthly_charges", "support_calls", "contract", "payment_method"]},
+        task = report.get("task_id", "churn_classification")
+        capability = self.node("Capability", report.get("task_title", "客户流失预测"), {
+            "task": task, "input": {"format": "pandas.DataFrame", "required_columns":
+                report.get("features", ["tenure", "monthly_charges", "support_calls", "contract", "payment_method"])},
             "output": {"format": "1D probability array", "range": [0, 1], "positive_class": 1},
-            "conditions": ["binary labels 0/1", "tabular customer data", "train-only preprocessing"],
-            "dependencies": ["numpy", "pandas", "scikit-learn", "joblib"]}, "capability:churn")
+            "conditions": ["binary labels 0/1", "registered task feature contract", "train-only preprocessing"],
+            "dependencies": ["numpy", "pandas", "scikit-learn", "joblib"]}, "capability:" + task)
         run_node = self.node("ValidationRun", run_id, {
             "status": report["status"], "mode": report["mode"], "model": report["model"],
             "selected": report.get("selected"), "dataset_sha256": report["dataset_sha256"],
@@ -226,7 +228,7 @@ class KnowledgeStore:
         environment = self.node("Environment", "Python execution environment", report["environment"])
         self.edge(run_node, "EXECUTED_IN", environment)
         for metric in report["policy"]["metrics"]:
-            mid = self.node("Metric", metric, {"task": "churn_classification"}, "metric:" + metric)
+            mid = self.node("Metric", metric, {"task": task}, "metric:" + task + ":" + metric)
             self.edge(capability, "EVALUATED_BY", mid)
         for evidence in report["knowledge"]:
             self.edge(run_node, "USED_KNOWLEDGE", evidence["id"])
@@ -243,11 +245,13 @@ class KnowledgeStore:
                 self.edge(capability, "IMPLEMENTED_BY", version)
                 self.edge(version, "VALIDATED_IN", run_node)
                 if not attempt["passed"]:
+                    from .failures import analyze_failure
+                    analysis = analyze_failure(attempt)
                     failure = self.node("FailureCase", attempt.get("failure_kind", "validation_failure"), {
-                        "task": "churn_classification", "error": attempt.get("error", ""),
+                        "task": task, "error": attempt.get("error", ""),
                         "checks": attempt.get("checks", {}), "injected": attempt["injected"],
                         "resolved_in_run": candidate["passed"],
-                        "remedy": "Check failed interface tests; use train-only imputation and OneHotEncoder(handle_unknown='ignore')."})
+                        **analysis})
                     self.edge(version, "EXPOSED", failure)
         return run_node
 

@@ -2,7 +2,7 @@
 import json
 import uuid
 from pathlib import Path
-from .llm import OllamaLLM
+from .llm import role_prompt
 from .util import digest, read_json, write_json
 
 
@@ -13,7 +13,7 @@ class ResponseCheckpoints:
         self.hits = []
 
     def path(self, role, context):
-        key = digest(json.dumps({"identity": self.identity, "role_prompt": OllamaLLM.prompts()[role],
+        key = digest(json.dumps({"identity": self.identity, "role_prompt": role_prompt(role, context),
                                  "role": role, "context": context}, sort_keys=True, ensure_ascii=False))
         return self.folder / f"{key}.json"
 

@@ -37,7 +37,10 @@ def entry(argv=None):
     parser.add_argument("--refresh-knowledge", action="store_true", help="强制重新抽取材料")
     parser.add_argument("--repair-demo", action="store_true", help="显式注入代码缺陷并由真实模型修复")
     parser.add_argument("--benchmark", action="store_true", help="真实模型三组对照实验；比单次流程需要更多调用")
+    parser.add_argument("--task", default="churn_classification", choices=["churn_classification", "text_classification"])
     args = parser.parse_args(argv)
+    if args.task != "churn_classification" and (args.benchmark or args.repair_demo):
+        parser.error("目前对照与故障注入演示针对客户流失；文本任务使用 --run --task text_classification")
     os.chdir(Path(__file__).resolve().parents[1])
     previous = os.environ.get("ZHIPU_API_KEY")
     if not previous:
@@ -57,14 +60,16 @@ def entry(argv=None):
         if not args.run:
             print("正在检查连接，请等待……", flush=True)
             return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])
-        db = "runtime/glm/knowledge.sqlite"
+        from forge.tasks import get_task
+        task = get_task(args.task)
+        db = "runtime/glm/knowledge.sqlite" if task.id == "churn_classification" else "runtime/glm/text_classification/knowledge.sqlite"
         prepared = reusable_materials(Path(db), Path("materials")) if not args.refresh_knowledge else None
         if prepared:
             print(f"复用已核对且材料未变的知识，LLM 接受 {prepared['llm_accepted']} 条；跳过重复抽取。", flush=True)
-            if not Path("data/churn.csv").exists():
-                generate(Path("data/churn.csv"))
+            if not Path(task.data).exists():
+                task.generate(Path(task.data))
         else:
-            code = main(["--db", db, "init"])
+            code = main(["--db", db, "init", "--task", task.id])
             if code:
                 return code
             print("正在从模拟业务材料抽取知识……", flush=True)
@@ -73,7 +78,7 @@ def entry(argv=None):
             if code:
                 return code
         print("正在规划、生成并验证代码；每一步轨迹写入 runtime/glm/runs/。", flush=True)
-        command = ["--db", db, "run", "--task-file", "examples/task.txt", "--provider", "glm",
+        command = ["--db", db, "run", "--task", task.id, "--task-file", "examples/task.txt" if task.id == "churn_classification" else "examples/text_task.txt", "--provider", "glm",
                    "--llm-attempts", "6", "--checkpoints", "runtime/glm/checkpoints"]
         if args.repair_demo:
             command.append("--repair-demo")

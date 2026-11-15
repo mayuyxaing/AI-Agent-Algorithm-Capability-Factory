@@ -5,7 +5,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from sklearn.metrics import roc_auc_score, f1_score, accuracy_score
+from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, balanced_accuracy_score
 from .data import FEATURES, TARGET
 from .safety import inspect_code
 from .util import read_json, write_json
@@ -14,10 +14,31 @@ METRICS = {
     "roc_auc": lambda y, p: float(roc_auc_score(y, p)),
     "f1": lambda y, p: float(f1_score(y, p >= .5, zero_division=0)),
     "accuracy": lambda y, p: float(accuracy_score(y, p >= .5)),
+    "balanced_accuracy": lambda y, p: float(balanced_accuracy_score(y, p >= .5)),
 }
 
 
+def register_metric(name, scorer):
+    """Register a trusted probability scorer; current selection uses higher-is-better."""
+    if name in METRICS or not callable(scorer):
+        raise ValueError("Duplicate metric or non-callable scorer")
+    METRICS[name] = scorer
+
+
+def load_installed_metrics():
+    from importlib.metadata import entry_points
+    for entry in entry_points(group="capability_forge.metrics"):
+        for name, scorer in entry.load()().items():
+            register_metric(name, scorer)
+
+
+load_installed_metrics()
+
+
 def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
+    from .tasks import get_task
+    task = get_task(policy.get("task", "churn_classification"))
+    FEATURES, TARGET = task.features, task.target
     started = time.perf_counter()
     issues = inspect_code(code_path.read_text(encoding="utf-8"))
     if issues:
@@ -26,7 +47,7 @@ def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
     (folder / "result.json").unlink(missing_ok=True)
     payload = {"train": json.loads(train[FEATURES + [TARGET]].to_json(orient="records")),
                "evaluation": json.loads(evaluation[FEATURES].to_json(orient="records")), "seed": seed,
-               "expected_plan": policy.get("_expected_plan")}
+               "expected_plan": policy.get("_expected_plan"), "task_id": task.id}
     write_json(folder / "input.json", payload)
     env = {k: v for k, v in os.environ.items() if not any(s in k.upper() for s in ("TOKEN", "SECRET", "PASSWORD", "API_KEY"))}
     env.update(OMP_NUM_THREADS="1", OPENBLAS_NUM_THREADS="1", MKL_NUM_THREADS="1", PYTHONIOENCODING="utf-8")
@@ -64,8 +85,8 @@ def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
 
 def load_policy(path: Path):
     policy = read_json(path)
-    if policy.get("task") != "churn_classification":
-        raise ValueError("Only churn_classification validator is implemented")
+    from .tasks import get_task
+    get_task(policy.get("task"))
     if not policy.get("metrics") or any(m not in METRICS for m in policy["metrics"]):
         raise ValueError("Unknown or empty metric registry selection")
     if policy["selection_metric"] not in policy["metrics"]:

@@ -27,6 +27,11 @@ def vector(value, size):
 
 def execute(code_path: Path, input_path: Path):
     payload = json.loads(input_path.read_text(encoding="utf-8"))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from forge.tasks import get_task
+    from forge.llm import plugins
+    task = get_task(payload.get("task_id", "churn_classification"))
+    FEATURES = task.features
     train = pd.DataFrame(payload["train"])
     evaluation = pd.DataFrame(payload["evaluation"], columns=FEATURES)
     spec = importlib.util.spec_from_file_location("generated", code_path)
@@ -45,30 +50,21 @@ def execute(code_path: Path, input_path: Path):
         from sklearn.impute import SimpleImputer
         from sklearn.preprocessing import StandardScaler
         classifier = model.steps[-1][1]
-        expected_class = {"logistic": "LogisticRegression", "forest": "RandomForestClassifier"}[expected["algorithm"]]
+        descriptor = plugins(task.id)[expected["algorithm"]]
+        expected_class = descriptor["estimator"]
         if type(classifier).__name__ != expected_class:
             raise ValueError(f"Plan mismatch: expected classifier {expected_class}")
         parameters = classifier.get_params()
-        for key, value in dict(expected["hyperparameters"], random_state=payload["seed"],
-                               **({"n_jobs": 1} if expected["algorithm"] == "forest" else {})).items():
+        forced = dict(descriptor.get("fixed_parameters", {}))
+        if descriptor.get("seeded"):
+            forced["random_state"] = payload["seed"]
+        for key, value in dict(expected["hyperparameters"], **forced).items():
             if parameters.get(key) != value:
                 raise ValueError(f"Plan mismatch: {key} must equal {value!r}")
-        preprocessing = expected["preprocessing"]
-        transformers = [p for p in model.get_params(deep=True).values() if isinstance(p, ColumnTransformer)]
-        for names, strategy in [(FEATURES[:3], preprocessing["numeric_imputer"]),
-                                (FEATURES[3:], preprocessing["categorical_imputer"])]:
-            branch = next((transformer for ct in transformers for _, transformer, columns in ct.transformers
-                           if isinstance(columns, (list, tuple)) and set(columns) == set(names)), None)
-            if branch is None or not hasattr(branch, "get_params"):
-                raise ValueError(f"Plan mismatch: ColumnTransformer must explicitly group {names}")
-            objects = [branch, *branch.get_params(deep=True).values()]
-            if not any(isinstance(obj, SimpleImputer) and obj.strategy == strategy for obj in objects):
-                raise ValueError(f"Plan mismatch: imputer for {names} must use {strategy}")
-            if names == FEATURES[:3] and any(isinstance(obj, StandardScaler) for obj in objects) != preprocessing["scale_numeric"]:
-                raise ValueError("Plan mismatch: numeric scaling differs from plan")
+        task.check_preprocessing(model, expected["preprocessing"])
         plan_checks = {"estimator_matches_plan": True, "hyperparameters_match_plan": True,
                        "preprocessing_matches_plan": True}
-    model.fit(train[FEATURES], train["churn"])
+    model.fit(train[FEATURES], train[task.target])
     probabilities = vector(module.predict(model, evaluation.copy()), len(evaluation))
     checks, details = {"probability_contract": True, **plan_checks}, {}
 
@@ -90,17 +86,6 @@ def execute(code_path: Path, input_path: Path):
     def reordered():
         np.testing.assert_allclose(probabilities, vector(module.predict(model, evaluation[FEATURES[::-1]]), len(evaluation)), atol=1e-12)
 
-    def unknown():
-        sample = evaluation.head(5).copy()
-        sample["contract"] = "__previously_unseen_contract__"
-        vector(module.predict(model, sample), len(sample))
-
-    def missing_values():
-        sample = evaluation.head(5).copy()
-        for column in FEATURES:
-            sample[column] = np.nan
-        vector(module.predict(model, sample), len(sample))
-
     def persistence():
         joblib.dump(model, "model.joblib")
         restored = joblib.load("model.joblib")
@@ -110,9 +95,10 @@ def execute(code_path: Path, input_path: Path):
         np.testing.assert_allclose(probabilities, vector(module.predict(model, evaluation.copy()), len(evaluation)), atol=1e-12)
 
     for name, fn in [("missing_column_rejected", missing_column), ("column_order", reordered),
-                     ("unknown_category", unknown), ("all_missing_values", missing_values),
                      ("repeat_prediction", repeat), ("model_reload", persistence)]:
         check(name, fn)
+    for name, sample in task.variants(evaluation).items():
+        check(name, lambda sample=sample: vector(module.predict(model, sample), len(sample)))
     return {"probabilities": probabilities.tolist(), "checks": checks, "check_errors": details}
 
 

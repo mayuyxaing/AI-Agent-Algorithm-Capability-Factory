@@ -38,7 +38,8 @@ def main(argv=None):
     parser.add_argument("--db", type=Path, default=Path("runtime/knowledge.sqlite"))
     sub = parser.add_subparsers(dest="command", required=True)
     init = sub.add_parser("init", help="生成模拟数据并抽取业务材料")
-    init.add_argument("--data", type=Path, default=Path("data/churn.csv"))
+    init.add_argument("--task", default="churn_classification")
+    init.add_argument("--data", type=Path)
     init.add_argument("--materials", type=Path, default=Path("materials"))
     ingest = sub.add_parser("ingest", help="从 Markdown 与 Python 抽取知识")
     ingest.add_argument("folder", type=Path)
@@ -49,8 +50,9 @@ def main(argv=None):
     group = submit.add_mutually_exclusive_group(required=True)
     group.add_argument("--description")
     group.add_argument("--task-file", type=Path)
-    submit.add_argument("--data", type=Path, default=Path("data/churn.csv"))
-    submit.add_argument("--config", type=Path, default=Path("configs/churn.json"))
+    submit.add_argument("--task", help="已注册的任务插件 ID")
+    submit.add_argument("--data", type=Path)
+    submit.add_argument("--config", type=Path)
     add_llm_args(submit)
     submit.add_argument("--output", type=Path, default=Path("runtime/runs"))
     submit.add_argument("--inject-fault", action="store_true", help="仅 mock：初版逻辑回归未知类别处理故障")
@@ -74,8 +76,22 @@ def main(argv=None):
     compare.add_argument("--materials", type=Path, default=Path("materials"))
     compare.add_argument("--config", type=Path, default=Path("configs/churn.json"))
     compare.add_argument("--output", type=Path, default=Path("runtime/benchmark"))
+    catalog = sub.add_parser("catalog", help="列出任务、算法和指标；可自动生成接口说明")
+    catalog.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     try:
+        if args.command == "catalog":
+            from .tasks import TASKS
+            from .llm import plugins
+            from .validation import METRICS
+            items = {key: {"target": task.target, "features": task.features, "interface": task.interface,
+                           "algorithms": task.catalog(plugins(key)), "config": task.config} for key, task in TASKS.items()}
+            value = {"tasks": items, "metrics": list(METRICS)}
+            print(json.dumps(value, ensure_ascii=False, indent=2))
+            if args.output:
+                args.output.parent.mkdir(parents=True, exist_ok=True)
+                args.output.write_text("# 自动生成的任务与算法接口目录\n\n来源为实际注册表；非 HTTP API 文档。\n\n```json\n" + json.dumps(value, ensure_ascii=False, indent=2) + "\n```\n", encoding="utf-8")
+            return 0
         if args.command == "inspect":
             print(json.dumps(read_json(args.report), ensure_ascii=False, indent=2))
             return 0
@@ -100,10 +116,13 @@ def main(argv=None):
             return 0
         store = KnowledgeStore(args.db)
         if args.command == "init":
+            from .tasks import get_task
+            task = get_task(args.task)
+            args.data = args.data or Path(task.data)
             if not args.materials.is_dir():
                 raise ValueError(f"Materials directory not found: {args.materials}")
             if not args.data.exists():
-                generate(args.data)
+                task.generate(args.data)
             count = store.ingest(args.materials)
             print(json.dumps({"data": str(args.data), "extracted": count, "db": str(args.db)}, ensure_ascii=False))
         elif args.command == "ingest":
@@ -122,6 +141,12 @@ def main(argv=None):
             graph_html(args.output, args.output.with_suffix(".html"))
             print(args.output)
         elif args.command == "run":
+            from .tasks import get_task
+            task_id = args.task or (read_json(args.config)["task"] if args.config else "churn_classification")
+            task = get_task(task_id)
+            args.config, args.data = args.config or Path(task.config), args.data or Path(task.data)
+            if read_json(args.config)["task"] != task.id:
+                raise ValueError("Task plugin and validation configuration do not match")
             description = args.description or args.task_file.read_text(encoding="utf-8").strip()
             if not description.strip():
                 raise ValueError("Description cannot be empty")
