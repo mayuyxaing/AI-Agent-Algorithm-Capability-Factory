@@ -73,7 +73,8 @@ def entry(argv=None):
             if code:
                 return code
             print("正在从模拟业务材料抽取知识……", flush=True)
-            code = main(["--db", db, "ingest", "materials", "--report", "runtime/glm/ingestion-report.json",
+            audit_path = str(Path(db).with_name("ingestion-report.json"))
+            code = main(["--db", db, "ingest", "materials", "--report", audit_path,
                          "--llm-attempts", "6", "--provider", "glm"])
             if code:
                 return code

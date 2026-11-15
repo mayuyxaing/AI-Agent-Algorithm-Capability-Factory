@@ -70,3 +70,72 @@ def test_cli_writes_audit_and_completes_with_verified_subset(material, tmp_path,
     assert main(["--db", str(tmp_path / "kb.sqlite"), "ingest", str(material),
                  "--provider", "glm", "--report", str(report)]) == 0
     assert read_json(report)["status"] == "partial_llm"
+
+
+def test_malformed_envelope_is_corrected_with_original_response_and_source(material, tmp_path):
+    class Correcting(MixedExtractor):
+        calls = 0
+
+        def call(self, role, context):
+            self.calls += 1
+            if self.calls == 1:
+                return {"capabilities": ["wrong envelope"]}
+            assert context["previous_response"] == {"capabilities": ["wrong envelope"]}
+            assert "facts" in context["validation_error"]
+            assert context["output_schema"]["required"] == ["facts"]
+            return {"facts": [{"title": "类别策略", "text": "忽略未知类别", "source_chunk_id": "section_1"}]}
+
+    llm = Correcting()
+    store = KnowledgeStore(tmp_path / "kb.sqlite")
+    assert store.ingest(material, llm) == 3
+    assert llm.calls == 2
+    audit = store.latest_ingestion()
+    assert audit["status"] == "passed" and audit["llm_accepted"] == 1
+    assert [r["event"] for r in audit["responses"]] == ["extract_response", "extract_rejected", "extract_response"]
+    assert audit["responses"][0]["response"] == {"capabilities": ["wrong envelope"]}
+
+
+def test_persistent_invalid_response_is_bounded_and_failure_report_is_written(material, tmp_path, monkeypatch):
+    class Invalid(MixedExtractor):
+        calls = 0
+
+        def call(self, role, context):
+            self.calls += 1
+            return ["not an object"]
+
+    llm = Invalid()
+    monkeypatch.setattr("forge.cli.create_llm", lambda args: llm)
+    report = tmp_path / "failed.json"
+    db = tmp_path / "kb.sqlite"
+    assert main(["--db", str(db), "ingest", str(material), "--provider", "glm", "--report", str(report)]) == 2
+    audit = read_json(report)
+    assert llm.calls == 2
+    assert audit["status"] == "invalid_response" and audit["llm_accepted"] == 0
+    assert "after 2 responses" in audit["error"]
+    assert len(audit["responses"]) == 4
+    assert KnowledgeStore(db).nodes("Knowledge") == []
+
+
+def test_extraction_prompt_is_shared_across_tasks():
+    from forge.llm import role_prompt
+    assert role_prompt("extract", {"task_id": "text_classification"}) == role_prompt("extract", {})
+    assert "source_chunk_id" in role_prompt("extract", {"task_id": "text_classification"})
+
+
+def test_provider_failure_is_reported_without_format_retry(material, tmp_path):
+    from forge.llm import LLMProviderError
+
+    class Unavailable(MixedExtractor):
+        calls = 0
+
+        def call(self, role, context):
+            self.calls += 1
+            raise LLMProviderError("service unavailable")
+
+    llm = Unavailable()
+    store = KnowledgeStore(tmp_path / "kb.sqlite")
+    with pytest.raises(LLMProviderError, match="service unavailable"):
+        store.ingest(material, llm)
+    assert llm.calls == 1
+    assert store.latest_ingestion()["status"] == "provider_error"
+    assert store.latest_ingestion()["llm_accepted"] == 0

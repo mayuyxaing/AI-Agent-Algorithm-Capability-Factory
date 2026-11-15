@@ -129,7 +129,12 @@ def main(argv=None):
             if not args.folder.is_dir():
                 raise ValueError(f"Materials directory not found: {args.folder}")
             llm = create_llm(args)
-            count = store.ingest(args.folder, llm, strict_llm=args.strict_extraction)
+            try:
+                count = store.ingest(args.folder, llm, strict_llm=args.strict_extraction)
+            except Exception:
+                if args.report:
+                    write_json(args.report, store.latest_ingestion())
+                raise
             audit = store.latest_ingestion()
             if args.report:
                 write_json(args.report, audit)

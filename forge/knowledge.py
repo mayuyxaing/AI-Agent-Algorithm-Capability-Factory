@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .util import digest, write_json
+from .structured import checked_response
 
 
 class KnowledgeStore:
@@ -60,7 +61,8 @@ class KnowledgeStore:
         count = 0
         audit = {"id": uuid.uuid4().hex, "created_at": datetime.now(timezone.utc).isoformat(),
                  "mode": getattr(llm, "mode", "deterministic"), "model": getattr(llm, "model", None),
-                 "llm_accepted": 0, "llm_rejected": 0, "rejections": [], "status": "running"}
+                 "llm_accepted": 0, "llm_rejected": 0, "rejections": [],
+                 "responses": [], "status": "running"}
         audit["source_hashes"] = {p.relative_to(folder).as_posix(): digest(p.read_text(encoding="utf-8"))
                                   for p in sorted(folder.rglob("*")) if p.is_file() and p.suffix in {".md", ".py"}}
 
@@ -99,11 +101,36 @@ class KnowledgeStore:
                               if fact["evidence_quote"] in source[:16000]}
                     if not chunks:
                         chunks = {"document_0": source[:16000]}
-                    result = llm.call("extract", {"source": source[:16000], "evidence_chunks": [
-                        {"id": key, "quote": quote} for key, quote in chunks.items()]})
-                    if not isinstance(result.get("facts"), list):
-                        save_audit("invalid_response")
-                        raise ValueError("Invalid extraction response")
+                    context = {"source": source[:16000], "evidence_chunks": [
+                        {"id": key, "quote": quote} for key, quote in chunks.items()],
+                        "output_schema": {"type": "object", "required": ["facts"], "properties": {
+                            "facts": {"type": "array", "maxItems": 12, "items": {
+                                "type": "object", "required": ["title", "text", "source_chunk_id"],
+                                "properties": {key: {"type": "string"} for key in
+                                               ("title", "text", "source_chunk_id")}}}}}}
+
+                    def ask(role, request):
+                        response = llm.call(role, request)
+                        record(role + "_response", {}, {"response": response})
+                        return response
+
+                    def record(event, request, response):
+                        audit["responses"].append(dict(source_path=relative, event=event,
+                                                       **request, **response))
+                        save_audit("running")
+
+                    def validate_envelope(response):
+                        if not isinstance(response, dict) or not isinstance(response.get("facts"), list):
+                            raise ValueError('Expected a JSON object with a "facts" array; each fact needs title, text and source_chunk_id')
+                        if len(response["facts"]) > 12:
+                            raise ValueError("facts must contain at most 12 entries")
+
+                    try:
+                        result = checked_response("extract", context, ask, validate_envelope, record)
+                    except Exception as exc:
+                        audit["error"] = str(exc)
+                        save_audit("invalid_response" if isinstance(exc, ValueError) else "provider_error")
+                        raise
                     for index, fact in enumerate(result["facts"][:12]):
                         reason = None
                         if not isinstance(fact, dict) or not all(isinstance(fact.get(k), str) and fact[k].strip() for k in ("title", "text")):

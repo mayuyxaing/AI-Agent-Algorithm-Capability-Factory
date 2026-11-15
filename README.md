@@ -109,6 +109,8 @@ python scripts/run_glm.py --run
 
 使用 ZHIPU_API_KEY，模型固定 glm-4.7-flash，结果在 runtime/glm/。归档的 [v1 GLM 实测结果](examples/glm/PROGRESS.md)：知识抽取接受 12 条，选中逻辑回归，测试 ROC-AUC=0.7829、F1=0.6432；它提供了完整模板参考。当前入口运行 v2，生成上下文只提供接口和计划，旧响应不会冒充新版结果。真实修复演示入口为 repair-glm.cmd，对照实验入口为 benchmark-glm.cmd。
 
+知识抽取若返回缺少 `facts` 的对象，会携带原始响应、错误和 JSON schema 请求一次格式纠正；仍不合规则终止，不替换成 mock 结果。原始解析响应、拒绝原因及最终状态保存在 SQLite 抽取审计和 `ingestion-report.json` 中（包含业务材料片段，分享前注意数据隐私）。客户流失报告位于 `runtime/glm/`，文本任务位于 `runtime/glm/text_classification/`。来源编号和原文核对继续执行；格式纠正不会放宽依据要求。服务连接或鉴权错误不进入格式纠正流程，HTTP 重试仍由供应商适配器单独控制。
+
 ### OpenAI API（使用 ChatGPT 网页账号的同学先看这里）
 
 账号准备、API 额度、密钥隐藏输入及故障排查见 [OpenAI 接入指南](docs/openai-setup.md)。按第 3 节安装后，在个人终端运行：

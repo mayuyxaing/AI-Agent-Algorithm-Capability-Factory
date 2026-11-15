@@ -29,7 +29,7 @@ def plugins(task_id="churn_classification"):
 
 
 def role_prompt(role, context):
-    if context.get("task_id", "churn_classification") != "churn_classification":
+    if role != "extract" and context.get("task_id", "churn_classification") != "churn_classification":
         from .tasks import get_task
         return get_task(context["task_id"]).prompt(role)
     return OllamaLLM.prompts()[role]
