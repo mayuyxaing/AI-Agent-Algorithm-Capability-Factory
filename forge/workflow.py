@@ -12,7 +12,7 @@ from .util import digest, write_json
 from .validation import evaluate
 from .checkpoints import ResponseCheckpoints
 from .planning import INTERFACE, planning_catalog, profile_training, validate_spec, validate_plan, plan_schema
-from .structured import checked_response
+from .structured import checked_response, generation_payload
 
 
 def run(description, dataset: Path, store, llm, policy: dict, output: Path,
@@ -135,7 +135,7 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                      "hyperparameters": candidate["hyperparameters"], "preprocessing": plan["preprocessing"],
                      "attempts": [], "passed": False}
             report["candidates"].append(entry)
-            previous = feedback = None
+            previous = feedback = previous_response = None
             for attempt in range(generation_budget):
                 role = "repair" if attempt > 0 and experiment_arm == "knowledge_repair" else "generate"
                 incoming = {"task_id": task.id, "algorithm": algorithm, "spec": spec, "plan": plan,
@@ -143,19 +143,26 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                             "data_profile": profile,
                             "features": {"numeric": NUMERIC, "categorical": CATEGORICAL},
                             "interface_contract": INTERFACE,
+                            "output_schema": {"type": "object", "required": ["code", "explanation"],
+                                              "properties": {"code": {"type": "string", "minLength": 1, "maxLength": 100000},
+                                                             "explanation": {"type": "string"}}},
                             "inject_fault": inject_fault and algorithm == "logistic" and attempt == 0,
                             "previous_code": previous if role == "repair" else None,
                             "feedback": feedback if role == "repair" else None,
+                            "previous_response": previous_response if role == "repair" else None,
                             "independent_sample": attempt if experiment_arm != "knowledge_repair" else None}
                 try:
-                    generation = ask(role, incoming)
+                    response = ask(role, incoming)
+                    previous_response = response
+                    generation = generation_payload(response)
+                    if generation is not response:
+                        record("generation_normalized", {"role": role, "envelope": "answer"},
+                               {"code_sha256": digest(generation["code"]), "source_edited": False})
                     code = generation["code"]
-                    if not isinstance(code, str) or not 1 <= len(code) <= 100_000:
-                        raise ValueError("Generated code must be a string under 100KB")
                 except LLMProviderError:
                     raise
                 except Exception as exc:
-                    generation = {"code": "", "explanation": f"Provider failure: {type(exc).__name__}: {exc}"}
+                    generation = {"code": "", "explanation": f"Generation contract failure: {type(exc).__name__}: {exc}"}
                     code = ""
                 record(role, incoming, generation)
                 attempt_folder = folder / algorithm / f"attempt_{attempt}"
@@ -170,7 +177,9 @@ def run(description, dataset: Path, store, llm, policy: dict, output: Path,
                 code_path.write_text(code, encoding="utf-8")
                 candidate_policy = dict(policy, _expected_plan={"algorithm": algorithm,
                                         "hyperparameters": candidate["hyperparameters"], "preprocessing": plan["preprocessing"]})
-                feedback = evaluate(code_path, train, valid, candidate_policy, seed)
+                feedback = (evaluate(code_path, train, valid, candidate_policy, seed) if code else
+                            {"passed": False, "checks": {"generation_contract": False},
+                             "metrics": {}, "error": generation["explanation"]})
                 record("validate", {"code_sha256": digest(code), "split": "validation"}, feedback)
                 entry["attempts"].append(dict(feedback, attempt=attempt, code_path=code_path.relative_to(folder).as_posix(),
                                               code_sha256=digest(code), injected=incoming["inject_fault"] or host_injected,

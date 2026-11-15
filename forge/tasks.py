@@ -187,7 +187,8 @@ class TextTask:
             return 'Return JSON: task="text_classification",target="label",metrics=["roc_auc","f1"],constraints chosen from ["train_only_preprocessing","missing_values","unseen_vocabulary"],description. Class 1 is urgent customer ticket, class 0 ordinary.'
         if role == "plan":
             return 'Return JSON matching output_schema. Compare text_logistic and text_nb. Each candidate has algorithm,rationale,hyperparameters matching plugin defaults/parameter_space. preprocessing has ngram_max integer1..2,max_features integer500..5000. Also provide evidence_ids,experience_ids,experience_applied. Use training data_profile. Cite only supplied IDs. On correction fix previous_response using validation_error.'
-        return ('Return JSON with code (complete Python source), explanation. Implement interface_contract with sklearn Pipeline: '
+        return ('Return exactly {"code":"complete Python source","explanation":"design reasoning"}, matching output_schema. '
+                'Put code at the top level, without an answer wrapper. Implement interface_contract with sklearn Pipeline: '
                 'a module-level text cleaning transformer, character-level TfidfVectorizer(analyzer="char",ngram_range=(1,ngram_max),max_features=max_features), '
                 'and exactly the planned classifier/hyperparameters. Use random_state=seed for LogisticRegression. '
                 'Inputs are DataFrames with text column. Fill missing values with empty string and return 1D class-1 probabilities. '

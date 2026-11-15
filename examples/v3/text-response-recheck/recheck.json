@@ -1,0 +1,139 @@
+{
+  "source_run_id": "20261115T041839Z-4148dbc9",
+  "scope": "validation_only",
+  "llm_calls": 0,
+  "items": [
+    {
+      "event_step": 6,
+      "algorithm": "text_logistic",
+      "source_sha256": "46932e5403da0293bd9b4381d4c26be8baf6a5350c81eb8507c72a4aec121eb0",
+      "source_edited": false,
+      "validation": {
+        "checks": {
+          "probability_contract": true,
+          "estimator_matches_plan": true,
+          "hyperparameters_match_plan": true,
+          "preprocessing_matches_plan": true,
+          "missing_column_rejected": true,
+          "column_order": true,
+          "repeat_prediction": true,
+          "model_reload": true,
+          "unseen_vocabulary": true,
+          "all_missing_values": true,
+          "minimum_roc_auc": true,
+          "minimum_f1": true
+        },
+        "check_errors": {},
+        "executed": true,
+        "worker_seconds": 2.4078,
+        "python_peak_mb": 51.366,
+        "wall_seconds": 2.9186,
+        "metrics": {
+          "roc_auc": 0.8455227379278013,
+          "f1": 0.8220858895705522,
+          "accuracy": 0.81875,
+          "balanced_accuracy": 0.8186435380528208
+        },
+        "passed": true
+      }
+    },
+    {
+      "event_step": 9,
+      "algorithm": "text_logistic",
+      "source_sha256": "65b2e7310d7ddc83eb70701d496f1abd2e904281d2379155b8567af55c290d8b",
+      "source_edited": false,
+      "validation": {
+        "executed": false,
+        "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 68, in execute\n    probabilities = vector(module.predict(model, evaluation.copy()), len(evaluation))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\runtime\\text-response-recheck\\1\\algorithm.py\", line 46, in predict\n    return model.predict_proba(frame['text'].fillna('').astype(str))[:, 1]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\pipeline.py\", line 925, in predict_proba\n    Xt = transform.transform(Xt)\n         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\utils\\_set_output.py\", line 327, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\runtime\\text-response-recheck\\1\\algorithm.py\", line 21, in transform\n    return X.fill('').astype(str)\n           ^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\pandas\\core\\generic.py\", line 6434, in __getattr__\n    return object.__getattribute__(self, name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Series' object has no attribute 'fill'. Did you mean: 'bfill'?\n",
+        "checks": {},
+        "worker_seconds": 2.3823,
+        "python_peak_mb": 52.296,
+        "wall_seconds": 2.8869,
+        "passed": false,
+        "failure_kind": "execution"
+      }
+    },
+    {
+      "event_step": 12,
+      "algorithm": "text_logistic",
+      "source_sha256": "04576606110fdbb222dd46802cf21f0569b67e26c02039f50d1c94a3f88bcde4",
+      "source_edited": false,
+      "validation": {
+        "checks": {
+          "probability_contract": true,
+          "estimator_matches_plan": true,
+          "hyperparameters_match_plan": true,
+          "preprocessing_matches_plan": true,
+          "missing_column_rejected": true,
+          "column_order": true,
+          "repeat_prediction": true,
+          "model_reload": true,
+          "unseen_vocabulary": true,
+          "all_missing_values": true,
+          "minimum_roc_auc": true,
+          "minimum_f1": true
+        },
+        "check_errors": {},
+        "executed": true,
+        "worker_seconds": 2.4313,
+        "python_peak_mb": 51.364,
+        "wall_seconds": 2.9366,
+        "metrics": {
+          "roc_auc": 0.8455227379278013,
+          "f1": 0.8220858895705522,
+          "accuracy": 0.81875,
+          "balanced_accuracy": 0.8186435380528208
+        },
+        "passed": true
+      }
+    },
+    {
+      "event_step": 15,
+      "algorithm": "text_nb",
+      "source_sha256": "18e4446e1934bb4451e314e6bd18776177e1ea84192645ed591c3ef8c18c24ca",
+      "source_edited": false,
+      "validation": {
+        "executed": false,
+        "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+        "checks": {},
+        "worker_seconds": 2.3285,
+        "python_peak_mb": 50.267,
+        "wall_seconds": 2.8139,
+        "passed": false,
+        "failure_kind": "execution"
+      }
+    },
+    {
+      "event_step": 18,
+      "algorithm": "text_nb",
+      "source_sha256": "633bbf40fbbbc3786a5fd9cc36e18aaa69434e75b86c8c4a993f289c6081ccda",
+      "source_edited": false,
+      "validation": {
+        "executed": false,
+        "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+        "checks": {},
+        "worker_seconds": 2.3392,
+        "python_peak_mb": 50.266,
+        "wall_seconds": 2.8339,
+        "passed": false,
+        "failure_kind": "execution"
+      }
+    },
+    {
+      "event_step": 21,
+      "algorithm": "text_nb",
+      "source_sha256": "8f88202740e328f44f3663d3950b4d7fff7530d631a70c24e9a0c6c66e4ca037",
+      "source_edited": false,
+      "validation": {
+        "executed": false,
+        "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 56, in execute\n    raise ValueError(f\"Plan mismatch: expected classifier {expected_class}\")\nValueError: Plan mismatch: expected classifier MultinomialNB\n",
+        "checks": {},
+        "worker_seconds": 2.3372,
+        "python_peak_mb": 50.263,
+        "wall_seconds": 2.8512,
+        "passed": false,
+        "failure_kind": "execution"
+      }
+    }
+  ]
+}

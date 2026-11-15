@@ -5,6 +5,24 @@ from forge.structured import checked_response
 from forge.llm import MockLLM, plugins
 from forge.planning import validate_plan, plan_schema, profile_training
 from forge.data import generate, load_split
+from forge.structured import generation_payload
+
+
+def test_generation_answer_wrapper_preserves_source_exactly():
+    source = '# 原始代码\ndef build_model(seed=42):\n    return None\n'
+    response = {"answer": {"code": source, "explanation": "original"}}
+    assert generation_payload(response) is response["answer"]
+    assert generation_payload(response)["code"] == source
+    assert generation_payload(response["answer"]) is response["answer"]
+    assert generation_payload({"answer": {"code": source}, "explanation": "outer"}) == {"code": source, "explanation": "outer"}
+
+
+@pytest.mark.parametrize("response", [{}, {"answer": {"code": ""}}, {"code": 123},
+                                     {"answer": {"code": "x"}, "code": None},
+                                     {"answer": {"answer": {"code": "x"}}}])
+def test_generation_ambiguous_or_invalid_payload_is_rejected(response):
+    with pytest.raises(ValueError, match="Expected"):
+        generation_payload(response)
 
 
 @pytest.mark.parametrize("bad", [{}, {"candidates": {}}, {"plan": {"candidates": []}}, {"candidates": ["logistic"]}])
@@ -78,3 +96,41 @@ def test_workflow_audits_bad_response_and_caches_only_corrected_plan(tmp_path, m
     cached = [read_json(p) for p in (tmp_path / "checkpoints").glob("*.json")]
     plans = [item for item in cached if item["role"] == "plan"]
     assert len(plans) == 1 and isinstance(plans[0]["output"]["candidates"], list)
+
+
+def test_generation_contract_feedback_then_wrapped_code_is_evaluated(tmp_path, monkeypatch):
+    from forge.workflow import run
+    from forge.knowledge import KnowledgeStore
+    from forge.validation import load_policy
+    from forge.util import read_json
+    root = Path(__file__).resolve().parents[1]
+    data = tmp_path / "data.csv"
+    generate(data, rows=200)
+    store = KnowledgeStore(tmp_path / "kb.sqlite")
+    store.ingest(root / "materials")
+
+    class BadThenWrapped(MockLLM):
+        def call(self, role, context):
+            if role == "generate":
+                assert context["output_schema"]["required"] == ["code", "explanation"]
+                return {"unexpected": "no source"}
+            if role == "repair":
+                assert context["feedback"]["checks"] == {"generation_contract": False}
+                assert context["previous_response"] == {"unexpected": "no source"}
+                return {"answer": super().call(role, context)}
+            return super().call(role, context)
+
+    evaluated = []
+    def evaluate(path, *args):
+        assert path.read_text(encoding="utf8").strip()
+        evaluated.append(path)
+        return {"passed": True, "checks": {"test_stub": True}, "metrics": {"roc_auc": .8, "f1": .6, "accuracy": .7}}
+
+    monkeypatch.setattr("forge.workflow.evaluate", evaluate)
+    folder, report = run("客户流失预测，比较算法", data, store, BadThenWrapped(),
+                         load_policy(root / "configs/churn.json"), tmp_path / "runs")
+    assert report["status"] == "passed" and len(evaluated) == 3
+    assert all(c["attempts"][0]["checks"] == {"generation_contract": False} for c in report["candidates"])
+    events = read_json(folder / "events.json")
+    assert len([e for e in events if e["role"] == "generation_normalized"]) == 2
+    assert all(e["output"]["source_edited"] is False for e in events if e["role"] == "generation_normalized")
