@@ -1,7 +1,7 @@
 {
   "audit_date": "2026-11-15",
   "scope": "archived local evidence; no new LLM calls or metric experiments",
-  "implementation_commit": "b115b66a7a242ce429afdaae49aee88636c80754",
+  "implementation_commit": "12d58552e4376ddeac7fe19a11eae9e8e7a412ca",
   "pytest": {
     "tests": 96,
     "errors": 0,
@@ -93,9 +93,10 @@
       "response_provenance": null
     }
   ],
+  "published_repository": "https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory",
   "evidence_hash_policy": "CSV: raw bytes. Other linked files: UTF-8 text with universal newlines normalized to LF, so Git checkout line endings do not change the digest.",
   "evidence_file_sha256": {
-    "README.md": "0cc53071c4e33b59c65119e43ccf5b8b9e401fcc0e08478bda55aa1bc035f11e",
+    "README.md": "ddb65535d238e6c6bf50997f9e8858bee9e1a0525d5ab79cd036d23e9ecf11a5",
     "configs/churn.json": "92fd8fe029d9649cf0a9e6c0135a89aadeca7eebeaa68df3cb17da6491a20bf2",
     "configs/text.json": "0306b5436a3579d41633c62c2fb215cf6ad449faa098fa1e84d97bb3c4d14697",
     "data/churn.csv": "876184b02cc537285eabc94ddfccda984f0ed35ba043b52e97b502a56b6be483",
@@ -148,7 +149,6 @@
     "A linked implementation is not proof of general model success.",
     "Real churn repair used a host-injected fault.",
     "Real text autonomous runs failed; assisted_glm includes an explicit external assistant patch.",
-    "Graph traversal, process execution and role scheduling do not prove MCTS, security isolation or autonomous multi-agent collaboration.",
-    "GitHub has not been submitted."
+    "Graph traversal, process execution and role scheduling do not prove MCTS, security isolation or autonomous multi-agent collaboration."
   ]
 }

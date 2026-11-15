@@ -206,7 +206,7 @@ def predict(model, frame):
 <section id="section-6"><h2>功能与要求对应表</h2>
 <p>我按照任务要求，将项目功能、实现位置和运行结果整理如下。</p>
 <h3>当前结论</h3>
-<p>我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环及真实三组对照尚未成功完成。本次交付包含本地源码、分阶段 Git 历史和运行材料，尚未发布 GitHub 仓库。</p>
+<p>我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环及真实三组对照尚未成功完成。本次交付包含完整源码、分阶段 Git 历史和运行材料，已发布至 GitHub 仓库。</p>
 <p>状态含义：<strong>已实现</strong>表示存在可核对代码及相关验证；<strong>部分实现</strong>表示只覆盖该要求的一部分；<strong>未实现</strong>表示没有对应能力；<strong>待提交</strong>表示本地交付存在，但远程提交未执行。</p>
 <h3>一、题目六项核心要求</h3>
 <div class="table"><table><thead><tr><th>编号</th><th>要求</th><th>状态与范围</th><th>实现或运行证据</th></tr></thead><tbody>
@@ -241,7 +241,7 @@ def predict(model, frame):
 <tr><td>B09</td><td>README.md</td><td>已提供；覆盖题目要求的十项内容</td><td><a href="README.md">README</a></td></tr>
 <tr><td>B10</td><td>环境依赖文件</td><td>已提供范围依赖、开发依赖及历史锁定文件</td><td><a href="requirements.txt">requirements.txt</a>、<a href="requirements-dev.txt">开发依赖</a>、<a href="requirements-lock.txt">环境锁定</a></td></tr>
 <tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 96 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
-<tr><td>B12</td><td>GitHub 仓库提交</td><td>待发布；已提供本地源码和 Git 历史</td><td>本地 Git 分阶段提交；远程仓库尚未发布</td></tr>
+<tr><td>B12</td><td>GitHub 仓库提交</td><td>已发布；源码和分阶段提交历史已上传</td><td><a href="https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory">项目仓库</a></td></tr>
 </tbody></table></div>
 <p>源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。</p>
 <h3>四、8 项进阶要求</h3>

@@ -1,4 +1,4 @@
-# Capability Forge · 基于 AI Agent 的算法能力工厂
+# 基于 AI Agent 的算法能力工厂
 
 我围绕客户流失预测和客服工单分类，设计并实现了一个算法能力工厂原型。系统接收自然语言需求，从业务材料中抽取并检索知识，规划候选算法，生成代码，执行独立验证，再将版本、指标和失败经验写回知识库。
 
@@ -220,11 +220,11 @@ python -m forge inspect RUN_DIR/report.json
 
 后续研究可比较直接生成、文档知识增强、历史失败经验增强，在相同模型与预算下测量首次通过率、修复次数、调用成本和最终表现。当前经验复用示例只证明信息进入工作流，没有证明统计显著的质量提升。
 
-项目演示讲稿见 [demo.md](docs/demo.md)，技术报告与答辩问答见 [提交说明](提交说明.md)。项目采用 Git 分阶段记录，远程仓库配置示例如下：
+项目演示讲稿见 [demo.md](docs/demo.md)，技术报告与答辩问答见 [提交说明](提交说明.md)。项目采用 Git 分阶段记录，完整源码与提交历史已发布到 [GitHub 仓库](https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory)：
 
 ```powershell
-git remote add origin YOUR_GITHUB_REPOSITORY_URL
-git push -u origin main
+git clone https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory.git
+cd AI-Agent-Algorithm-Capability-Factory
 ```
 
 提交包不含 LLM 模型、密钥或虚拟环境。仓库未指定许可证，提交和公开发布前由作者决定许可方式。
