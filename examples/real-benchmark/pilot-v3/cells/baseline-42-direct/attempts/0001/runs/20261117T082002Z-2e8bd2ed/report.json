@@ -1,0 +1,107 @@
+{
+  "run_id": "20261117T082002Z-2e8bd2ed",
+  "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+  "status": "failed",
+  "mode": "glm",
+  "model": "glm-4.7-flash",
+  "fault_injection": false,
+  "workflow_version": 3,
+  "experiment_arm": "direct",
+  "complete_template_supplied": false,
+  "task_id": "churn_classification",
+  "task_title": "客户流失预测",
+  "features": [
+    "tenure",
+    "monthly_charges",
+    "support_calls",
+    "contract",
+    "payment_method"
+  ],
+  "target": "churn",
+  "generation_budget_per_candidate": 3,
+  "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+  "seed": 42,
+  "policy": {
+    "task": "churn_classification",
+    "metrics": [
+      "roc_auc",
+      "f1",
+      "accuracy"
+    ],
+    "selection_metric": "roc_auc",
+    "minimum": {
+      "roc_auc": 0.65,
+      "f1": 0.45
+    },
+    "timeout_seconds": 60,
+    "max_repairs": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "knowledge": [],
+  "experiences": [],
+  "candidates": [],
+  "error": "ValueError: understand contract rejected after 2 responses: Task specification requires task",
+  "failure_kind": "contract_or_workflow",
+  "error_stage": "prepare",
+  "llm_calls": [
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 10
+    },
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 20
+    },
+    {
+      "role": "understand",
+      "response_id": "20261117162034cec44c877a9f4851",
+      "usage": {
+        "completion_tokens": 97,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 211,
+        "prompt_tokens_details": {
+          "cached_tokens": 54
+        },
+        "total_tokens": 308
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 7.651
+    },
+    {
+      "role": "understand",
+      "response_id": "202611171620424798a1f30e804b69",
+      "usage": {
+        "completion_tokens": 115,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 335,
+        "prompt_tokens_details": {
+          "cached_tokens": 207
+        },
+        "total_tokens": 450
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 2.331
+    }
+  ],
+  "structured_corrections": {
+    "understand": 2,
+    "plan": 0
+  }
+}

@@ -35,4 +35,4 @@ python -m forge benchmark --provider mock --rows 200 --output runtime/review-ben
 
 回归测试覆盖这三项已知缺口，不证明所有未知类别分布均被穷举，也不提供恶意代码安全保证。历史真实模型报告维持原样，新检查不会追溯修改原来的通过标记。离线对照用于验证状态隔离，没有新增真实模型效果结论。
 
-本轮完整测试为 **131 项通过、0 项失败**。另外，我通过 CLI 完成了 baseline/seed=42、200 行模拟数据的三组离线运行，三个单元均通过；再次执行相同命令跳过了全部完成单元，没有新增 attempt 目录。离线结果见 [summary.md](../examples/review/benchmark-v3/summary.md)，协议与目录索引见 [manifest.json](../examples/review/benchmark-v3/manifest.json)。这次运行不使用真实 LLM。
+本轮完整测试为 **141 项通过、0 项失败**。另外，我通过 CLI 完成了 baseline/seed=42、200 行模拟数据的三组离线运行，三个单元均通过；再次执行相同命令跳过了全部完成单元，没有新增 attempt 目录。离线结果见 [summary.md](../examples/review/benchmark-v3/summary.md)，协议与目录索引见 [manifest.json](../examples/review/benchmark-v3/manifest.json)。这次运行不使用真实 LLM。

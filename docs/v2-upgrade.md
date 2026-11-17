@@ -29,7 +29,7 @@ v1 已有真实 GLM 完整运行，保存在 examples/glm/successful-run/，不�
 
 **这个案例只能说明模型修复了显式注入的缺陷，不能算作自然生成错误的成功修复证据。** 即使最终通过，也要在答辩中说明故障来源。
 
-对照实验：`benchmark-glm.cmd` 或 `python scripts/run_glm.py --benchmark`。默认一个 baseline 数据条件、seed=42，三组依次运行，比单次主流程需要更多时间。结果在 runtime/glm/benchmark-v3/summary.md。重复同一命令可跳过已完成单元；服务中断单元在新目录与新数据库中重启，不复用旧响应或经验。
+对照实验：`benchmark-glm.cmd` 或 `python scripts/run_glm.py --benchmark`。默认一个 baseline 数据条件、seed=42，三组依次运行，比单次主流程需要更多时间。结果在 runtime/glm/benchmark-v4/summary.md。重复同一命令可跳过已完成单元；服务中断单元在新目录与新数据库中重启，不复用旧响应或经验。
 
 ## 对照协议
 

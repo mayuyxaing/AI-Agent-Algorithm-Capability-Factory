@@ -23,7 +23,7 @@ def benchmark(factory, materials: Path, policy, output: Path, cases=("baseline",
     first = factory()
     corpus = {p.relative_to(materials).as_posix(): digest(p.read_text(encoding="utf-8")) for p in sorted(materials.rglob("*"))
               if p.is_file() and p.suffix in {".md", ".py"}}
-    protocol = {"version": 3, "execution": execution_identity(), "provider": provider_identity(first), "mode": first.mode, "model": first.model, "cases": list(cases), "seeds": list(seeds),
+    protocol = {"version": 4, "execution": execution_identity(), "provider": provider_identity(first), "mode": first.mode, "model": first.model, "cases": list(cases), "seeds": list(seeds),
                 "prompt_sha256": digest(json.dumps(OllamaLLM.prompts(), sort_keys=True, ensure_ascii=False)),
                 "structured_corrections_per_role": 1,
                 "rows": rows, "arms": ARMS, "policy": policy, "corpus": corpus,

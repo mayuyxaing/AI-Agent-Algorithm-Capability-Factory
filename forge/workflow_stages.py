@@ -29,7 +29,13 @@ def prepare_task(task, description: str, dataset: Path, seed: int, session: RunS
     train, valid, test = task.load_split(dataset, seed)
     profile = task.profile(train)
     session.record("profile", {"scope": "training_only"}, profile)
-    context = {"description": description, "task_id": task.id, "metrics_available": list(METRICS)}
+    context = {"description": description, "task_id": task.id, "metrics_available": list(METRICS),
+               "output_schema": {"type": "object", "required": ["task", "target", "metrics", "constraints", "description"],
+                   "properties": {"task": {"type": "string"}, "target": {"type": "string"},
+                       "metrics": {"type": "array", "minItems": 1, "items": {"enum": list(METRICS)}},
+                       "constraints": {"type": "array", "items": {"type": "string"}},
+                       "description": {"type": "string"}}},
+               "output_instruction": "Return the fields required by output_schema at the JSON root."}
 
     def validate(value):
         TaskSpecification.from_dict(value)

@@ -63,10 +63,10 @@ def entry(argv=None):
             if args.full_benchmark:
                 print("正式对照：3 个数据条件、种子 42/43/44、3 个实验组，共 27 个单元。", flush=True)
                 command += ["--cases", "baseline", "missing_high", "minority", "--seeds", "42", "43", "44",
-                            "--rows", "600", "--output", "runtime/glm/benchmark-full-v3"]
+                            "--rows", "600", "--output", "runtime/glm/benchmark-full-v4"]
             else:
                 print("小规模对照：baseline、seed=42、3 个实验组，共 3 个单元。", flush=True)
-                command += ["--output", "runtime/glm/benchmark-v3"]
+                command += ["--output", "runtime/glm/benchmark-v4"]
             return main(command)
         if not args.run:
             print("正在检查连接，请等待……", flush=True)

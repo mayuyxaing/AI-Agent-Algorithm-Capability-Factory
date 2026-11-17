@@ -1,6 +1,13 @@
 """Bounded correction of structured responses; invalid outputs remain in the audit."""
 
 
+def structured_payload(response):
+    """Unwrap exactly one sole answer object; never merge or invent fields."""
+    if isinstance(response, dict) and set(response) == {"answer"} and isinstance(response["answer"], dict):
+        return response["answer"]
+    return response
+
+
 def generation_payload(response):
     """Accept one unambiguous answer envelope without editing generated source."""
     value = response
@@ -20,9 +27,13 @@ def checked_response(role, context, ask, validator, record, max_corrections=1):
     request = context
     for attempt in range(max_corrections + 1):
         result = ask(role, request)
+        payload = structured_payload(result)
+        if payload is not result:
+            record(role + "_normalized", {"envelope": "answer", "depth": 1},
+                   {"response": result, "normalized_response": payload, "fields_edited": False})
         try:
-            validator(result)
-            return result
+            validator(payload)
+            return payload
         except ValueError as exc:
             record(role + "_rejected", {"attempt": attempt}, {"error": str(exc), "response": result})
             if attempt == max_corrections:

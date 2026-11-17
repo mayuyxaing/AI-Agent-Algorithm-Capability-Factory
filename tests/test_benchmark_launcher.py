@@ -25,7 +25,7 @@ def test_benchmark_matrix_and_results_directory_are_forwarded(monkeypatch, full)
     command = calls[0]
     assert command[:3] == ["benchmark", "--provider", "glm"]
     assert "test-private-key" not in str(command)
-    expected_output = "runtime/glm/benchmark-full-v3" if full else "runtime/glm/benchmark-v3"
+    expected_output = "runtime/glm/benchmark-full-v4" if full else "runtime/glm/benchmark-v4"
     assert command[-1] == expected_output
     if full:
         assert command[command.index("--cases") + 1:command.index("--seeds")] == ["baseline", "missing_high", "minority"]

@@ -70,7 +70,7 @@ $textRun = Get-ChildItem runtime/demo-text/runs -Directory | Sort-Object Name -D
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-已归档 [131 项测试通过记录](../examples/test-results.txt)。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。
+已归档 [141 项测试通过记录](../examples/test-results.txt)。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。
 
 ## 真实调用与版本历史
 
