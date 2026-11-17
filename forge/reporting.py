@@ -1,5 +1,6 @@
 """Readable reports and a dependency-free local graph overview."""
 import html
+import json
 from pathlib import Path
 from .util import read_json
 
@@ -14,16 +15,16 @@ def report_markdown(report: dict) -> str:
         lines += ["运行错误：", "", "```text", report["error"], "```", ""]
     if report.get("response_provenance"):
         lines += ["## 响应来源与辅助修改", "", "```json",
-                  __import__('json').dumps(report["response_provenance"], ensure_ascii=False, indent=2), "```", ""]
+                  json.dumps(report["response_provenance"], ensure_ascii=False, indent=2), "```", ""]
     ingestion = report.get("knowledge_ingestion")
     if ingestion:
         lines += [f"知识抽取审计：status={ingestion['status']}，LLM 接受 {ingestion['llm_accepted']} 条，拒绝 {ingestion['llm_rejected']} 条；不合格事实未进入能力图谱。", ""]
     if "checkpoint_hits" in report:
         lines += [f"复用了 {len(report['checkpoint_hits'])} 次历史模型响应，来源运行见 report.json；算法验证结果没有缓存。", ""]
-    if report.get("workflow_version") == 2:
-        lines += [f"工作流 v2；实验组={report['experiment_arm']}；每候选生成预算={report['generation_budget_per_candidate']}；未向真实模型提供完整算法模板。", "",
+    if report.get("workflow_version", 1) >= 2:
+        lines += [f"工作流 v{report['workflow_version']}；实验组={report['experiment_arm']}；每候选生成预算={report['generation_budget_per_candidate']}；未向真实模型提供完整算法模板。", "",
                   "## 训练数据画像与实现计划", "", "```json",
-                  __import__('json').dumps({"data_profile": report.get("data_profile"), "plan": report.get("plan")}, ensure_ascii=False, indent=2), "```", ""]
+                  json.dumps({"data_profile": report.get("data_profile"), "plan": report.get("plan")}, ensure_ascii=False, indent=2), "```", ""]
     for item in report["knowledge"]:
         lines.append(f"- {item['title']} — `{item.get('source_path')}`:{item.get('line')}（{item['id']}）")
         for path in item.get("retrieval_paths", []):
@@ -48,7 +49,7 @@ def report_markdown(report: dict) -> str:
             if attempt.get("error"):
                 lines += ["", "```text", attempt["error"], "```", ""]
     lines += ["", "## 最终测试集评估", "", f"选定算法：{report.get('selected')}", "",
-              "```json", __import__('json').dumps(report.get("test_result"), ensure_ascii=False, indent=2), "```", "",
+              "```json", json.dumps(report.get("test_result"), ensure_ascii=False, indent=2), "```", "",
               "## 解释边界", "",
               "数据为固定种子的模拟数据，指标不能代表真实客户业务效果。按验证集选择，最终测试结果不参与修复。",
               "Mock 的需求解析、规划、代码生成和修复是规则/模板行为，不能作为真实大模型效果证据。",

@@ -1,13 +1,12 @@
 """Matched-data ablations. Mock campaigns verify plumbing, not LLM benefit."""
 import json
-import importlib.metadata
-import platform
 from pathlib import Path
 from .data import generate
 from .knowledge import KnowledgeStore
 from .util import digest, read_json, write_json
 from .workflow import run
-from .llm import OllamaLLM, plugins
+from .llm import OllamaLLM
+from .provenance import execution_identity, provider_identity
 
 ARMS = ["direct", "knowledge", "knowledge_repair"]
 CASES = {
@@ -16,23 +15,6 @@ CASES = {
     "minority": {"missing_rate": .08, "logit_shift": -1.2, "interaction_strength": .5},
 }
 DESCRIPTION = "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
-
-
-def execution_identity():
-    """Reject resume when validators, templates, plugins or dependencies changed."""
-    root = Path(__file__).parent
-    files = {p.relative_to(root).as_posix(): digest(p.read_text(encoding="utf-8"))
-             for p in sorted(root.rglob("*")) if p.suffix in {".py", ".json", ".txt"}}
-    return {"source_sha256": digest(json.dumps(files, sort_keys=True)), "plugins": plugins(),
-            "python": platform.python_version(),
-            "distributions": sorted([d.metadata["Name"], d.version] for d in importlib.metadata.distributions())}
-
-
-def provider_identity(llm):
-    result = {k: getattr(llm, k, None) for k in ("mode", "model", "timeout", "max_output_tokens", "max_attempts")}
-    # Endpoints can contain credentials; bind their digest, never their raw URL.
-    result["endpoint_sha256"] = digest(str(getattr(llm, "endpoint", getattr(llm, "base_url", ""))))
-    return result
 
 
 def benchmark(factory, materials: Path, policy, output: Path, cases=("baseline",), seeds=(42,), rows=600):

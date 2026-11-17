@@ -47,7 +47,7 @@
 | B08 | 验证报告样例 | 已提供 Markdown/JSON | [客户报告](../examples/v2/real-success/report.json)、[文本报告](../examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md) |
 | B09 | README.md | 已提供；覆盖题目要求的十项内容 | [README](../README.md) |
 | B10 | 环境依赖文件 | 已提供范围依赖、开发依赖及历史锁定文件 | [requirements.txt](../requirements.txt)、[开发依赖](../requirements-dev.txt)、[环境锁定](../requirements-lock.txt) |
-| B11 | 使用示例与测试用例 | 已提供；当前归档为 110 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
+| B11 | 使用示例与测试用例 | 已提供；当前归档为 128 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
 | B12 | GitHub 仓库提交 | 已发布；源码和分阶段提交历史已上传 | [项目仓库](https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory) |
 
 源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。
@@ -88,7 +88,7 @@
 |---|---|
 | Git 与清晰提交信息 | 本地 Git 分阶段提交；提交包附完整 history bundle |
 | 项目说明、环境、运行、示例文档 | README 与 docs 已提供；最终演示稿在后续准备步骤更新 |
-| 结构清晰、模块化、注释 | 数据、任务、知识、规划、模型、验证、报告、入口分模块；不能仅凭此保证所有代码质量评分 |
+| 结构清晰、模块化、注释 | 工作流按阶段、候选执行、会话和结果输出拆分；知识按抽取、检索与存储拆分，使用显式契约和事务回滚 |
 | 本地可复现 | 已完成离线测试与提交包解压后的辅助修复复现；真实 API 调用受服务可用性影响 |
 | Python 主语言 | 已采用 Python |
 | 技术选择理由 | [架构说明](architecture.md)：SQLite、显式工作流、sklearn、CLI 的选择与限制 |
@@ -124,3 +124,9 @@
 我增加了逐类别字段的未知值检查、文档更新和删除后的生效快照，以及对照单元重启隔离与完整性核对。实现与边界见 [修正说明](review-fixes.md)，回归用例见 [test_review_regressions.py](../tests/test_review_regressions.py)。历史模型报告维持原来的检查集合，当前检查以新运行结果为准。
 
 新协议的离线三组运行记录：[summary.md](../examples/review/benchmark-v3/summary.md)、[manifest.json](../examples/review/benchmark-v3/manifest.json)。
+
+## 核心代码重构
+
+我将职责拆分、数据契约、错误分类与事务边界集中说明在 [代码重构说明](code-quality-refactor.md)。实现入口：[contracts.py](../forge/contracts.py)、[候选执行](../forge/candidate_execution.py)、[阶段函数](../forge/workflow_stages.py)、[会话](../forge/session.py)、[存储事务](../forge/knowledge_repository.py)、[材料抽取](../forge/extraction.py)、[检索](../forge/retrieval.py)、[运行记录](../forge/run_history.py)、[运行输出](../forge/run_artifacts.py)。
+
+验收记录：[边界故障注入测试](../tests/test_architecture_boundaries.py)、[CLI 兼容性复核](../examples/refactor/cli-smoke.json)、[持续集成配置](../.github/workflows/tests.yml)。GitHub Actions 的云端执行状态需在推送后查看。

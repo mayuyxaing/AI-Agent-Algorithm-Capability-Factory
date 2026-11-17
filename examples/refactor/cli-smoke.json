@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "task": "churn_classification",
+      "mode": "mock",
+      "workflow_version": 3,
+      "status": "passed",
+      "selected": "logistic",
+      "test_metrics": {
+        "roc_auc": 0.7828947368421052,
+        "f1": 0.6432160804020101,
+        "accuracy": 0.7041666666666667
+      },
+      "test_check_count": 16,
+      "attempt_counts": {
+        "forest": 1,
+        "logistic": 2
+      },
+      "fault_injection": true
+    },
+    {
+      "task": "text_classification",
+      "mode": "mock",
+      "workflow_version": 3,
+      "status": "passed",
+      "selected": "text_logistic",
+      "test_metrics": {
+        "roc_auc": 0.8700781249999999,
+        "f1": 0.8765432098765432,
+        "accuracy": 0.875,
+        "balanced_accuracy": 0.875
+      },
+      "test_check_count": 12,
+      "attempt_counts": {
+        "text_logistic": 1,
+        "text_nb": 1
+      },
+      "fault_injection": false
+    }
+  ],
+  "provider": "mock",
+  "purpose": "CLI compatibility after responsibility and transaction refactoring"
+}

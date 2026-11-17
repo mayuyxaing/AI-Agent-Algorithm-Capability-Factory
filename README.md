@@ -39,15 +39,20 @@ flowchart TD
 | 模块 | 文件 | 职责 |
 |---|---|---|
 | 数据 | forge/data.py | 固定种子模拟数据，分层训练/验证/测试划分 |
-| 知识 | forge/knowledge.py | 文档/AST/LLM 抽取、来源核对、检索、图谱、版本记录 |
+| 知识入口 | forge/knowledge.py | 兼容公共接口；委托给抽取、检索、存储与运行记录模块 |
+| 知识实现 | forge/extraction.py、retrieval.py、knowledge_repository.py、run_history.py | 引证抽取、生效知识检索、事务存储和结果沉淀 |
 | LLM | forge/llm.py | 显式 mock、Ollama、OpenAI 与智谱 GLM 后端 |
-| 工作流 | forge/workflow.py | 角色交接、候选比较、修复预算、回写 |
+| 工作流 | forge/workflow.py、workflow_stages.py | 阶段编排、规划与最终测试 |
+| 候选执行 | forge/candidate_execution.py | 单候选生成、验证与有限修复；不接收测试集 |
+| 契约与会话 | forge/contracts.py、session.py | 类型与运行时检查、事件记录和响应缓存 |
 | 验证 | forge/validation.py、worker.py | 宿主指标计算和子进程接口检查 |
 | 静态检查 | forge/safety.py | AST 防误操作检查 |
 | 报告 | forge/reporting.py | Markdown/JSON 报告、离线 HTML 图谱 |
 | 入口 | forge/cli.py | init、ingest、run、graph、inspect |
 
 选择理由与接口说明见 [architecture.md](docs/architecture.md)。角色串行执行，共享 LLM 后端；没有实现自主并行多智能体。
+
+核心职责、错误边界、事务与故障注入验收见 [代码重构说明](docs/code-quality-refactor.md)。
 
 ## 3. 环境配置
 

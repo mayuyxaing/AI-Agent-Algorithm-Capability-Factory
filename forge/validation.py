@@ -84,17 +84,8 @@ def evaluate(code_path: Path, train, evaluation, policy: dict, seed: int):
 
 
 def load_policy(path: Path):
-    policy = read_json(path)
+    from .contracts import EvaluationPolicy
     from .tasks import get_task
-    get_task(policy.get("task"))
-    if not policy.get("metrics") or any(m not in METRICS for m in policy["metrics"]):
-        raise ValueError("Unknown or empty metric registry selection")
-    if policy["selection_metric"] not in policy["metrics"]:
-        raise ValueError("selection_metric must be evaluated")
-    if not set(policy["minimum"]) <= set(policy["metrics"]):
-        raise ValueError("All metric gates must be evaluated")
-    if any(not 0 <= value <= 1 for value in policy["minimum"].values()):
-        raise ValueError("Metric thresholds must be in [0,1]")
-    if not 1 <= policy["timeout_seconds"] <= 600 or not 0 <= policy["max_repairs"] <= 5:
-        raise ValueError("Invalid timeout or repair budget")
-    return policy
+    config = EvaluationPolicy.from_dict(read_json(path), METRICS)
+    get_task(config.task)
+    return config.to_dict()

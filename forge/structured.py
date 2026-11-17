@@ -11,6 +11,8 @@ def generation_payload(response):
             value = dict(value, explanation=outer["explanation"])
     if not isinstance(value, dict) or not isinstance(value.get("code"), str) or not 1 <= len(value["code"]) <= 100_000:
         raise ValueError('Expected {"code": "complete Python source", "explanation": "..."}; code must be nonempty and under 100KB')
+    if "explanation" in value and not isinstance(value["explanation"], str):
+        raise ValueError("Generation explanation must be a string")
     return value
 
 
