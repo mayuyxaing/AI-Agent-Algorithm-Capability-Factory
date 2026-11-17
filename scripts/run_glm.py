@@ -39,8 +39,10 @@ def entry(argv=None):
     parser.add_argument("--refresh-knowledge", action="store_true", help="强制重新抽取材料")
     parser.add_argument("--repair-demo", action="store_true", help="显式注入代码缺陷并由真实模型修复")
     parser.add_argument("--benchmark", action="store_true", help="真实模型三组对照实验；比单次流程需要更多调用")
+    parser.add_argument("--full-benchmark", action="store_true", help="正式对照：3 个条件 × 3 个种子 × 3 组，共 27 个单元")
     parser.add_argument("--task", default="churn_classification", choices=["churn_classification", "text_classification"])
     args = parser.parse_args(argv)
+    args.benchmark = args.benchmark or args.full_benchmark
     if args.task != "churn_classification" and (args.benchmark or args.repair_demo):
         parser.error("目前对照与故障注入演示针对客户流失；文本任务使用 --run --task text_classification")
     os.chdir(Path(__file__).resolve().parents[1])
@@ -57,8 +59,15 @@ def entry(argv=None):
     try:
         print("使用智谱官方 glm-4.7-flash；不会自动切换收费模型。", flush=True)
         if args.benchmark:
-            return main(["benchmark", "--provider", "glm", "--llm-attempts", "6",
-                         "--output", "runtime/glm/benchmark-v3"])
+            command = ["benchmark", "--provider", "glm", "--llm-attempts", "6"]
+            if args.full_benchmark:
+                print("正式对照：3 个数据条件、种子 42/43/44、3 个实验组，共 27 个单元。", flush=True)
+                command += ["--cases", "baseline", "missing_high", "minority", "--seeds", "42", "43", "44",
+                            "--rows", "600", "--output", "runtime/glm/benchmark-full-v3"]
+            else:
+                print("小规模对照：baseline、seed=42、3 个实验组，共 3 个单元。", flush=True)
+                command += ["--output", "runtime/glm/benchmark-v3"]
+            return main(command)
         if not args.run:
             print("正在检查连接，请等待……", flush=True)
             return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])

@@ -54,6 +54,8 @@ flowchart TD
 
 核心职责、错误边界、事务与故障注入验收见 [代码重构说明](docs/code-quality-refactor.md)。
 
+真实模型对照先运行 `benchmark-glm.cmd` 检查 3 个单元，再运行 `benchmark-full-glm.cmd` 执行 27 个单元；两者分别保存结果。固定实验矩阵、密钥输入与统计说明见 [真实对照实验协议](docs/real-benchmark.md)。
+
 ## 3. 环境配置
 
 推荐 Python 3.11–3.14。实际验证环境与精确依赖见 [requirements-lock.txt](requirements-lock.txt)，该锁定文件记录 Windows/Python 3.14 的实测环境；其他 Python 版本优先安装兼容范围依赖。

@@ -47,7 +47,7 @@
 | B08 | 验证报告样例 | 已提供 Markdown/JSON | [客户报告](../examples/v2/real-success/report.json)、[文本报告](../examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md) |
 | B09 | README.md | 已提供；覆盖题目要求的十项内容 | [README](../README.md) |
 | B10 | 环境依赖文件 | 已提供范围依赖、开发依赖及历史锁定文件 | [requirements.txt](../requirements.txt)、[开发依赖](../requirements-dev.txt)、[环境锁定](../requirements-lock.txt) |
-| B11 | 使用示例与测试用例 | 已提供；当前归档为 128 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
+| B11 | 使用示例与测试用例 | 已提供；当前归档为 131 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
 | B12 | GitHub 仓库提交 | 已发布；源码和分阶段提交历史已上传 | [项目仓库](https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory) |
 
 源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。
@@ -130,3 +130,7 @@
 我将职责拆分、数据契约、错误分类与事务边界集中说明在 [代码重构说明](code-quality-refactor.md)。实现入口：[contracts.py](../forge/contracts.py)、[候选执行](../forge/candidate_execution.py)、[阶段函数](../forge/workflow_stages.py)、[会话](../forge/session.py)、[存储事务](../forge/knowledge_repository.py)、[材料抽取](../forge/extraction.py)、[检索](../forge/retrieval.py)、[运行记录](../forge/run_history.py)、[运行输出](../forge/run_artifacts.py)。
 
 验收记录：[边界故障注入测试](../tests/test_architecture_boundaries.py)、[CLI 兼容性复核](../examples/refactor/cli-smoke.json)、[持续集成配置](../.github/workflows/tests.yml)。GitHub Actions 的云端执行状态需在推送后查看。
+
+## 真实模型对照入口
+
+我准备了 [真实对照实验协议](real-benchmark.md)，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 [benchmark-full-glm.cmd](../benchmark-full-glm.cmd)，入口转发测试见 [test_benchmark_launcher.py](../tests/test_benchmark_launcher.py)。实际结果待本机输入密钥并运行后归档。

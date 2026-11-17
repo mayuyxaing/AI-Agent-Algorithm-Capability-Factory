@@ -14,7 +14,7 @@ body{margin:0;background:#f3f5f7;color:#253341;font:16px/1.85 "Microsoft YaHei",
 <h3>运行结果</h3>
 <p>客户流失任务完成了真实 GLM 的规划、代码生成和反馈修复。修复演示由宿主显式注入未知类别缺陷，再由模型根据验证反馈修复。最终选择逻辑回归，测试 ROC-AUC 为 0.7829，F1 为 0.6432。</p>
 <p>文本任务比较字符 TF-IDF 与逻辑回归、多项式朴素贝叶斯的组合。在开发阶段完成输入接口修正后，两个候选均通过验证，最终选中逻辑回归，测试 ROC-AUC 为 0.8701，F1 为 0.8765。这个案例属于半自动修复，GLM 原始自主运行的失败状态保持不变。</p>
-<p>项目归档了 128 项自动化测试通过记录，并完成提交包解压后的文本半自动复现。</p>
+<p>项目归档了 131 项自动化测试通过记录，并完成提交包解压后的文本半自动复现。</p>
 <h3>当前范围与后续方向</h3>
 <p>当前原型支持两种固定输入契约的二分类任务，提供 CLI、候选比较、多轮修复、图谱可视化、版本记录及插件扩展。系统采用串行多角色调度；执行隔离目前是 AST 检查与受限子进程。</p>
 <p>下一步，我计划构建固定任务集，在相同模型、数据与调用预算下比较直接生成、知识检索增强和失败经验增强，分析首次通过率、修复次数、最终通过率与调用成本，再进一步完善执行隔离和任务扩展。</p></section>
@@ -79,7 +79,7 @@ def predict(model, frame):
 <p>开发过程中，我借助编码助手对已有代码增加 DataFrame 到 <code>text</code> 列的接口处理，并保留逐行补丁。两个候选随后通过验证，验证 ROC-AUC 分别为 0.8455 和 0.8369，验证 F1 均为 0.8221。最终选择逻辑回归，测试 ROC-AUC=0.8701，F1=0.8765，balanced_accuracy=0.8750，12 项检查通过。</p>
 <p>该结果记录为 <code>assisted_glm</code>：它复用了真实模型源码，并包含开发阶段的外部接口补丁。复现不产生新的 API 调用。原自主尝试的失败记录保留，补丁没有修改估计器、参数或指标门槛。</p>
 <h4>测试与复现</h4>
-<p>项目归档了 128 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
+<p>项目归档了 131 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
 <p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。当前三组对照仅完成离线流程检查，没有真实模型的知识增强效果结论。</p>
 <h3>7. 开发中的问题与处理</h3>
 <div class="table"><table><thead><tr><th>问题</th><th>我的处理</th></tr></thead><tbody>
@@ -134,7 +134,7 @@ def predict(model, frame):
 <p>输出新增 <code>urgent_probability</code> 和 <code>predicted_label</code>，三条工单的<a href="examples/v3/text-assisted-repair/predictions.csv">预测结果样例</a>已一并提供。</p>
 <h3>自动测试</h3>
 <pre><code>.\.venv\Scripts\python.exe -m pytest -q</code></pre>
-<p>已归档 <a href="examples/test-results.txt">128 项测试通过记录</a>。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。</p>
+<p>已归档 <a href="examples/test-results.txt">131 项测试通过记录</a>。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。</p>
 <h3>真实调用与版本历史</h3>
 <p>安装依赖后，可双击 <code>check-glm.cmd</code> 检查连接、<code>run-glm.cmd</code> 执行客户流失、<code>repair-glm.cmd</code> 执行显式修复演示、<code>text-glm.cmd</code> 执行文本任务。密钥在终端隐藏输入，不保存在项目中。平台权限与拥堵会影响实时调用，历史报告和离线案例可独立查看。</p>
 <p>提交包含 <code>git-history.bundle</code>，可恢复分阶段提交：</p>
@@ -163,7 +163,7 @@ def predict(model, frame):
 <h3>3:30–4:20　验证与沉淀</h3>
 <p>我把验证独立放在宿主侧。模型负责生成代码，评估标签保留在宿主，指标由宿主计算；同时检查概率接口、缺失输入、未见词表、重复预测和保存重载。</p>
 <p>运行结束后，每版源码摘要、指标、环境和失败原因写入图谱，后续任务可检索同一任务下的失败经验。算法、任务和指标也有注册接口。</p>
-<p>目前归档了 128 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
+<p>目前归档了 131 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
 <h3>4:20–5:00　总结与后续研究</h3>
 <p>我完成的核心工作，是把知识抽取、受约束生成、独立验证和经验沉淀连接为可追溯流程，并在表格与文本场景中验证复用方式。</p>
 <p>当前采用模拟数据和串行多角色调度。下一步，我会在固定任务集上开展真实模型对照，比较直接生成、知识增强与失败经验增强的首次通过率、修复次数和成本，再完善执行隔离和任务插件。</p>
@@ -201,7 +201,7 @@ def predict(model, frame):
 <p>我先用固定种子模拟数据验证工程闭环，便于复现并控制缺失、类别变化和标签噪声。真实行业效果需要另行使用真实数据检验。</p>
 <h3>16. 如何接入新任务或算法？</h3>
 <p>兼容算法可扩展元数据、模板或安装入口。新任务需定义输入、读取、画像、接口和验证规则；指标可注册评分函数。任务变化不能只改提示词，还要同步扩展独立验证。</p>
-<h3>17. 128 项测试说明了什么？</h3>
+<h3>17. 131 项测试说明了什么？</h3>
 <p>这些测试检查抽取、接口、适配、缓存、工作流和插件行为，用于工程回归。真实模型能力由单独的实际运行报告记录，测试数量不代表通用成功率。</p>
 <h3>18. 下一步优先做什么？</h3>
 <p>我优先开展固定任务集上的真实模型对照，再评估真实数据和失败经验质量。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p></section>
@@ -242,7 +242,7 @@ def predict(model, frame):
 <tr><td>B08</td><td>验证报告样例</td><td>已提供 Markdown/JSON</td><td><a href="examples/v2/real-success/report.json">客户报告</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">文本报告</a></td></tr>
 <tr><td>B09</td><td>README.md</td><td>已提供；覆盖题目要求的十项内容</td><td><a href="README.md">README</a></td></tr>
 <tr><td>B10</td><td>环境依赖文件</td><td>已提供范围依赖、开发依赖及历史锁定文件</td><td><a href="requirements.txt">requirements.txt</a>、<a href="requirements-dev.txt">开发依赖</a>、<a href="requirements-lock.txt">环境锁定</a></td></tr>
-<tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 128 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
+<tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 131 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
 <tr><td>B12</td><td>GitHub 仓库提交</td><td>已发布；源码和分阶段提交历史已上传</td><td><a href="https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory">项目仓库</a></td></tr>
 </tbody></table></div>
 <p>源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。</p>
@@ -304,4 +304,6 @@ def predict(model, frame):
 <p>新协议的离线三组运行记录：<a href="examples/review/benchmark-v3/summary.md">summary.md</a>、<a href="examples/review/benchmark-v3/manifest.json">manifest.json</a>。</p>
 <h3>核心代码重构</h3>
 <p>我将职责拆分、数据契约、错误分类与事务边界集中说明在 <a href="docs/code-quality-refactor.md">代码重构说明</a>。实现入口：<a href="forge/contracts.py">contracts.py</a>、<a href="forge/candidate_execution.py">候选执行</a>、<a href="forge/workflow_stages.py">阶段函数</a>、<a href="forge/session.py">会话</a>、<a href="forge/knowledge_repository.py">存储事务</a>、<a href="forge/extraction.py">材料抽取</a>、<a href="forge/retrieval.py">检索</a>、<a href="forge/run_history.py">运行记录</a>、<a href="forge/run_artifacts.py">运行输出</a>。</p>
-<p>验收记录：<a href="tests/test_architecture_boundaries.py">边界故障注入测试</a>、<a href="examples/refactor/cli-smoke.json">CLI 兼容性复核</a>、<a href=".github/workflows/tests.yml">持续集成配置</a>。GitHub Actions 的云端执行状态需在推送后查看。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
+<p>验收记录：<a href="tests/test_architecture_boundaries.py">边界故障注入测试</a>、<a href="examples/refactor/cli-smoke.json">CLI 兼容性复核</a>、<a href=".github/workflows/tests.yml">持续集成配置</a>。GitHub Actions 的云端执行状态需在推送后查看。</p>
+<h3>真实模型对照入口</h3>
+<p>我准备了 <a href="docs/real-benchmark.md">真实对照实验协议</a>，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 <a href="benchmark-full-glm.cmd">benchmark-full-glm.cmd</a>，入口转发测试见 <a href="tests/test_benchmark_launcher.py">test_benchmark_launcher.py</a>。实际结果待本机输入密钥并运行后归档。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
