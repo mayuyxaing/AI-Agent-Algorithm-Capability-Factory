@@ -1,11 +1,13 @@
 """Matched-data ablations. Mock campaigns verify plumbing, not LLM benefit."""
 import json
+import importlib.metadata
+import platform
 from pathlib import Path
 from .data import generate
 from .knowledge import KnowledgeStore
 from .util import digest, read_json, write_json
 from .workflow import run
-from .llm import OllamaLLM
+from .llm import OllamaLLM, plugins
 
 ARMS = ["direct", "knowledge", "knowledge_repair"]
 CASES = {
@@ -16,50 +18,85 @@ CASES = {
 DESCRIPTION = "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
 
 
+def execution_identity():
+    """Reject resume when validators, templates, plugins or dependencies changed."""
+    root = Path(__file__).parent
+    files = {p.relative_to(root).as_posix(): digest(p.read_text(encoding="utf-8"))
+             for p in sorted(root.rglob("*")) if p.suffix in {".py", ".json", ".txt"}}
+    return {"source_sha256": digest(json.dumps(files, sort_keys=True)), "plugins": plugins(),
+            "python": platform.python_version(),
+            "distributions": sorted([d.metadata["Name"], d.version] for d in importlib.metadata.distributions())}
+
+
+def provider_identity(llm):
+    result = {k: getattr(llm, k, None) for k in ("mode", "model", "timeout", "max_output_tokens", "max_attempts")}
+    # Endpoints can contain credentials; bind their digest, never their raw URL.
+    result["endpoint_sha256"] = digest(str(getattr(llm, "endpoint", getattr(llm, "base_url", ""))))
+    return result
+
+
 def benchmark(factory, materials: Path, policy, output: Path, cases=("baseline",), seeds=(42,), rows=600):
     if rows < 200 or rows > 10000 or not cases or not seeds or not set(cases) <= set(CASES):
         raise ValueError("Invalid benchmark cases, seeds or rows (200..10000)")
     first = factory()
     corpus = {p.relative_to(materials).as_posix(): digest(p.read_text(encoding="utf-8")) for p in sorted(materials.rglob("*"))
               if p.is_file() and p.suffix in {".md", ".py"}}
-    protocol = {"version": 2, "mode": first.mode, "model": first.model, "cases": list(cases), "seeds": list(seeds),
+    protocol = {"version": 3, "execution": execution_identity(), "provider": provider_identity(first), "mode": first.mode, "model": first.model, "cases": list(cases), "seeds": list(seeds),
                 "prompt_sha256": digest(json.dumps(OllamaLLM.prompts(), sort_keys=True, ensure_ascii=False)),
                 "structured_corrections_per_role": 1,
                 "rows": rows, "arms": ARMS, "policy": policy, "corpus": corpus,
                 "knowledge_source": "same frozen deterministic Markdown/AST corpus, rule-indexed graph",
                 "generation_budget_per_candidate": policy["max_repairs"] + 1,
-                "budget_note": "Same generation ceiling per candidate. Direct/knowledge resample independently without validation feedback; knowledge_repair uses feedback. Stop at first pass. Actual calls/tokens may differ and are reported.",
+                "budget_note": "Same generation ceiling per candidate per attempt. Provider interruption restarts that cell from a pristine corpus without response reuse; prior attempts and their cost remain reported. Direct/knowledge resample without feedback; knowledge_repair uses feedback. Stop at first pass.",
+                "resume_policy": "skip verified completed cells; restart provider-interrupted cells in a new isolated attempt directory",
                 "description": DESCRIPTION}
     output.mkdir(parents=True, exist_ok=True)
     manifest_path = output / "manifest.json"
     manifest = read_json(manifest_path) if manifest_path.exists() else {"protocol": protocol, "results": {}}
     if manifest["protocol"] != protocol:
         raise ValueError("Existing campaign protocol differs; use a new output directory")
+    write_json(manifest_path, manifest)
     paused = False
     for case in cases:
         for seed in seeds:
             dataset = output / "datasets" / f"{case}-{seed}.csv"
+            expected = output / "datasets" / f".expected-{case}-{seed}.csv"
+            generate(expected, rows=rows, seed=seed, **CASES[case])
+            expected_bytes = expected.read_bytes()
+            expected.unlink()
+            if dataset.exists() and dataset.read_bytes() != expected_bytes:
+                raise ValueError("Campaign dataset changed; use a new output directory")
             if not dataset.exists():
-                generate(dataset, rows=rows, seed=seed, **CASES[case])
+                dataset.write_bytes(expected_bytes)
             for arm in ARMS:
                 key = f"{case}-{seed}-{arm}"
                 old = manifest["results"].get(key)
                 if old and old["failure_kind"] != "provider":
+                    saved = (output / old["report"]).resolve()
+                    if not saved.is_relative_to(output.resolve()) or not saved.is_file() or digest(saved.read_bytes()) != old.get("report_sha256"):
+                        raise ValueError("Completed campaign report is missing or changed")
                     continue
                 print(f"对照实验：{key}", flush=True)
                 cell = output / "cells" / key
-                store = KnowledgeStore(cell / "knowledge.sqlite")
-                # Recreate a pristine corpus per cell; prevent prior results/experiences contaminating arms.
-                if not store.nodes("Knowledge"):
-                    store.ingest(materials)
+                attempts = cell / "attempts"
+                number = 1
+                while (attempts / f"{number:04d}").exists():
+                    number += 1
+                attempt = attempts / f"{number:04d}"
+                store = KnowledgeStore(attempt / "knowledge.sqlite")
+                store.ingest(materials)
                 llm = factory()
-                folder, report = run(DESCRIPTION, dataset, store, llm, policy, cell / "runs", seed=seed,
-                                     checkpoint_dir=cell / "checkpoints", experiment_arm=arm,
+                if provider_identity(llm) != protocol["provider"]:
+                    raise ValueError("Provider identity changed within campaign")
+                folder, report = run(DESCRIPTION, dataset, store, llm, policy, attempt / "runs", seed=seed,
+                                     experiment_arm=arm,
                                      resample_budget=policy["max_repairs"] + 1)
                 calls = report.get("llm_calls", [])
                 result = {"case": case, "seed": seed, "arm": arm, "status": report["status"],
                           "failure_kind": report.get("failure_kind"), "dataset_sha256": report["dataset_sha256"],
+                          "attempt_number": number,
                           "report": (folder / "report.json").relative_to(output).as_posix(),
+                          "report_sha256": digest((folder / "report.json").read_bytes()),
                           "first_pass_candidates": sum(bool(c["attempts"] and c["attempts"][0]["passed"]) for c in report["candidates"]),
                           "candidate_count": len(report["candidates"]),
                           "repair_calls": sum(e["role"] == "repair" for e in read_json(folder / "events.json")),
@@ -100,7 +137,7 @@ def benchmark(factory, materials: Path, policy, output: Path, cases=("baseline",
         table.append(f"| {result['case']} / {result['seed']} | {result['arm']} | {result['status']} | {result['first_pass_candidates']}/{result['candidate_count']} | {result['repair_calls']} | {result['reported_tokens']} | {result['test_metrics'].get('roc_auc', 'N/A')} |")
     table += ["", "相同 case/seed 使用相同数据与划分；不同组数据库隔离，不共享失败经验。",
               "每个单元仅对选中版本评估保留测试集；不根据组间测试结果修改方案。",
-              "重复执行同一命令会跳过已完成单元，重试服务中断单元。要进行独立重复实验，请使用新输出目录。", ""]
+              "续跑先核对代码、插件、依赖、数据及已完成报告。服务中断单元从新数据库完整重启，不继承响应缓存和失败经验；原尝试保留并计入成本。生成预算按每次尝试计算，重启不等于原单元内部断点续接。独立重复实验使用新输出目录。", ""]
     table += ["## 按组汇总", "", "```json", json.dumps(statistics, ensure_ascii=False, indent=2), "```", "",
               "成功率分母排除服务中断，包含模型结构化契约失败和算法验证失败；单案例/单种子不能支持统计显著性结论。", ""]
     (output / "summary.md").write_text("\n".join(table), encoding="utf-8")

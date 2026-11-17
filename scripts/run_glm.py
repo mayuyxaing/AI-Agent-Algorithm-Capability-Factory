@@ -17,6 +17,8 @@ def reusable_materials(db: Path, materials: Path):
     audit = store.latest_ingestion()
     if not audit or audit.get("mode") != "glm" or audit.get("model") != "glm-4.7-flash" or audit.get("status") not in {"passed", "partial_llm"}:
         return None
+    if audit.get("retrieval_snapshot_version") != 1:
+        return None  # Legacy databases need one refresh to retire obsolete facts.
     expected = {p.relative_to(materials).as_posix(): digest(p.read_text(encoding="utf-8"))
                 for p in sorted(materials.rglob("*")) if p.is_file() and p.suffix in {".md", ".py"}}
     if not expected:
@@ -56,7 +58,7 @@ def entry(argv=None):
         print("使用智谱官方 glm-4.7-flash；不会自动切换收费模型。", flush=True)
         if args.benchmark:
             return main(["benchmark", "--provider", "glm", "--llm-attempts", "6",
-                         "--output", "runtime/glm/benchmark-v2"])
+                         "--output", "runtime/glm/benchmark-v3"])
         if not args.run:
             print("正在检查连接，请等待……", flush=True)
             return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])

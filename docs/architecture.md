@@ -36,7 +36,7 @@ def predict(model, frame):
     ...
 ```
 
-宿主控制数据：分层划分 train/validation/test=60/20/20。子进程只获得训练标签和待预测特征，不获得验证/测试标签。接口测试覆盖概率形状、范围、未知类别、全缺失值、字段缺失、列顺序、重复预测和模型保存加载。accuracy/F1 阈值固定 0.5，不调阈值。基线为训练集正例比例的常数预测。
+宿主控制数据：分层划分 train/validation/test=60/20/20。子进程只获得训练标签和待预测特征，不获得验证/测试标签。接口测试覆盖概率形状、范围、逐类别字段的整批未知值及混合未知值、所有类别字段同时未知、全缺失值、字段缺失、列顺序、重复预测和模型保存加载。accuracy/F1 阈值固定 0.5，不调阈值。基线为训练集正例比例的常数预测。
 
 需求中的 metrics/constraints 会保留供规划使用，但可执行验收策略以 configs/churn.json 或 configs/text.json 为准；本版不把任意自然语言门槛自动转成配置，也不支持任意字段/目标。遇到其他任务应拒绝或先扩展任务插件与验证器。
 
@@ -59,3 +59,7 @@ AST import allowlist、敏感环境变量名称过滤、独立工作目录、pyt
 
 - [Ollama chat API](https://docs.ollama.com/api/chat)：POST /api/chat，stream=false，format=json。
 - [scikit-learn 常见陷阱](https://scikit-learn.org/stable/common_pitfalls.html)：先划分数据、在训练集拟合预处理并使用 Pipeline。
+
+## 文档与实验状态
+
+我将知识历史和生效集合分别存储，抽取成功后原子切换材料目录的生效快照，词法和图谱检索使用相同过滤。对照实验按单元及尝试建立独立数据库；中断重启不继承响应和历史经验，已完成报告、代码、依赖和输入变化时拒绝续跑。具体协议与回归测试见 [修正说明](review-fixes.md)。

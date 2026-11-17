@@ -76,11 +76,25 @@ class ChurnTask:
                 raise ValueError("Plan mismatch: numeric scaling differs from plan")
 
     def variants(self, evaluation):
-        unknown, missing = evaluation.head(5).copy(), evaluation.head(5).copy()
-        unknown["contract"] = "__previously_unseen_contract__"
+        base = evaluation.head(5).copy()
+        variants = {}
+        for name in self.categorical:
+            unknown = base.copy()
+            unknown[name] = "__previously_unseen_" + name + "__"
+            variants["unknown_category_" + name] = unknown
+            mixed = base.copy()
+            mixed.loc[mixed.index[::2], name] = unknown.loc[mixed.index[::2], name]
+            variants["unknown_category_mixed_" + name] = mixed
+        unknown = base.copy()
+        for name in self.categorical:
+            unknown[name] = "__previously_unseen_" + name + "__"
+        # Keep the aggregate check name used by existing repair clients.
+        variants["unknown_category"] = unknown
+        missing = base.copy()
         for name in self.features:
             missing[name] = np.nan
-        return {"unknown_category": unknown, "all_missing_values": missing}
+        variants["all_missing_values"] = missing
+        return variants
 
     @property
     def interface(self):

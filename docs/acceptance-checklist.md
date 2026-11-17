@@ -47,7 +47,7 @@
 | B08 | 验证报告样例 | 已提供 Markdown/JSON | [客户报告](../examples/v2/real-success/report.json)、[文本报告](../examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md) |
 | B09 | README.md | 已提供；覆盖题目要求的十项内容 | [README](../README.md) |
 | B10 | 环境依赖文件 | 已提供范围依赖、开发依赖及历史锁定文件 | [requirements.txt](../requirements.txt)、[开发依赖](../requirements-dev.txt)、[环境锁定](../requirements-lock.txt) |
-| B11 | 使用示例与测试用例 | 已提供；当前归档为 96 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
+| B11 | 使用示例与测试用例 | 已提供；当前归档为 110 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
 | B12 | GitHub 仓库提交 | 已发布；源码和分阶段提交历史已上传 | [项目仓库](https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory) |
 
 源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。
@@ -118,3 +118,9 @@
 ## 九、后续工作
 
 后续我将优先开展固定任务集上的真实模型对照实验，统计首次通过率、修复成本和最终通过率；再完善生成代码执行隔离，并扩展任务与算法插件。报告摘要、文件摘要及测试计数见 [acceptance-evidence.json](acceptance-evidence.json)。
+
+## 验证与状态管理补充
+
+我增加了逐类别字段的未知值检查、文档更新和删除后的生效快照，以及对照单元重启隔离与完整性核对。实现与边界见 [修正说明](review-fixes.md)，回归用例见 [test_review_regressions.py](../tests/test_review_regressions.py)。历史模型报告维持原来的检查集合，当前检查以新运行结果为准。
+
+新协议的离线三组运行记录：[summary.md](../examples/review/benchmark-v3/summary.md)、[manifest.json](../examples/review/benchmark-v3/manifest.json)。

@@ -108,11 +108,8 @@ def main():
             source_db.backup(destination)
     else:
         graph = read_json(args.source_run / "knowledge_graph.json")
-        for node in graph["nodes"]:
-            properties = {k: v for k, v in node.items() if k not in {"id", "kind", "title"}}
-            store.node(node["kind"], node["title"], properties, node["id"])
-        for edge in graph["edges"]:
-            store.edge(edge["source"], edge["relation"], edge["target"])
+        if not store.nodes():
+            store.import_graph(graph)
         audit = original.get("knowledge_ingestion")
         if audit:
             import json

@@ -147,7 +147,9 @@ def test_benchmark_pairs_data_and_resumes_completed_cells(tmp_path, monkeypatch)
         calls.append((kwargs["experiment_arm"], digest(dataset.read_bytes()), kwargs["resample_budget"]))
         output.mkdir(parents=True)
         write_json(output / "events.json", [])
-        return output, {"status": "passed", "dataset_sha256": digest(dataset.read_bytes()), "candidates": [], "llm_calls": []}
+        report = {"status": "passed", "dataset_sha256": digest(dataset.read_bytes()), "candidates": [], "llm_calls": []}
+        write_json(output / "report.json", report)
+        return output, report
     monkeypatch.setattr("forge.benchmark.run", workflow)
     policy = load_policy(ROOT / "configs/churn.json")
     output = tmp_path / "campaign"
