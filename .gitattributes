@@ -2,3 +2,5 @@
 *.csv -text
 *.joblib binary
 *.sqlite binary
+# Preserve report bytes used by benchmark manifest integrity checks.
+examples/review/**/report.json -text
