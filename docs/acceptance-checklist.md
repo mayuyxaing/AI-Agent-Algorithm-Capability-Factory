@@ -138,3 +138,7 @@
 ## 真实模型小规模对照记录
 
 我保留了协议 v3 的三组真实结果：两组在需求理解封装解析时失败，一组最终通过，不能据此判断知识增强有效。原始分析见 [PILOT-RESULTS.md](../examples/real-benchmark/PILOT-RESULTS.md)，原始表格见 [summary.md](../examples/real-benchmark/pilot-v3/summary.md)，目录索引见 [manifest.json](../examples/real-benchmark/pilot-v3/manifest.json)。统一封装处理的回归测试见 [test_response_envelopes.py](../tests/test_response_envelopes.py)。
+
+## 协议 v4 小规模对照完成
+
+我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 [PILOT-V4-RESULTS.md](../examples/real-benchmark/PILOT-V4-RESULTS.md)、[summary.md](../examples/real-benchmark/pilot-v4/summary.md)、[manifest.json](../examples/real-benchmark/pilot-v4/manifest.json)。27 单元正式实验单独执行，不能合并小规模结果。

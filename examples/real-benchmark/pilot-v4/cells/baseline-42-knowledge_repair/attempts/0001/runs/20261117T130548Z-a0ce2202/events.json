@@ -1,0 +1,89 @@
+[
+  {
+    "step": 0,
+    "role": "profile",
+    "input": {
+      "scope": "training_only"
+    },
+    "output": {
+      "scope": "training_only",
+      "rows": 360,
+      "columns": {
+        "tenure": {
+          "kind": "numeric",
+          "missing_rate": 0.033333,
+          "cardinality": 71,
+          "constant": false,
+          "quantiles": {
+            "0.25": 20.0,
+            "0.5": 37.0,
+            "0.75": 56.0
+          }
+        },
+        "monthly_charges": {
+          "kind": "numeric",
+          "missing_rate": 0.030556,
+          "cardinality": 349,
+          "constant": false,
+          "quantiles": {
+            "0.25": 40.197903768878156,
+            "0.5": 67.78772740237457,
+            "0.75": 94.23179494179767
+          }
+        },
+        "support_calls": {
+          "kind": "numeric",
+          "missing_rate": 0.036111,
+          "cardinality": 8,
+          "constant": false,
+          "quantiles": {
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 2.0
+          }
+        },
+        "contract": {
+          "kind": "categorical",
+          "missing_rate": 0.033333,
+          "cardinality": 3,
+          "constant": false
+        },
+        "payment_method": {
+          "kind": "categorical",
+          "missing_rate": 0.038889,
+          "cardinality": 2,
+          "constant": false
+        }
+      },
+      "positive_rate": 0.3611111111111111,
+      "minority_rate": 0.3611111111111111,
+      "requirements": [
+        "train_only_preprocessing",
+        "unknown_categories",
+        "missing_values",
+        "class_imbalance"
+      ]
+    }
+  },
+  {
+    "step": 1,
+    "role": "workflow_error",
+    "input": {
+      "stage": "prepare"
+    },
+    "output": {
+      "error": "LLMProviderError: BigModel HTTP 429 [business_code=1305]: 模型访问量过大，请稍后重试",
+      "failure_kind": "provider"
+    }
+  },
+  {
+    "step": 2,
+    "role": "persist",
+    "input": {
+      "status": "failed"
+    },
+    "output": {
+      "graph": "knowledge_graph.json"
+    }
+  }
+]

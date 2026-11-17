@@ -1,0 +1,325 @@
+{
+  "protocol": {
+    "version": 4,
+    "execution": {
+      "source_sha256": "20408e906e9cb32554d411f6d6b38f7bf999d5e10d1606b0ce0c5bf61acd8ef1",
+      "plugins": {
+        "forest": {
+          "id": "forest",
+          "estimator": "RandomForestClassifier",
+          "seeded": true,
+          "fixed_parameters": {
+            "n_jobs": 1
+          },
+          "defaults": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          },
+          "parameter_space": {
+            "n_estimators": [
+              "int",
+              20,
+              200
+            ],
+            "max_depth": [
+              "int",
+              2,
+              12
+            ],
+            "min_samples_leaf": [
+              "int",
+              1,
+              20
+            ],
+            "class_weight": [
+              null,
+              "balanced"
+            ]
+          },
+          "name": "随机森林",
+          "import": "from sklearn.ensemble import RandomForestClassifier",
+          "expression": "RandomForestClassifier(n_estimators=100, max_depth=7, min_samples_leaf=5, class_weight='balanced', random_state=seed, n_jobs=1)",
+          "rationale": "与线性模型比较非线性关系和特征交互；限制树深度与并行度。"
+        },
+        "logistic": {
+          "id": "logistic",
+          "estimator": "LogisticRegression",
+          "seeded": true,
+          "defaults": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          },
+          "parameter_space": {
+            "C": [
+              "float",
+              0.01,
+              100
+            ],
+            "max_iter": [
+              "int",
+              100,
+              3000
+            ],
+            "class_weight": [
+              null,
+              "balanced"
+            ],
+            "solver": [
+              "lbfgs",
+              "liblinear"
+            ]
+          },
+          "name": "逻辑回归",
+          "import": "from sklearn.linear_model import LogisticRegression",
+          "expression": "LogisticRegression(max_iter=1000, class_weight='balanced', random_state=seed)",
+          "rationale": "可解释线性基线；标准化数值特征，使用类别权重处理不平衡。"
+        }
+      },
+      "python": "3.12.14",
+      "distributions": [
+        [
+          "Pygments",
+          "2.21.0"
+        ],
+        [
+          "capability-forge",
+          "0.1.0"
+        ],
+        [
+          "cloudpickle",
+          "3.1.2"
+        ],
+        [
+          "colorama",
+          "0.4.6"
+        ],
+        [
+          "iniconfig",
+          "2.3.1"
+        ],
+        [
+          "joblib",
+          "1.6.0"
+        ],
+        [
+          "narwhals",
+          "2.28.0"
+        ],
+        [
+          "numpy",
+          "2.5.4"
+        ],
+        [
+          "packaging",
+          "26.3"
+        ],
+        [
+          "pandas",
+          "3.1.1"
+        ],
+        [
+          "pip",
+          "25.0.1"
+        ],
+        [
+          "pluggy",
+          "1.7.0"
+        ],
+        [
+          "pytest",
+          "9.2.0"
+        ],
+        [
+          "python-dateutil",
+          "4.0.0"
+        ],
+        [
+          "scikit-learn",
+          "1.9.1"
+        ],
+        [
+          "scipy",
+          "1.18.1"
+        ],
+        [
+          "threadpoolctl",
+          "3.8.0"
+        ],
+        [
+          "tzdata",
+          "2026.6"
+        ]
+      ]
+    },
+    "provider": {
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "timeout": 180,
+      "max_output_tokens": 8192,
+      "max_attempts": 6,
+      "endpoint_sha256": "1828e2af3557425dc2c6350b759c7539fad86481a99b9ac3865bb48f551cb493"
+    },
+    "mode": "glm",
+    "model": "glm-4.7-flash",
+    "cases": [
+      "baseline"
+    ],
+    "seeds": [
+      42
+    ],
+    "prompt_sha256": "5f9df12105b60e0df8cdfad75a1cf6ed4d49cdb793b06d78ca275a7fa3f99b6f",
+    "structured_corrections_per_role": 1,
+    "rows": 600,
+    "arms": [
+      "direct",
+      "knowledge",
+      "knowledge_repair"
+    ],
+    "policy": {
+      "task": "churn_classification",
+      "metrics": [
+        "roc_auc",
+        "f1",
+        "accuracy"
+      ],
+      "selection_metric": "roc_auc",
+      "minimum": {
+        "roc_auc": 0.65,
+        "f1": 0.45
+      },
+      "timeout_seconds": 60,
+      "max_repairs": 2
+    },
+    "corpus": {
+      "churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+      "historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
+      "text_business.md": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659"
+    },
+    "knowledge_source": "same frozen deterministic Markdown/AST corpus, rule-indexed graph",
+    "generation_budget_per_candidate": 3,
+    "budget_note": "Same generation ceiling per candidate per attempt. Provider interruption restarts that cell from a pristine corpus without response reuse; prior attempts and their cost remain reported. Direct/knowledge resample without feedback; knowledge_repair uses feedback. Stop at first pass.",
+    "resume_policy": "skip verified completed cells; restart provider-interrupted cells in a new isolated attempt directory",
+    "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+  },
+  "results": {
+    "baseline-42-direct": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "direct",
+      "status": "failed",
+      "failure_kind": "contract_or_workflow",
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "attempt_number": 4,
+      "report": "cells/baseline-42-direct/attempts/0004/runs/20261117T124532Z-812b06cc/report.json",
+      "report_sha256": "f7b4bd047917c458f7e6d512fe30a721e9f1021043754452c8ef69204ac6d0cf",
+      "first_pass_candidates": 0,
+      "candidate_count": 0,
+      "repair_calls": 0,
+      "successful_inferences": 3,
+      "reported_tokens": 4344,
+      "test_metrics": {},
+      "prior_attempts": [
+        {
+          "status": "failed",
+          "reported_tokens": 0,
+          "successful_inferences": 0,
+          "report": "cells/baseline-42-direct/attempts/0001/runs/20261117T111933Z-e4568330/report.json"
+        },
+        {
+          "status": "failed",
+          "reported_tokens": 7876,
+          "successful_inferences": 5,
+          "report": "cells/baseline-42-direct/attempts/0002/runs/20261117T113310Z-be4d5d2e/report.json"
+        },
+        {
+          "status": "failed",
+          "reported_tokens": 2263,
+          "successful_inferences": 2,
+          "report": "cells/baseline-42-direct/attempts/0003/runs/20261117T114229Z-44d1ba51/report.json"
+        }
+      ]
+    },
+    "baseline-42-knowledge": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_kind": null,
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "attempt_number": 1,
+      "report": "cells/baseline-42-knowledge/attempts/0001/runs/20261117T125710Z-f49d8002/report.json",
+      "report_sha256": "d15d3f2e721127054023a7c55456c7b8125d1ddc239cb04841767bce981f6fe6",
+      "first_pass_candidates": 0,
+      "candidate_count": 2,
+      "repair_calls": 0,
+      "successful_inferences": 7,
+      "reported_tokens": 22792,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "prior_attempts": []
+    },
+    "baseline-42-knowledge_repair": {
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_kind": null,
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "attempt_number": 2,
+      "report": "cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/report.json",
+      "report_sha256": "29e46f96efbd45512d9e72517e0c28b29f5c4c450ca27266bf8a2102534e94ac",
+      "first_pass_candidates": 1,
+      "candidate_count": 2,
+      "repair_calls": 2,
+      "successful_inferences": 6,
+      "reported_tokens": 22492,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "prior_attempts": [
+        {
+          "status": "failed",
+          "reported_tokens": 0,
+          "successful_inferences": 0,
+          "report": "cells/baseline-42-knowledge_repair/attempts/0001/runs/20261117T130548Z-a0ce2202/report.json"
+        }
+      ]
+    }
+  },
+  "status": "complete",
+  "statistics": {
+    "direct": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 0.0,
+      "candidate_first_pass_rate": null,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 14483
+    },
+    "knowledge": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 1.0,
+      "candidate_first_pass_rate": 0.0,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 22792
+    },
+    "knowledge_repair": {
+      "evaluated_tasks": 1,
+      "provider_interrupted_tasks": 0,
+      "task_success_rate": 1.0,
+      "candidate_first_pass_rate": 0.5,
+      "repair_calls": 2,
+      "reported_tokens_including_prior_attempts": 22492
+    }
+  }
+}

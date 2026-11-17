@@ -80,7 +80,7 @@ def predict(model, frame):
 <p>该结果记录为 <code>assisted_glm</code>：它复用了真实模型源码，并包含开发阶段的外部接口补丁。复现不产生新的 API 调用。原自主尝试的失败记录保留，补丁没有修改估计器、参数或指标门槛。</p>
 <h4>测试与复现</h4>
 <p>项目归档了 141 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
-<p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。三组真实模型小规模对照已完成：direct、knowledge 两组在知识检索前因理解响应封装失败，knowledge_repair 组最终通过。这个结果暴露了解析接口问题，不能作为知识增强效果结论。原始结果及 v4 重跑协议见 <a href="examples/real-benchmark/PILOT-RESULTS.md">小规模对照分析</a>。正式多条件、多种子矩阵尚待执行。</p>
+<p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。协议 v3 的三组真实模型小规模对照已完成：direct、knowledge 两组在知识检索前因理解响应封装失败，knowledge_repair 组最终通过。这个结果暴露了解析接口问题，不能作为知识增强效果结论。原始结果及 v4 重跑协议见 <a href="examples/real-benchmark/PILOT-RESULTS.md">小规模对照分析</a>。统一封装后，协议 v4 的小规模对照也已完成：直接生成组规划失败，另外两组通过；两组均选择逻辑回归，测试 AUC=0.8795、F1=0.7200。修复组的逻辑回归经过两轮真实反馈修复通过，没有宿主故障注入或外部修改。详见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">v4 结果</a>。单条件、单种子仍不足以证明策略增益，正式多条件、多种子矩阵尚待执行。</p>
 <h3>7. 开发中的问题与处理</h3>
 <div class="table"><table><thead><tr><th>问题</th><th>我的处理</th></tr></thead><tbody>
 <tr><td>模型返回结构不稳定</td><td>增加输出 schema、原始响应审计、有限纠正及单层包装解包</td></tr>
@@ -308,4 +308,6 @@ def predict(model, frame):
 <h3>真实模型对照入口</h3>
 <p>我准备了 <a href="docs/real-benchmark.md">真实对照实验协议</a>，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 <a href="benchmark-full-glm.cmd">benchmark-full-glm.cmd</a>，入口转发测试见 <a href="tests/test_benchmark_launcher.py">test_benchmark_launcher.py</a>。协议 v3 的三个真实小规模单元已归档；v4 正式矩阵待执行。</p>
 <h3>真实模型小规模对照记录</h3>
-<p>我保留了协议 v3 的三组真实结果：两组在需求理解封装解析时失败，一组最终通过，不能据此判断知识增强有效。原始分析见 <a href="examples/real-benchmark/PILOT-RESULTS.md">PILOT-RESULTS.md</a>，原始表格见 <a href="examples/real-benchmark/pilot-v3/summary.md">summary.md</a>，目录索引见 <a href="examples/real-benchmark/pilot-v3/manifest.json">manifest.json</a>。统一封装处理的回归测试见 <a href="tests/test_response_envelopes.py">test_response_envelopes.py</a>。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
+<p>我保留了协议 v3 的三组真实结果：两组在需求理解封装解析时失败，一组最终通过，不能据此判断知识增强有效。原始分析见 <a href="examples/real-benchmark/PILOT-RESULTS.md">PILOT-RESULTS.md</a>，原始表格见 <a href="examples/real-benchmark/pilot-v3/summary.md">summary.md</a>，目录索引见 <a href="examples/real-benchmark/pilot-v3/manifest.json">manifest.json</a>。统一封装处理的回归测试见 <a href="tests/test_response_envelopes.py">test_response_envelopes.py</a>。</p>
+<h3>协议 v4 小规模对照完成</h3>
+<p>我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">PILOT-V4-RESULTS.md</a>、<a href="examples/real-benchmark/pilot-v4/summary.md">summary.md</a>、<a href="examples/real-benchmark/pilot-v4/manifest.json">manifest.json</a>。27 单元正式实验单独执行，不能合并小规模结果。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
