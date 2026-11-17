@@ -1,9 +1,9 @@
 {
   "audit_date": "2026-11-17",
   "scope": "archived local evidence; no new LLM calls or metric experiments",
-  "implementation_commit": "efa1188cad19d88aa49a711f68427e6edff26236",
+  "implementation_commit": "67eb7e6b255675e6211704a30185c0ab79f17ed6",
   "pytest": {
-    "tests": 131,
+    "tests": 141,
     "errors": 0,
     "failures": 0,
     "skipped": 0
@@ -91,13 +91,58 @@
       "dataset_sha256": "4bc3314375da20388db5328d768f8c7c413c85c8393ee7aba181aeaca3223029",
       "fault_injection": false,
       "response_provenance": null
+    },
+    {
+      "report": "examples/real-benchmark/pilot-v3/cells/baseline-42-knowledge_repair/attempts/0001/runs/20261117T082625Z-b5c66cc9/report.json",
+      "run_id": "20261117T082625Z-b5c66cc9",
+      "task": "churn_classification",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "status": "passed",
+      "selected": "logistic",
+      "selection_metric": "roc_auc",
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "test_check_count": 16,
+      "dataset": "examples/real-benchmark/pilot-v3/datasets/baseline-42.csv",
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "fault_injection": false,
+      "response_provenance": null
     }
   ],
+  "real_benchmark_pilot": {
+    "protocol_version": 3,
+    "status": "complete",
+    "cells": {
+      "baseline-42-direct": {
+        "status": "failed",
+        "failure_kind": "contract_or_workflow",
+        "reported_tokens": 758,
+        "report": "cells/baseline-42-direct/attempts/0001/runs/20261117T082002Z-2e8bd2ed/report.json"
+      },
+      "baseline-42-knowledge": {
+        "status": "failed",
+        "failure_kind": "contract_or_workflow",
+        "reported_tokens": 762,
+        "report": "cells/baseline-42-knowledge/attempts/0001/runs/20261117T082043Z-f21f1b27/report.json"
+      },
+      "baseline-42-knowledge_repair": {
+        "status": "passed",
+        "failure_kind": null,
+        "reported_tokens": 22582,
+        "report": "cells/baseline-42-knowledge_repair/attempts/0001/runs/20261117T082625Z-b5c66cc9/report.json"
+      }
+    },
+    "interpretation": "Two arms failed before retrieval; the pilot cannot establish a knowledge or repair benefit."
+  },
   "published_repository": "https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory",
   "evidence_hash_policy": "CSV: raw bytes. Other linked files: UTF-8 text with universal newlines normalized to LF, so Git checkout line endings do not change the digest.",
   "evidence_file_sha256": {
     ".github/workflows/tests.yml": "b7332fe0335232535d093ee938f0609fb445edf182b3b0b55196cf59601343ce",
-    "README.md": "00077d1c74dd0ecaa3b9a8b378a2ddbde0b72d6f52405f5f2011a6d45cc3f901",
+    "README.md": "1d21d7d7760437ae8720c299c9e92ac9330934537c18a0d12f1f5a5fbed277fc",
     "benchmark-full-glm.cmd": "02f6f7bf813fc3542d0f6036afb6cad4afdf4ba9decc50dd79e1507a97929021",
     "configs/churn.json": "92fd8fe029d9649cf0a9e6c0135a89aadeca7eebeaa68df3cb17da6491a20bf2",
     "configs/text.json": "0306b5436a3579d41633c62c2fb215cf6ad449faa098fa1e84d97bb3c4d14697",
@@ -107,15 +152,18 @@
     "docs/code-quality-refactor.md": "58117042e584eeac6e5094f38e62b4045561c378001e8a1516fe2a0bc224798b",
     "docs/generated-interfaces.md": "d76fd709a85484005528029ca516953a2f13e102eb5cb88a2a5fda76757f7b5a",
     "docs/plugin-tasks.md": "3f41983bad9f1d8f8079063867a7cfe3fd8c1ca241b77d233baf0cdba14f207a",
-    "docs/real-benchmark.md": "5c9ceff77ec7acb3943cc5a7852af43abb846673b8f2e4282f679998f9bfc0f9",
-    "docs/review-fixes.md": "ecbaabe37695bba263809c1d1ce5fc3fcee7c99bcd2d2cd09191f6deebc84acc",
+    "docs/real-benchmark.md": "99a75888e4c5da08ea16580b198fb0342b7334c6955baba6f8e731046fc436d1",
+    "docs/review-fixes.md": "4f071a0432b760ce1911e02880520c5127744ca89c9f0a8af2df0bbc7088cd3c",
     "docs/schema.md": "1442d275e9c3edcee144c9dd4ce05dc2e47bb25e80de549b0fcb145ac19f1d52",
     "examples/knowledge_graph.json": "24a1af2b1e769928cb8d0d29d39a9f5e288a07378e66d574e997b0cbf631db41",
+    "examples/real-benchmark/PILOT-RESULTS.md": "5eebbf12aa4d202fa0f3c1ff856a2321af5d17e04b9b95d57be084514ee990df",
+    "examples/real-benchmark/pilot-v3/manifest.json": "67281a72d53ef831099990736ffdd75cd3cc287964e1599bcf2b7f66aaf458af",
+    "examples/real-benchmark/pilot-v3/summary.md": "7d9a39f52ad17edf0a0bdfa33205625829e25b4e39c7cae628a0d68c51865895",
     "examples/refactor/cli-smoke.json": "4b937add3e6a1400cce205658a9686f36c0f3da0aa302fcb246a770bec0e3208",
     "examples/review/benchmark-v3/manifest.json": "286e9a56d4b833d6befb3d2ae6ccda0d722217110815df4b1ca75c60d68b0f38",
     "examples/review/benchmark-v3/summary.md": "0db1e37650a7ee3bf485c97e418b14f853e8dd1e29754af1131ac545993c18a8",
-    "examples/test-results.txt": "1c68e78c362e73e8c72d4c1a21c269ca062fde9e2e4200a689aef57221485da4",
-    "examples/test-results.xml": "49a81be0b6b0970c7ec72786b1687fdd449b163e4e4b05ca1a5ddcd0b70f24df",
+    "examples/test-results.txt": "465f843125d8d624c88840ed7faeba8c2cff9d4e8320748b6ae12f57b0d1db11",
+    "examples/test-results.xml": "b757db9b61372d467ffe4e17b5d0f0c6a95a6a51a8633134fcc58c9a86b8f010",
     "examples/v2/REAL-RESULTS.md": "7beefa187312bb7f846afd96e937729c70bcfdcfbf86f8f2df6af0ef58dee5b0",
     "examples/v2/real-success/events.json": "acf102133f00262c922a01c668de07b86967caec7526f41ce887c5c959483cdf",
     "examples/v2/real-success/logistic/attempt_1/algorithm.py": "1062fd06faa94c02fae08becd6dab8130c1132d1b98bc92b7a954402abd713a5",
@@ -146,7 +194,7 @@
     "forge/validation.py": "9d0245a2d6e53caf0acb1cef400fcf3727a7420382ab7ac4a221978a1557bf86",
     "forge/worker.py": "25733701886b9d8e1602398715fdff9e287f7d90d5aeea87a6c832ea8918fef8",
     "forge/workflow.py": "c17419eaf75fead9f73309abac509e9e8355cbdd8c715cfc6ff1137b95810320",
-    "forge/workflow_stages.py": "969f2ee66a94de0c55f45e020641d23589606ce4e204115f30fd7c18b3553b1e",
+    "forge/workflow_stages.py": "d7cedbb7fb9e9049447c5487e3f3839976cb302c6eeca1dcc22ba53d05e0c1d5",
     "materials/churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
     "materials/historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
     "materials/text_business.md": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659",
@@ -156,8 +204,9 @@
     "requirements.txt": "c77f1bc3adb89eb44111c3b056f8efd252bb3ea88fafadf94593914aaa00bada",
     "scripts/validate.py": "3b60981ea395c47db08c07c06157c5f3bfc5ba7d5715d1f15f31cf7d9070dfae",
     "tests/test_architecture_boundaries.py": "06339be6fc76b52f688b17b50282e3dad655bee7965fda45ccdf8033f9f1e2d2",
-    "tests/test_benchmark_launcher.py": "0093b7796a3596b584b7ff2428685a8b8a9f7f2f0377c18fddb242aa303ce080",
+    "tests/test_benchmark_launcher.py": "b591c96f0c26b9b8085a553d77cf4a0b95b25468239c998fa9f75c9f4b5b7441",
     "tests/test_factory.py": "d01c73d4a2e4fc04142600361522590d5d1087d3b8ef0867a833d7adc4e43756",
+    "tests/test_response_envelopes.py": "27fcc357dba81c0136cfca36ecf8d1c079f646f7cf025772b9bd9f8fb2de20cc",
     "tests/test_review_regressions.py": "7ad13ad8613acb75f5ffeb3c4969d28cef130382d83f6b86fd59a4181d0a6c88",
     "tests/test_task_plugins.py": "d86eed9853b6bb25ef0ce4eaa6b413d486ae1ef58d273116ebf87190a6766a16",
     "tests/test_v2.py": "f165694ac07b5b991162fce50ba5ba8895e41e7c90ed6dcc9447032ec3069060"
