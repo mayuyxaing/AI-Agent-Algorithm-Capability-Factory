@@ -1,7 +1,7 @@
 {
   "audit_date": "2026-11-17",
   "scope": "archived local evidence; no new LLM calls or metric experiments",
-  "implementation_commit": "67eb7e6b255675e6211704a30185c0ab79f17ed6",
+  "implementation_commit": "12c6f7ca430b402d3354e120dd20d81139fda38a",
   "pytest": {
     "tests": 141,
     "errors": 0,
@@ -111,6 +111,46 @@
       "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
       "fault_injection": false,
       "response_provenance": null
+    },
+    {
+      "report": "examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge/attempts/0001/runs/20261117T125710Z-f49d8002/report.json",
+      "run_id": "20261117T125710Z-f49d8002",
+      "task": "churn_classification",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "status": "passed",
+      "selected": "logistic",
+      "selection_metric": "roc_auc",
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "test_check_count": 16,
+      "dataset": "examples/real-benchmark/pilot-v4/datasets/baseline-42.csv",
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "fault_injection": false,
+      "response_provenance": null
+    },
+    {
+      "report": "examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/report.json",
+      "run_id": "20261117T134645Z-e23d6a5e",
+      "task": "churn_classification",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "status": "passed",
+      "selected": "logistic",
+      "selection_metric": "roc_auc",
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "test_check_count": 16,
+      "dataset": "examples/real-benchmark/pilot-v4/datasets/baseline-42.csv",
+      "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+      "fault_injection": false,
+      "response_provenance": null
     }
   ],
   "real_benchmark_pilot": {
@@ -138,11 +178,36 @@
     },
     "interpretation": "Two arms failed before retrieval; the pilot cannot establish a knowledge or repair benefit."
   },
+  "real_benchmark_pilot_v4": {
+    "protocol_version": 4,
+    "status": "complete",
+    "cells": {
+      "baseline-42-direct": {
+        "status": "failed",
+        "failure_kind": "contract_or_workflow",
+        "reported_tokens": 4344,
+        "report": "cells/baseline-42-direct/attempts/0004/runs/20261117T124532Z-812b06cc/report.json"
+      },
+      "baseline-42-knowledge": {
+        "status": "passed",
+        "failure_kind": null,
+        "reported_tokens": 22792,
+        "report": "cells/baseline-42-knowledge/attempts/0001/runs/20261117T125710Z-f49d8002/report.json"
+      },
+      "baseline-42-knowledge_repair": {
+        "status": "passed",
+        "failure_kind": null,
+        "reported_tokens": 22492,
+        "report": "cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/report.json"
+      }
+    },
+    "interpretation": "One condition/seed only; direct planning failed, both knowledge arms passed. No causal or statistical benefit conclusion."
+  },
   "published_repository": "https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory",
   "evidence_hash_policy": "CSV: raw bytes. Other linked files: UTF-8 text with universal newlines normalized to LF, so Git checkout line endings do not change the digest.",
   "evidence_file_sha256": {
     ".github/workflows/tests.yml": "b7332fe0335232535d093ee938f0609fb445edf182b3b0b55196cf59601343ce",
-    "README.md": "1d21d7d7760437ae8720c299c9e92ac9330934537c18a0d12f1f5a5fbed277fc",
+    "README.md": "c06584594a9d641ea646466a8b208d23f3589065e8b64362291600cce288948d",
     "benchmark-full-glm.cmd": "02f6f7bf813fc3542d0f6036afb6cad4afdf4ba9decc50dd79e1507a97929021",
     "configs/churn.json": "92fd8fe029d9649cf0a9e6c0135a89aadeca7eebeaa68df3cb17da6491a20bf2",
     "configs/text.json": "0306b5436a3579d41633c62c2fb215cf6ad449faa098fa1e84d97bb3c4d14697",
@@ -152,13 +217,16 @@
     "docs/code-quality-refactor.md": "58117042e584eeac6e5094f38e62b4045561c378001e8a1516fe2a0bc224798b",
     "docs/generated-interfaces.md": "d76fd709a85484005528029ca516953a2f13e102eb5cb88a2a5fda76757f7b5a",
     "docs/plugin-tasks.md": "3f41983bad9f1d8f8079063867a7cfe3fd8c1ca241b77d233baf0cdba14f207a",
-    "docs/real-benchmark.md": "99a75888e4c5da08ea16580b198fb0342b7334c6955baba6f8e731046fc436d1",
+    "docs/real-benchmark.md": "08fa21d3eaa184b83a0522a1f92b623fd45c7dacff7a4186ce89a11ce53fee81",
     "docs/review-fixes.md": "4f071a0432b760ce1911e02880520c5127744ca89c9f0a8af2df0bbc7088cd3c",
     "docs/schema.md": "1442d275e9c3edcee144c9dd4ce05dc2e47bb25e80de549b0fcb145ac19f1d52",
     "examples/knowledge_graph.json": "24a1af2b1e769928cb8d0d29d39a9f5e288a07378e66d574e997b0cbf631db41",
     "examples/real-benchmark/PILOT-RESULTS.md": "5eebbf12aa4d202fa0f3c1ff856a2321af5d17e04b9b95d57be084514ee990df",
+    "examples/real-benchmark/PILOT-V4-RESULTS.md": "bb149d109fb58115b4a6ca221b3577bba61480e93a023307e186fd5b23cc97cd",
     "examples/real-benchmark/pilot-v3/manifest.json": "67281a72d53ef831099990736ffdd75cd3cc287964e1599bcf2b7f66aaf458af",
     "examples/real-benchmark/pilot-v3/summary.md": "7d9a39f52ad17edf0a0bdfa33205625829e25b4e39c7cae628a0d68c51865895",
+    "examples/real-benchmark/pilot-v4/manifest.json": "0349db76e95333a4a9bebe6226429f5dbc7087c56e399f978b6e673ffee32b58",
+    "examples/real-benchmark/pilot-v4/summary.md": "3bf3783a8a61eee7661a618eff20925ecf108a7f6ca8c4cc2113679c22c960fe",
     "examples/refactor/cli-smoke.json": "4b937add3e6a1400cce205658a9686f36c0f3da0aa302fcb246a770bec0e3208",
     "examples/review/benchmark-v3/manifest.json": "286e9a56d4b833d6befb3d2ae6ccda0d722217110815df4b1ca75c60d68b0f38",
     "examples/review/benchmark-v3/summary.md": "0db1e37650a7ee3bf485c97e418b14f853e8dd1e29754af1131ac545993c18a8",
