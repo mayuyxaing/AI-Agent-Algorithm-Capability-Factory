@@ -2,6 +2,7 @@
 import hashlib
 import json
 import uuid
+import time
 from pathlib import Path
 
 
@@ -16,7 +17,16 @@ def write_json(path: Path, value) -> None:
     temporary = path.with_name(path.name + "." + uuid.uuid4().hex + ".tmp")
     try:
         temporary.write_text(content, encoding="utf-8")
-        temporary.replace(path)
+        for attempt in range(6):
+            try:
+                temporary.replace(path)
+                break
+            except PermissionError as exc:
+                # Windows scanners/readers can briefly deny replacement. Never
+                # fall back to truncating the destination or changing its ACL.
+                if getattr(exc, "winerror", None) not in {5, 32, 33} or attempt == 5:
+                    raise
+                time.sleep(.1 * 2 ** attempt)
     finally:
         temporary.unlink(missing_ok=True)
 
