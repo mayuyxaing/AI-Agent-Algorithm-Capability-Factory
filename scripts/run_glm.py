@@ -10,6 +10,41 @@ from forge.util import digest
 from forge.data import generate
 
 
+def probe_connection():
+    """Separate transport availability from model-output validation for this launcher."""
+    import json
+    from forge.llm import GLMLLM, LLMProviderError, structured_call
+    from forge.structured import structured_payload
+    from forge.contracts import TaskSpecification
+    from forge.tasks import get_task
+    from forge.util import write_json
+    llm = GLMLLM()
+    description = "客户流失预测，标签为 churn，输出概率"
+    result = {"provider": llm.mode, "model": llm.model, "configured": True, "probe": True}
+    try:
+        raw = structured_call(llm, "understand", {"description": description,
+            "task_id": "churn_classification", "output_instruction": "Return task, target, metrics, constraints and description at the JSON root."})
+    except LLMProviderError as exc:
+        result.update(connected=False, task_contract_passed=False, error=str(exc))
+        code = 2
+    else:
+        spec = structured_payload(raw)
+        result.update(connected=True, response=raw, answer_envelope_removed=spec is not raw)
+        try:
+            TaskSpecification.from_dict(spec)
+            get_task().validate_spec(spec, description)
+        except ValueError as exc:
+            result.update(task_contract_passed=False, contract_error=str(exc))
+            code = 1
+        else:
+            result.update(task_contract_passed=True, task=spec["task"])
+            code = 0
+    result["llm_calls"] = llm.calls
+    write_json(Path("runtime/glm/connection-check.json"), result)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return code
+
+
 def reusable_materials(db: Path, materials: Path):
     if not db.exists():
         return None
@@ -70,7 +105,7 @@ def entry(argv=None):
             return main(command)
         if not args.run:
             print("正在检查连接，请等待……", flush=True)
-            return main(["doctor", "--provider", "glm", "--probe", "--output", "runtime/glm/connection-check.json"])
+            return probe_connection()
         from forge.tasks import get_task
         task = get_task(args.task)
         db = "runtime/glm/knowledge.sqlite" if task.id == "churn_classification" else "runtime/glm/text_classification/knowledge.sqlite"
