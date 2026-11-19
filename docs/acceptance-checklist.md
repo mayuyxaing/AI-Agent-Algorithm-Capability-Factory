@@ -146,3 +146,7 @@
 ## 27 单元正式对照完成
 
 我完成了三条件、三种子、三组共 27 个真实 GLM 单元，16 个通过、11 个失败，三组通过数为 4/9、8/9、4/9。原始结果和解释见 [FULL-RESULTS.md](../examples/real-benchmark/FULL-RESULTS.md)、[manifest.json](../examples/real-benchmark/full-v4/manifest.json)、[分析 JSON](../examples/real-benchmark/full-analysis.json)。独立重算入口为 [summarize_benchmark.py](../scripts/summarize_benchmark.py)。运行中的文件写入恢复记录见 [windows-io-hotfix.json](../examples/real-benchmark/full-v4/windows-io-hotfix.json)。
+
+## 演示与代码讲解
+
+演示命令见 [presentation-steps.md](../submission/presentation-steps.md)，核心调用顺序见 [code-walkthrough.md](../submission/code-walkthrough.md)。实际离线复核结果见 [presentation-check.json](../examples/presentation-check.json)。

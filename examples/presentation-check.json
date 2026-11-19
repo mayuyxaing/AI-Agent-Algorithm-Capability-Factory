@@ -1,0 +1,61 @@
+{
+  "purpose": "Offline presentation verification; no new live LLM calls",
+  "cases": [
+    {
+      "task": "churn_classification",
+      "mode": "mock",
+      "status": "passed",
+      "selected": "logistic",
+      "test_metrics": {
+        "roc_auc": 0.7828947368421052,
+        "f1": 0.6432160804020101,
+        "accuracy": 0.7041666666666667
+      },
+      "test_check_count": 16,
+      "candidate_attempts": {
+        "forest": 1,
+        "logistic": 2
+      },
+      "response_provenance": null
+    },
+    {
+      "task": "text_classification",
+      "mode": "assisted_glm",
+      "status": "passed",
+      "selected": "text_logistic",
+      "test_metrics": {
+        "roc_auc": 0.8700781249999999,
+        "f1": 0.8765432098765432,
+        "accuracy": 0.875,
+        "balanced_accuracy": 0.875
+      },
+      "test_check_count": 12,
+      "candidate_attempts": {
+        "text_logistic": 1,
+        "text_nb": 1
+      },
+      "response_provenance": {
+        "kind": "assisted_reproduction",
+        "source_run_id": "20261115T044624Z-10c203ec",
+        "original_status": "no_valid_candidate",
+        "new_api_calls": 0,
+        "modification_author": "coding assistant, outside the GLM workflow",
+        "change": "Select the text column when the cleaner receives a DataFrame; no estimator/parameter/metric changes",
+        "changes": [
+          {
+            "algorithm": "text_logistic",
+            "source_code_path": "text_logistic/attempt_2/algorithm.py",
+            "source_sha256": "0f2f9d5751e19ab319c27edd4180bfd17bbe09aa8fec44fb999d857a8bd5326e",
+            "patched_sha256": "609180ec862b51416c9dfd66b97e882d7d10fcf7428574977b9505f286288ef1"
+          },
+          {
+            "algorithm": "text_nb",
+            "source_code_path": "text_nb/attempt_2/algorithm.py",
+            "source_sha256": "c7d46b96df0906658ae9deee004bc7c6e2e62a09eea52418e0ac11460744f08c",
+            "patched_sha256": "3787299af078e1ea59b82b76c6949f3a5663bc1e4677b7e9c452a9efc045df06"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -140,34 +140,29 @@ def predict(model, frame):
 <p>提交包含 <code>git-history.bundle</code>，可恢复分阶段提交：</p>
 <pre><code>git clone git-history.bundle ../capability-forge-history</code></pre></section>
 <section id="section-4"><h2>五分钟项目演示讲稿</h2>
-<h3>0:00–0:40　问题与目标</h3>
-<p>我实现的是一个算法能力工厂原型。我的出发点是，算法经验通常分散在业务文档、历史代码和实验记录中，单次代码生成没有把这些经验与验证结果连接起来。</p>
-<p>因此，我将系统设计成闭环：从材料中抽取能力，理解自然语言需求，检索知识并规划方案，生成代码后独立验证，再按反馈修复，最后保存版本和经验。</p>
-<p>本项目以客户流失预测为主场景，再扩展到客服工单文本分类。</p>
-<h3>0:40–1:20　架构与知识</h3>
-<p>我先展示材料和图谱。客户流失文档包含字段、缺失值、未知类别和评价要求，历史代码示例提供函数级经验。</p>
-<p>抽取后，知识保留来源文件、内容摘要和原文片段。图谱还包含能力、策略、算法版本、验证运行和失败案例。</p>
-<p>系统根据任务约束沿“需求—策略—知识”路径检索，将相关知识与历史失败交给规划角色。存储采用 SQLite，便于本地复现与导出。</p>
-<p>展示文件：<a href="materials/churn_business.md">业务材料</a>、<a href="docs/schema.md">图谱 schema</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/knowledge_graph.html">图谱视图</a>。</p>
-<h3>1:20–2:30　客户流失真实生成与修复</h3>
-<p>这里展示真实 GLM 运行。输入需求要求处理缺失值、未知类别和类别不平衡，并比较候选方案。</p>
-<p>规划包含算法、参数、预处理和证据 ID。模型生成代码后，宿主调用统一接口训练和检查。</p>
-<p>为了演示反馈修复，我让宿主对生成的编码器显式注入未知类别故障。第一次验证检测到错误，GLM 根据反馈修复，下一轮通过。这里可以对比原始输出、注入版本和修复版本。</p>
-<p>最终选中逻辑回归，测试 ROC-AUC 为 0.7829，F1 为 0.6432，12 项检查通过。测试结果没有用于修复或重选方案。</p>
-<p>展示文件：<a href="examples/v2/real-success/report.md">真实报告</a>、<a href="examples/v2/real-success/events.json">交接轨迹</a>、<a href="examples/v2/real-success/logistic/attempt_1/algorithm.py">修复后代码</a>。</p>
-<h3>2:30–3:30　文本迁移与半自动修复</h3>
-<p>接下来是工单紧急程度分类。我复用同一工作流，将输入改为 text 列，接入字符 TF-IDF、逻辑回归和多项式朴素贝叶斯。</p>
-<p>真实 GLM 自主尝试中，清洗器没有正确处理 DataFrame，导致样本数量不一致。我保留了失败记录，在开发阶段借助编码助手增加提取 text 列的接口补丁。</p>
-<p>修正后两个候选通过验证，按配置的 F1 和候选顺序选择逻辑回归。测试 ROC-AUC 为 0.8701，F1 为 0.8765。这个案例记录为半自动修复，可查看原始失败与逐行补丁，也可不调用 API 重新训练复现。</p>
-<p>展示文件：<a href="examples/v3/text-assisted-repair/README.md">文本案例</a>、<a href="examples/v3/text-assisted-repair/sources/text_nb/interface.patch">接口补丁</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">完整报告</a>。</p>
-<h3>3:30–4:20　验证与沉淀</h3>
-<p>我把验证独立放在宿主侧。模型负责生成代码，评估标签保留在宿主，指标由宿主计算；同时检查概率接口、缺失输入、未见词表、重复预测和保存重载。</p>
-<p>运行结束后，每版源码摘要、指标、环境和失败原因写入图谱，后续任务可检索同一任务下的失败经验。算法、任务和指标也有注册接口。</p>
-<p>目前归档了 148 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
-<h3>4:20–5:00　总结与后续研究</h3>
-<p>我完成的核心工作，是把知识抽取、受约束生成、独立验证和经验沉淀连接为可追溯流程，并在表格与文本场景中验证复用方式。</p>
-<p>当前采用模拟数据和串行多角色调度。我已完成 27 单元真实 GLM 对照，直接生成、知识增强和知识增强加修复分别通过 4/9、8/9、4/9。本轮知识增强组完成率最高，但修复组没有取得更高总体通过率，规划失败是主要限制。下一步增加固定任务的重复采样，改进规划引用与执行隔离。</p>
-<p>运行命令见 <a href="submission/run-and-results.md">运行与案例说明</a>，技术细节见 <a href="submission/technical-report.md">技术报告</a>，问答见 <a href="submission/questions-and-answers.md">技术问答</a>。</p></section>
+<h3>0:00–0:35　问题与目标</h3>
+<p>我实现了一个算法能力工厂原型，把业务材料中的算法经验连接到代码生成、独立验证、反馈修复与知识沉淀。主场景是客户流失预测，另通过任务插件接入客服工单分类。</p>
+<p>我希望每次生成除了留下代码，还留下需求、证据、计划、版本、失败原因和实际指标，方便复核与复用。</p>
+<h3>0:35–1:15　架构与知识</h3>
+<p>我从 Markdown 抽取材料片段，从 Python AST 抽取顶层函数和依赖；真实模型可补充带原文片段编号的事实。知识用 SQLite 属性图存储，包含来源、需求、策略、能力、版本、运行和失败案例。</p>
+<p>工作流按理解、检索、规划、生成、验证、修复、最终测试和回写交接。知识保留历史版本，检索只使用已提交的生效集合；材料更新或删除后，旧事实退出默认检索。</p>
+<p>展示：<a href="materials/churn_business.md">业务材料</a>、<a href="docs/schema.md">图谱 schema</a>、<a href="submission/code-walkthrough.md">代码讲解提纲</a>。</p>
+<h3>1:15–2:15　27 单元真实对照</h3>
+<p>我使用固定模型名 GLM-4.7-Flash，在三个模拟条件、三个数据种子和三个实验组上完成 27 个单元，每组九个任务。直接生成组通过 4 个，知识增强组通过 8 个，知识增强加修复组通过 4 个。</p>
+<p>这轮知识增强组的流程完成率最高，修复组没有取得更高总体通过率。11 个失败中，10 个发生在规划引用校验，另一个没有有效候选。代码修复发生在规划之后，不能解决这些前置失败。</p>
+<p>我把服务中断、重启成本和一次文件写入兼容修复单独记录。各组每次尝试的生成预算一致，但中断重启会增加累计调用，不能声称全过程总成本完全相同。</p>
+<p>展示：<a href="examples/real-benchmark/FULL-RESULTS.md">完整分析</a>、<a href="examples/real-benchmark/full-v4/manifest.json">原始清单</a>。</p>
+<h3>2:15–3:15　真实反馈修复轨迹</h3>
+<p>我展示协议 v4 小规模记录中的真实修复案例。逻辑回归初版没有满足预处理计划，两轮反馈修复后通过。这里没有宿主故障注入，也没有外部手工修改源码，原始响应、每版代码和错误反馈都保留。</p>
+<p>最终选择逻辑回归，测试 ROC-AUC 为 0.8795，F1 为 0.7200，16 项检查通过。该记录不并入 27 单元正式统计。早期另有显式故障注入案例，两个案例分开标注。</p>
+<p>展示：<a href="examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/report.md">原始报告</a>、<a href="examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/events.json">交接轨迹</a>、<a href="examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/logistic/attempt_0/algorithm.py">初版</a>、<a href="examples/real-benchmark/pilot-v4/cells/baseline-42-knowledge_repair/attempts/0002/runs/20261117T134645Z-e23d6a5e/logistic/attempt_2/algorithm.py">第二次修复</a>。</p>
+<h3>3:15–4:15　本地复现与跨场景</h3>
+<p>我先运行离线演示，提交相同需求，展示初版失败、有限修复、最终评估和图谱回写。这里采用 mock 模板，不把它当作新的真实 API 结果。现场命令见演示操作顺序，API 可用性不会阻断本地流程展示。</p>
+<p>文本场景复用了工作流，替换为 text 输入、字符 TF-IDF 和二分类候选。真实模型自主尝试没有完整通过，我在开发中借助编码助手增加列提取接口补丁，形成明确标注的半自动复现。原始失败及补丁均保留。</p>
+<p>展示：<a href="submission/presentation-steps.md">演示操作顺序</a>、<a href="examples/v3/text-assisted-repair/README.md">文本案例</a>。</p>
+<h3>4:15–5:00　验证、局限与下一步</h3>
+<p>我将指标计算放在宿主侧，修复与选择使用验证集，测试集只在最终选中版本上评估。接口检查覆盖概率、缺失、逐字段未知类别、重复预测和保存重载。当前已有 148 项回归测试通过，但这不等于穷举所有生成代码的错误。</p>
+<p>项目仍使用模拟数据、固定任务契约和串行多角色编排，执行环境不是操作系统级沙箱。每组九个任务，缺少同一固定任务的多次模型采样。下一步我优先改善规划引用可靠性，并设计共享冻结前置产物的修复对照，评估真实数据和执行隔离。</p></section>
 <section id="section-5"><h2>技术问答</h2>
 <h3>1. 这个项目解决了什么问题？</h3>
 <p>我希望把分散在文档、历史代码和运行记录中的算法经验，转化为可检索、可执行、可验证的能力。产出除了分类器，还有来源、计划、生成代码、验证结果和可复用的失败经验。</p>
@@ -188,7 +183,7 @@ def predict(model, frame):
 <h3>9. 为什么检查模型保存重载？</h3>
 <p>内存中能预测不等于产物可复用。项目遇到过自定义类的动态模块注册问题，导致序列化失败。我修正加载器并复核同一份源码，因此保留了保存重载检查。</p>
 <h3>10. 真实 GLM 的修复证据是什么？</h3>
-<p>客户流失案例中，宿主对生成的编码器显式注入未知类别故障，真实 GLM 根据反馈完成修复。该案例验证了反馈修复链路，报告明确记录了故障来源。</p>
+<p>客户流失案例中，宿主对生成的编码器显式注入未知类别故障，真实 GLM 根据反馈完成修复。该案例验证了反馈修复链路，报告明确记录了故障来源。后续协议 v4 小规模记录还包含没有宿主注入和外部补丁的真实反馈修复：逻辑回归在两轮修复后通过，两类证据分别归档。</p>
 <h3>11. 文本任务为什么采用半自动修复？</h3>
 <p>GLM 在有限轮次内没有解决输出格式和 DataFrame 输入处理错误。我保留失败记录，在开发阶段借助编码助手增加列提取处理，再用同一验证机制评估候选。结果记录为 assisted_glm。</p>
 <h3>12. 文本候选如何选择？</h3>
@@ -204,7 +199,17 @@ def predict(model, frame):
 <h3>17. 148 项测试说明了什么？</h3>
 <p>这些测试检查抽取、接口、适配、缓存、工作流和插件行为，用于工程回归。真实模型能力由单独的实际运行报告记录，测试数量不代表通用成功率。</p>
 <h3>18. 下一步优先做什么？</h3>
-<p>我已完成正式对照，下一步优先改善规划引用可靠性，并开展每个固定任务的重复 LLM 采样、共享前置产物的修复对照和真实数据评估。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p></section>
+<p>我已完成正式对照，下一步优先改善规划引用可靠性，并开展每个固定任务的重复 LLM 采样、共享前置产物的修复对照和真实数据评估。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p>
+<h3>19. 老师指出的三个缺口怎么修正？</h3>
+<p>未知类别从单字段扩展为逐字段、混合批次和组合输入检查；文档通过生效快照过滤历史事实，整个目录发布成功后才切换；对照单元使用独立数据库，中断后从新尝试重启，并核对协议、数据和已完成报告。历史记录仍保留。</p>
+<h3>20. 为什么修复组没有取得更高通过率？</h3>
+<p>它有五个任务在规划阶段引用了不存在的经验 ID，尚未进入代码修复。两组独立请求模型，前置规划的采样差异影响了总体通过率。因此这轮没有证据支持修复反馈提高总体完成率，也不能把规划失败归因于修复反馈。更清晰的后续对照应固定理解、规划与初始代码，再比较是否给予反馈。</p>
+<h3>21. 为什么不把不存在的引用自动改成空数组？</h3>
+<p>这会改变模型提交的计划并掩盖引用错误。我保留原响应，提供有界纠正，仍失败就记录为契约失败。当前统计衡量完整工作流的可靠性；后续可以评估更好的约束输出，但须作为新协议开展实验。</p>
+<h3>22. 服务中断后为什么不保留通过候选直接跳过剩余流程？</h3>
+<p>候选与单元是不同层级。单元需要完成候选比较、最终测试及记录。当前中断单元从新数据库重启，避免历史失败经验影响组间隔离，代价是可能重复调用。旧尝试和已报告成本保留，未完整记录的成本标为未知。已有最终结果的单元直接跳过，包括失败单元。</p>
+<h3>23. 开发中是否使用了编码助手？</h3>
+<p>我在开发中借助编码助手完成了部分实现、重构、调试与测试，并使用 GLM API 生成和修复实验候选。项目保留 Git 历史、模型原始响应与显式补丁。文本接口的外部辅助修复不计作模型自主修复成功；真实候选的宿主故障注入也单独标记。</p></section>
 <section id="section-6"><h2>功能与要求对应表</h2>
 <p>我按照任务要求，将项目功能、实现位置和运行结果整理如下。</p>
 <h3>当前结论</h3>
@@ -312,4 +317,6 @@ def predict(model, frame):
 <h3>协议 v4 小规模对照完成</h3>
 <p>我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">PILOT-V4-RESULTS.md</a>、<a href="examples/real-benchmark/pilot-v4/summary.md">summary.md</a>、<a href="examples/real-benchmark/pilot-v4/manifest.json">manifest.json</a>。27 单元正式实验已单独完成，小规模结果不合并统计。</p>
 <h3>27 单元正式对照完成</h3>
-<p>我完成了三条件、三种子、三组共 27 个真实 GLM 单元，16 个通过、11 个失败，三组通过数为 4/9、8/9、4/9。原始结果和解释见 <a href="examples/real-benchmark/FULL-RESULTS.md">FULL-RESULTS.md</a>、<a href="examples/real-benchmark/full-v4/manifest.json">manifest.json</a>、<a href="examples/real-benchmark/full-analysis.json">分析 JSON</a>。独立重算入口为 <a href="scripts/summarize_benchmark.py">summarize_benchmark.py</a>。运行中的文件写入恢复记录见 <a href="examples/real-benchmark/full-v4/windows-io-hotfix.json">windows-io-hotfix.json</a>。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
+<p>我完成了三条件、三种子、三组共 27 个真实 GLM 单元，16 个通过、11 个失败，三组通过数为 4/9、8/9、4/9。原始结果和解释见 <a href="examples/real-benchmark/FULL-RESULTS.md">FULL-RESULTS.md</a>、<a href="examples/real-benchmark/full-v4/manifest.json">manifest.json</a>、<a href="examples/real-benchmark/full-analysis.json">分析 JSON</a>。独立重算入口为 <a href="scripts/summarize_benchmark.py">summarize_benchmark.py</a>。运行中的文件写入恢复记录见 <a href="examples/real-benchmark/full-v4/windows-io-hotfix.json">windows-io-hotfix.json</a>。</p>
+<h3>演示与代码讲解</h3>
+<p>演示命令见 <a href="submission/presentation-steps.md">presentation-steps.md</a>，核心调用顺序见 <a href="submission/code-walkthrough.md">code-walkthrough.md</a>。实际离线复核结果见 <a href="examples/presentation-check.json">presentation-check.json</a>。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
