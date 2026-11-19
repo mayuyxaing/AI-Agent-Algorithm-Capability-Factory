@@ -1,7 +1,7 @@
 {
   "audit_date": "2026-11-19",
   "scope": "archived local evidence; no new LLM calls or metric experiments",
-  "implementation_commit": "e3090c373865d7d6b529e6bae8ca38b51955509f",
+  "implementation_commit": "047cd8f7e1144681f81a841027a83eba53d702fe",
   "pytest": {
     "tests": 148,
     "errors": 0,
@@ -288,6 +288,7 @@
     "docs/review-fixes.md": "aa0461a6d26d027744ac5d4673f51941ac47749b7119b76bbe6eaa61c6af2fba",
     "docs/schema.md": "1442d275e9c3edcee144c9dd4ce05dc2e47bb25e80de549b0fcb145ac19f1d52",
     "examples/knowledge_graph.json": "24a1af2b1e769928cb8d0d29d39a9f5e288a07378e66d574e997b0cbf631db41",
+    "examples/presentation-check.json": "cad18066e8eda3a8bb362e3eb50409e7716201e5e342a7499638dcdb8d67140c",
     "examples/real-benchmark/FULL-RESULTS.md": "2e9bec8fdb85ec73da00a6cb3219a2d3e086dbe5cf6e3d4cc70042686f911da9",
     "examples/real-benchmark/PILOT-RESULTS.md": "5eebbf12aa4d202fa0f3c1ff856a2321af5d17e04b9b95d57be084514ee990df",
     "examples/real-benchmark/PILOT-V4-RESULTS.md": "bb149d109fb58115b4a6ca221b3577bba61480e93a023307e186fd5b23cc97cd",
@@ -343,6 +344,8 @@
     "requirements.txt": "c77f1bc3adb89eb44111c3b056f8efd252bb3ea88fafadf94593914aaa00bada",
     "scripts/summarize_benchmark.py": "0b761f9ab92113bec8d7c24a2d27639ae920512e72cb6e740c3fe7ea0d146b81",
     "scripts/validate.py": "3b60981ea395c47db08c07c06157c5f3bfc5ba7d5715d1f15f31cf7d9070dfae",
+    "submission/code-walkthrough.md": "bcb3406649e3ce0bef844da1544fce9b0ec5a44696af289a2353c88539854de5",
+    "submission/presentation-steps.md": "202ad33e4cab9839b2b8215092df8e051767cbc8376d9693b89608a208b7241d",
     "tests/test_architecture_boundaries.py": "06339be6fc76b52f688b17b50282e3dad655bee7965fda45ccdf8033f9f1e2d2",
     "tests/test_benchmark_launcher.py": "b591c96f0c26b9b8085a553d77cf4a0b95b25468239c998fa9f75c9f4b5b7441",
     "tests/test_factory.py": "d01c73d4a2e4fc04142600361522590d5d1087d3b8ef0867a833d7adc4e43756",
