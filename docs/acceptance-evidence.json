@@ -1,9 +1,9 @@
 {
-  "audit_date": "2026-11-17",
+  "audit_date": "2026-11-19",
   "scope": "archived local evidence; no new LLM calls or metric experiments",
-  "implementation_commit": "12c6f7ca430b402d3354e120dd20d81139fda38a",
+  "implementation_commit": "e3090c373865d7d6b529e6bae8ca38b51955509f",
   "pytest": {
-    "tests": 141,
+    "tests": 148,
     "errors": 0,
     "failures": 0,
     "skipped": 0
@@ -203,11 +203,78 @@
     },
     "interpretation": "One condition/seed only; direct planning failed, both knowledge arms passed. No causal or statistical benefit conclusion."
   },
+  "formal_real_benchmark": {
+    "protocol_version": 4,
+    "model": "glm-4.7-flash",
+    "cells": 27,
+    "groups": {
+      "direct": {
+        "tasks": 9,
+        "passed": 4,
+        "failure_breakdown": {
+          "planning_contract": 4,
+          "no_valid_candidate": 1
+        },
+        "candidate_count": 10,
+        "first_pass_candidates": 2,
+        "repair_calls": 0,
+        "reported_tokens_including_prior_attempts": 77147,
+        "prior_attempt_count": 3
+      },
+      "knowledge": {
+        "tasks": 9,
+        "passed": 8,
+        "failure_breakdown": {
+          "planning_contract": 1
+        },
+        "candidate_count": 16,
+        "first_pass_candidates": 8,
+        "repair_calls": 0,
+        "reported_tokens_including_prior_attempts": 195792,
+        "prior_attempt_count": 4
+      },
+      "knowledge_repair": {
+        "tasks": 9,
+        "passed": 4,
+        "failure_breakdown": {
+          "planning_contract": 5
+        },
+        "candidate_count": 8,
+        "first_pass_candidates": 3,
+        "repair_calls": 8,
+        "reported_tokens_including_prior_attempts": 147031,
+        "prior_attempt_count": 2
+      }
+    },
+    "paired_task_outcomes": {
+      "direct_vs_knowledge": {
+        "both_pass": 4,
+        "both_fail": 1,
+        "right_only": 4
+      },
+      "knowledge_vs_knowledge_repair": {
+        "both_pass": 3,
+        "left_only": 5,
+        "right_only": 1
+      }
+    },
+    "io_migrations": [
+      "windows-io-hotfix.json"
+    ],
+    "limits": [
+      "Nine synthetic datasets per arm; no repeated LLM sampling on each fixed task.",
+      "First-pass candidate rates exclude tasks rejected during planning.",
+      "API-reported tokens omit usage never returned or lost in incomplete attempts.",
+      "Observed completion rates do not establish stable causal gains or holdout-metric superiority."
+    ],
+    "manifest": "examples/real-benchmark/full-v4/manifest.json",
+    "analysis": "examples/real-benchmark/full-analysis.json"
+  },
   "published_repository": "https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory",
   "evidence_hash_policy": "CSV: raw bytes. Other linked files: UTF-8 text with universal newlines normalized to LF, so Git checkout line endings do not change the digest.",
   "evidence_file_sha256": {
     ".github/workflows/tests.yml": "b7332fe0335232535d093ee938f0609fb445edf182b3b0b55196cf59601343ce",
-    "README.md": "c06584594a9d641ea646466a8b208d23f3589065e8b64362291600cce288948d",
+    "README.md": "4b8ac02de55d292935ae05e51426173e5f5ce2df4ce3b623f3320dcadfed10ca",
     "benchmark-full-glm.cmd": "02f6f7bf813fc3542d0f6036afb6cad4afdf4ba9decc50dd79e1507a97929021",
     "configs/churn.json": "92fd8fe029d9649cf0a9e6c0135a89aadeca7eebeaa68df3cb17da6491a20bf2",
     "configs/text.json": "0306b5436a3579d41633c62c2fb215cf6ad449faa098fa1e84d97bb3c4d14697",
@@ -216,13 +283,17 @@
     "docs/architecture.md": "c454ab41d7fe9adc2039903c00330d7d67c669c8ac4219f692977ded03bae27d",
     "docs/code-quality-refactor.md": "58117042e584eeac6e5094f38e62b4045561c378001e8a1516fe2a0bc224798b",
     "docs/generated-interfaces.md": "d76fd709a85484005528029ca516953a2f13e102eb5cb88a2a5fda76757f7b5a",
-    "docs/plugin-tasks.md": "3f41983bad9f1d8f8079063867a7cfe3fd8c1ca241b77d233baf0cdba14f207a",
-    "docs/real-benchmark.md": "08fa21d3eaa184b83a0522a1f92b623fd45c7dacff7a4186ce89a11ce53fee81",
-    "docs/review-fixes.md": "4f071a0432b760ce1911e02880520c5127744ca89c9f0a8af2df0bbc7088cd3c",
+    "docs/plugin-tasks.md": "f97683d6f7758b0738482ef8297db77d683df3ce1d85d890830154fe9298912c",
+    "docs/real-benchmark.md": "644ce961367ed1dedae51e690460382ddd67ebae3dd2b63b46d548746e9d78cf",
+    "docs/review-fixes.md": "aa0461a6d26d027744ac5d4673f51941ac47749b7119b76bbe6eaa61c6af2fba",
     "docs/schema.md": "1442d275e9c3edcee144c9dd4ce05dc2e47bb25e80de549b0fcb145ac19f1d52",
     "examples/knowledge_graph.json": "24a1af2b1e769928cb8d0d29d39a9f5e288a07378e66d574e997b0cbf631db41",
+    "examples/real-benchmark/FULL-RESULTS.md": "2e9bec8fdb85ec73da00a6cb3219a2d3e086dbe5cf6e3d4cc70042686f911da9",
     "examples/real-benchmark/PILOT-RESULTS.md": "5eebbf12aa4d202fa0f3c1ff856a2321af5d17e04b9b95d57be084514ee990df",
     "examples/real-benchmark/PILOT-V4-RESULTS.md": "bb149d109fb58115b4a6ca221b3577bba61480e93a023307e186fd5b23cc97cd",
+    "examples/real-benchmark/full-analysis.json": "f78a754d01a482b14b4413cc64c5167ce5ed77f7285f0c4b660b5565ae3aa155",
+    "examples/real-benchmark/full-v4/manifest.json": "ad799ed593168f1d7885c9e21881abe4c2e1c94eaf390f59ebaa8586220492b9",
+    "examples/real-benchmark/full-v4/windows-io-hotfix.json": "4b7bd3d1fcf38a3ea161c9023c8a3fccc862f36409a98021b7672f30212c99ac",
     "examples/real-benchmark/pilot-v3/manifest.json": "67281a72d53ef831099990736ffdd75cd3cc287964e1599bcf2b7f66aaf458af",
     "examples/real-benchmark/pilot-v3/summary.md": "7d9a39f52ad17edf0a0bdfa33205625829e25b4e39c7cae628a0d68c51865895",
     "examples/real-benchmark/pilot-v4/manifest.json": "0349db76e95333a4a9bebe6226429f5dbc7087c56e399f978b6e673ffee32b58",
@@ -230,8 +301,8 @@
     "examples/refactor/cli-smoke.json": "4b937add3e6a1400cce205658a9686f36c0f3da0aa302fcb246a770bec0e3208",
     "examples/review/benchmark-v3/manifest.json": "286e9a56d4b833d6befb3d2ae6ccda0d722217110815df4b1ca75c60d68b0f38",
     "examples/review/benchmark-v3/summary.md": "0db1e37650a7ee3bf485c97e418b14f853e8dd1e29754af1131ac545993c18a8",
-    "examples/test-results.txt": "465f843125d8d624c88840ed7faeba8c2cff9d4e8320748b6ae12f57b0d1db11",
-    "examples/test-results.xml": "b757db9b61372d467ffe4e17b5d0f0c6a95a6a51a8633134fcc58c9a86b8f010",
+    "examples/test-results.txt": "820b40b2c2fdf39e29603029dc211974aab0b2c1d1473a94998f32ada31a73ca",
+    "examples/test-results.xml": "6dafb0eb697d862dad56be34bbbbab04220eb0cacb1db4726aa01503c81e838b",
     "examples/v2/REAL-RESULTS.md": "7beefa187312bb7f846afd96e937729c70bcfdcfbf86f8f2df6af0ef58dee5b0",
     "examples/v2/real-success/events.json": "acf102133f00262c922a01c668de07b86967caec7526f41ce887c5c959483cdf",
     "examples/v2/real-success/logistic/attempt_1/algorithm.py": "1062fd06faa94c02fae08becd6dab8130c1132d1b98bc92b7a954402abd713a5",
@@ -270,6 +341,7 @@
     "requirements-dev.txt": "8636f9ab1a075be9f3039e2a6471837259c4f36b625bcaf7a3d9a1edd2419c6d",
     "requirements-lock.txt": "b276da8f56fa45950d7422acaee4a18ec7c37c401014f01bcddd210bc6ec27ae",
     "requirements.txt": "c77f1bc3adb89eb44111c3b056f8efd252bb3ea88fafadf94593914aaa00bada",
+    "scripts/summarize_benchmark.py": "0b761f9ab92113bec8d7c24a2d27639ae920512e72cb6e740c3fe7ea0d146b81",
     "scripts/validate.py": "3b60981ea395c47db08c07c06157c5f3bfc5ba7d5715d1f15f31cf7d9070dfae",
     "tests/test_architecture_boundaries.py": "06339be6fc76b52f688b17b50282e3dad655bee7965fda45ccdf8033f9f1e2d2",
     "tests/test_benchmark_launcher.py": "b591c96f0c26b9b8085a553d77cf4a0b95b25468239c998fa9f75c9f4b5b7441",
@@ -284,7 +356,7 @@
   ],
   "limits": [
     "A linked implementation is not proof of general model success.",
-    "Real churn repair used a host-injected fault.",
+    "The early churn demo used an injected fault; later pilot/formal reports separately record non-injected runs.",
     "Real text autonomous runs failed; assisted_glm includes an explicit external assistant patch.",
     "Graph traversal, process execution and role scheduling do not prove MCTS, security isolation or autonomous multi-agent collaboration."
   ]
