@@ -1,0 +1,2755 @@
+[
+  {
+    "step": 0,
+    "role": "profile",
+    "input": {
+      "scope": "training_only"
+    },
+    "output": {
+      "scope": "training_only",
+      "rows": 360,
+      "columns": {
+        "tenure": {
+          "kind": "numeric",
+          "missing_rate": 0.033333,
+          "cardinality": 71,
+          "constant": false,
+          "quantiles": {
+            "0.25": 20.0,
+            "0.5": 37.0,
+            "0.75": 56.0
+          }
+        },
+        "monthly_charges": {
+          "kind": "numeric",
+          "missing_rate": 0.030556,
+          "cardinality": 349,
+          "constant": false,
+          "quantiles": {
+            "0.25": 40.197903768878156,
+            "0.5": 67.78772740237457,
+            "0.75": 94.23179494179767
+          }
+        },
+        "support_calls": {
+          "kind": "numeric",
+          "missing_rate": 0.036111,
+          "cardinality": 8,
+          "constant": false,
+          "quantiles": {
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 2.0
+          }
+        },
+        "contract": {
+          "kind": "categorical",
+          "missing_rate": 0.033333,
+          "cardinality": 3,
+          "constant": false
+        },
+        "payment_method": {
+          "kind": "categorical",
+          "missing_rate": 0.038889,
+          "cardinality": 2,
+          "constant": false
+        }
+      },
+      "positive_rate": 0.3611111111111111,
+      "minority_rate": 0.3611111111111111,
+      "requirements": [
+        "train_only_preprocessing",
+        "unknown_categories",
+        "missing_values",
+        "class_imbalance"
+      ]
+    }
+  },
+  {
+    "step": 1,
+    "role": "understand_response",
+    "input": {
+      "context": {
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+        "task_id": "churn_classification",
+        "metrics_available": [
+          "roc_auc",
+          "f1",
+          "accuracy",
+          "balanced_accuracy"
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "task",
+            "target",
+            "metrics",
+            "constraints",
+            "description"
+          ],
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "metrics": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "roc_auc",
+                  "f1",
+                  "accuracy",
+                  "balanced_accuracy"
+                ]
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "output_instruction": "Return the fields required by output_schema at the JSON root."
+      },
+      "source": "live"
+    },
+    "output": {
+      "task": "churn_classification",
+      "target": "churn",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "missing_values",
+        "unknown_categories",
+        "class_imbalance"
+      ],
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    }
+  },
+  {
+    "step": 2,
+    "role": "understand",
+    "input": {
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+      "task_id": "churn_classification",
+      "metrics_available": [
+        "roc_auc",
+        "f1",
+        "accuracy",
+        "balanced_accuracy"
+      ],
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "task",
+          "target",
+          "metrics",
+          "constraints",
+          "description"
+        ],
+        "properties": {
+          "task": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "metrics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "roc_auc",
+                "f1",
+                "accuracy",
+                "balanced_accuracy"
+              ]
+            }
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "output_instruction": "Return the fields required by output_schema at the JSON root."
+    },
+    "output": {
+      "task": "churn_classification",
+      "target": "churn",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "missing_values",
+        "unknown_categories",
+        "class_imbalance"
+      ],
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    }
+  },
+  {
+    "step": 3,
+    "role": "retrieve",
+    "input": {
+      "query": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    },
+    "output": {
+      "knowledge": [
+        {
+          "id": "Knowledge:b1bde62ca7719f21fe42",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 68,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:d0dcebab4212d8e42da3",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:201bae68dcaaff68afaa",
+          "source_path": "text_business.md",
+          "score": 44,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:ee594e7236a1cbe8c520",
+          "kind": "Knowledge",
+          "title": "评价指标与业务约束",
+          "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "line": 14,
+          "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 33,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:ee594e7236a1cbe8c520"
+            ]
+          ]
+        },
+        {
+          "id": "Function:abe0662caba9d48ee2eb",
+          "kind": "Function",
+          "title": "churn_category_encoder",
+          "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+          "line": 5,
+          "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+          "dependencies": [
+            "sklearn.preprocessing"
+          ],
+          "extraction": "python_ast",
+          "source_id": "Source:36bf272485aac6d9de38",
+          "source_path": "historical_code.py",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Function:abe0662caba9d48ee2eb"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:b8867b632089cbc5844c",
+          "kind": "Knowledge",
+          "title": "候选算法及适用条件",
+          "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "line": 11,
+          "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:b8867b632089cbc5844c"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:948b7c74dfbb766ab40d",
+          "kind": "Knowledge",
+          "title": "历史失败案例：未知类别",
+          "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "line": 20,
+          "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 24,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:948b7c74dfbb766ab40d"
+            ]
+          ]
+        }
+      ],
+      "experiences": []
+    }
+  },
+  {
+    "step": 4,
+    "role": "plan_response",
+    "input": {
+      "context": {
+        "task_id": "churn_classification",
+        "spec": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        },
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 360,
+          "columns": {
+            "tenure": {
+              "kind": "numeric",
+              "missing_rate": 0.033333,
+              "cardinality": 71,
+              "constant": false,
+              "quantiles": {
+                "0.25": 20.0,
+                "0.5": 37.0,
+                "0.75": 56.0
+              }
+            },
+            "monthly_charges": {
+              "kind": "numeric",
+              "missing_rate": 0.030556,
+              "cardinality": 349,
+              "constant": false,
+              "quantiles": {
+                "0.25": 40.197903768878156,
+                "0.5": 67.78772740237457,
+                "0.75": 94.23179494179767
+              }
+            },
+            "support_calls": {
+              "kind": "numeric",
+              "missing_rate": 0.036111,
+              "cardinality": 8,
+              "constant": false,
+              "quantiles": {
+                "0.25": 1.0,
+                "0.5": 1.0,
+                "0.75": 2.0
+              }
+            },
+            "contract": {
+              "kind": "categorical",
+              "missing_rate": 0.033333,
+              "cardinality": 3,
+              "constant": false
+            },
+            "payment_method": {
+              "kind": "categorical",
+              "missing_rate": 0.038889,
+              "cardinality": 2,
+              "constant": false
+            }
+          },
+          "positive_rate": 0.3611111111111111,
+          "minority_rate": 0.3611111111111111,
+          "requirements": [
+            "train_only_preprocessing",
+            "unknown_categories",
+            "missing_values",
+            "class_imbalance"
+          ]
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:b1bde62ca7719f21fe42",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 68,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:d0dcebab4212d8e42da3",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:201bae68dcaaff68afaa",
+            "source_path": "text_business.md",
+            "score": 44,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:ee594e7236a1cbe8c520",
+            "kind": "Knowledge",
+            "title": "评价指标与业务约束",
+            "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "line": 14,
+            "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 33,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:ee594e7236a1cbe8c520"
+              ]
+            ]
+          },
+          {
+            "id": "Function:abe0662caba9d48ee2eb",
+            "kind": "Function",
+            "title": "churn_category_encoder",
+            "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+            "line": 5,
+            "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+            "dependencies": [
+              "sklearn.preprocessing"
+            ],
+            "extraction": "python_ast",
+            "source_id": "Source:36bf272485aac6d9de38",
+            "source_path": "historical_code.py",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Function:abe0662caba9d48ee2eb"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:b8867b632089cbc5844c",
+            "kind": "Knowledge",
+            "title": "候选算法及适用条件",
+            "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "line": 11,
+            "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:b8867b632089cbc5844c"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:948b7c74dfbb766ab40d",
+            "kind": "Knowledge",
+            "title": "历史失败案例：未知类别",
+            "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "line": 20,
+            "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 24,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:948b7c74dfbb766ab40d"
+              ]
+            ]
+          }
+        ],
+        "experiences": [],
+        "plugins": [
+          {
+            "id": "forest",
+            "name": "随机森林",
+            "rationale": "与线性模型比较非线性关系和特征交互；限制树深度与并行度。",
+            "hyperparameter_defaults": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            },
+            "hyperparameter_space": {
+              "n_estimators": [
+                "int",
+                20,
+                200
+              ],
+              "max_depth": [
+                "int",
+                2,
+                12
+              ],
+              "min_samples_leaf": [
+                "int",
+                1,
+                20
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ]
+            }
+          },
+          {
+            "id": "logistic",
+            "name": "逻辑回归",
+            "rationale": "可解释线性基线；标准化数值特征，使用类别权重处理不平衡。",
+            "hyperparameter_defaults": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            },
+            "hyperparameter_space": {
+              "C": [
+                "float",
+                0.01,
+                100
+              ],
+              "max_iter": [
+                "int",
+                100,
+                3000
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ],
+              "solver": [
+                "lbfgs",
+                "liblinear"
+              ]
+            }
+          }
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "candidates",
+            "preprocessing",
+            "evidence_ids",
+            "experience_ids",
+            "experience_applied"
+          ],
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "forest"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "n_estimators",
+                          "max_depth",
+                          "min_samples_leaf",
+                          "class_weight"
+                        ],
+                        "properties": {
+                          "n_estimators": {
+                            "type": "integer",
+                            "minimum": 20,
+                            "maximum": 200
+                          },
+                          "max_depth": {
+                            "type": "integer",
+                            "minimum": 2,
+                            "maximum": 12
+                          },
+                          "min_samples_leaf": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 20
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "logistic"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "C",
+                          "max_iter",
+                          "class_weight",
+                          "solver"
+                        ],
+                        "properties": {
+                          "C": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 100
+                          },
+                          "max_iter": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 3000
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          },
+                          "solver": {
+                            "enum": [
+                              "lbfgs",
+                              "liblinear"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "preprocessing": {
+              "type": "object",
+              "required": [
+                "numeric_imputer",
+                "categorical_imputer",
+                "scale_numeric",
+                "unknown_categories"
+              ],
+              "properties": {
+                "numeric_imputer": {
+                  "enum": [
+                    "median",
+                    "mean"
+                  ]
+                },
+                "categorical_imputer": {
+                  "enum": [
+                    "most_frequent",
+                    "constant"
+                  ]
+                },
+                "scale_numeric": {
+                  "type": "boolean"
+                },
+                "unknown_categories": {
+                  "enum": [
+                    "ignore"
+                  ]
+                }
+              }
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_applied": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "source": "live"
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "logistic",
+          "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          }
+        },
+        {
+          "algorithm": "forest",
+          "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+          "hyperparameters": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          }
+        }
+      ],
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "evidence_ids": [
+        "Knowledge:b1bde62ca7719f21fe42",
+        "Knowledge:b8867b632089cbc5844c",
+        "Knowledge:ee594e7236a1cbe8c520",
+        "Function:abe0662caba9d48ee2eb"
+      ],
+      "experience_ids": [],
+      "experience_applied": false
+    }
+  },
+  {
+    "step": 5,
+    "role": "plan",
+    "input": {
+      "task_id": "churn_classification",
+      "spec": {
+        "task": "churn_classification",
+        "target": "churn",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "missing_values",
+          "unknown_categories",
+          "class_imbalance"
+        ],
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+      },
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 360,
+        "columns": {
+          "tenure": {
+            "kind": "numeric",
+            "missing_rate": 0.033333,
+            "cardinality": 71,
+            "constant": false,
+            "quantiles": {
+              "0.25": 20.0,
+              "0.5": 37.0,
+              "0.75": 56.0
+            }
+          },
+          "monthly_charges": {
+            "kind": "numeric",
+            "missing_rate": 0.030556,
+            "cardinality": 349,
+            "constant": false,
+            "quantiles": {
+              "0.25": 40.197903768878156,
+              "0.5": 67.78772740237457,
+              "0.75": 94.23179494179767
+            }
+          },
+          "support_calls": {
+            "kind": "numeric",
+            "missing_rate": 0.036111,
+            "cardinality": 8,
+            "constant": false,
+            "quantiles": {
+              "0.25": 1.0,
+              "0.5": 1.0,
+              "0.75": 2.0
+            }
+          },
+          "contract": {
+            "kind": "categorical",
+            "missing_rate": 0.033333,
+            "cardinality": 3,
+            "constant": false
+          },
+          "payment_method": {
+            "kind": "categorical",
+            "missing_rate": 0.038889,
+            "cardinality": 2,
+            "constant": false
+          }
+        },
+        "positive_rate": 0.3611111111111111,
+        "minority_rate": 0.3611111111111111,
+        "requirements": [
+          "train_only_preprocessing",
+          "unknown_categories",
+          "missing_values",
+          "class_imbalance"
+        ]
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:b1bde62ca7719f21fe42",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 68,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:d0dcebab4212d8e42da3",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:201bae68dcaaff68afaa",
+          "source_path": "text_business.md",
+          "score": 44,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:ee594e7236a1cbe8c520",
+          "kind": "Knowledge",
+          "title": "评价指标与业务约束",
+          "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "line": 14,
+          "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 33,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:ee594e7236a1cbe8c520"
+            ]
+          ]
+        },
+        {
+          "id": "Function:abe0662caba9d48ee2eb",
+          "kind": "Function",
+          "title": "churn_category_encoder",
+          "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+          "line": 5,
+          "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+          "dependencies": [
+            "sklearn.preprocessing"
+          ],
+          "extraction": "python_ast",
+          "source_id": "Source:36bf272485aac6d9de38",
+          "source_path": "historical_code.py",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Function:abe0662caba9d48ee2eb"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:b8867b632089cbc5844c",
+          "kind": "Knowledge",
+          "title": "候选算法及适用条件",
+          "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "line": 11,
+          "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:b8867b632089cbc5844c"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:948b7c74dfbb766ab40d",
+          "kind": "Knowledge",
+          "title": "历史失败案例：未知类别",
+          "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "line": 20,
+          "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 24,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:948b7c74dfbb766ab40d"
+            ]
+          ]
+        }
+      ],
+      "experiences": [],
+      "plugins": [
+        {
+          "id": "forest",
+          "name": "随机森林",
+          "rationale": "与线性模型比较非线性关系和特征交互；限制树深度与并行度。",
+          "hyperparameter_defaults": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          },
+          "hyperparameter_space": {
+            "n_estimators": [
+              "int",
+              20,
+              200
+            ],
+            "max_depth": [
+              "int",
+              2,
+              12
+            ],
+            "min_samples_leaf": [
+              "int",
+              1,
+              20
+            ],
+            "class_weight": [
+              null,
+              "balanced"
+            ]
+          }
+        },
+        {
+          "id": "logistic",
+          "name": "逻辑回归",
+          "rationale": "可解释线性基线；标准化数值特征，使用类别权重处理不平衡。",
+          "hyperparameter_defaults": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          },
+          "hyperparameter_space": {
+            "C": [
+              "float",
+              0.01,
+              100
+            ],
+            "max_iter": [
+              "int",
+              100,
+              3000
+            ],
+            "class_weight": [
+              null,
+              "balanced"
+            ],
+            "solver": [
+              "lbfgs",
+              "liblinear"
+            ]
+          }
+        }
+      ],
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "preprocessing",
+          "evidence_ids",
+          "experience_ids",
+          "experience_applied"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "algorithm",
+                    "rationale",
+                    "hyperparameters"
+                  ],
+                  "properties": {
+                    "algorithm": {
+                      "const": "forest"
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hyperparameters": {
+                      "type": "object",
+                      "required": [
+                        "n_estimators",
+                        "max_depth",
+                        "min_samples_leaf",
+                        "class_weight"
+                      ],
+                      "properties": {
+                        "n_estimators": {
+                          "type": "integer",
+                          "minimum": 20,
+                          "maximum": 200
+                        },
+                        "max_depth": {
+                          "type": "integer",
+                          "minimum": 2,
+                          "maximum": 12
+                        },
+                        "min_samples_leaf": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 20
+                        },
+                        "class_weight": {
+                          "enum": [
+                            null,
+                            "balanced"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "algorithm",
+                    "rationale",
+                    "hyperparameters"
+                  ],
+                  "properties": {
+                    "algorithm": {
+                      "const": "logistic"
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hyperparameters": {
+                      "type": "object",
+                      "required": [
+                        "C",
+                        "max_iter",
+                        "class_weight",
+                        "solver"
+                      ],
+                      "properties": {
+                        "C": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 100
+                        },
+                        "max_iter": {
+                          "type": "integer",
+                          "minimum": 100,
+                          "maximum": 3000
+                        },
+                        "class_weight": {
+                          "enum": [
+                            null,
+                            "balanced"
+                          ]
+                        },
+                        "solver": {
+                          "enum": [
+                            "lbfgs",
+                            "liblinear"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "preprocessing": {
+            "type": "object",
+            "required": [
+              "numeric_imputer",
+              "categorical_imputer",
+              "scale_numeric",
+              "unknown_categories"
+            ],
+            "properties": {
+              "numeric_imputer": {
+                "enum": [
+                  "median",
+                  "mean"
+                ]
+              },
+              "categorical_imputer": {
+                "enum": [
+                  "most_frequent",
+                  "constant"
+                ]
+              },
+              "scale_numeric": {
+                "type": "boolean"
+              },
+              "unknown_categories": {
+                "enum": [
+                  "ignore"
+                ]
+              }
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience_applied": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "logistic",
+          "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          }
+        },
+        {
+          "algorithm": "forest",
+          "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+          "hyperparameters": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          }
+        }
+      ],
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "evidence_ids": [
+        "Knowledge:b1bde62ca7719f21fe42",
+        "Knowledge:b8867b632089cbc5844c",
+        "Knowledge:ee594e7236a1cbe8c520",
+        "Function:abe0662caba9d48ee2eb"
+      ],
+      "experience_ids": [],
+      "experience_applied": false
+    }
+  },
+  {
+    "step": 6,
+    "role": "generate_response",
+    "input": {
+      "context": {
+        "task_id": "churn_classification",
+        "algorithm": "logistic",
+        "spec": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        },
+        "plan": {
+          "candidates": [
+            {
+              "algorithm": "logistic",
+              "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+              "hyperparameters": {
+                "C": 1.0,
+                "max_iter": 1000,
+                "class_weight": "balanced",
+                "solver": "lbfgs"
+              }
+            },
+            {
+              "algorithm": "forest",
+              "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+              "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 7,
+                "min_samples_leaf": 5,
+                "class_weight": "balanced"
+              }
+            }
+          ],
+          "preprocessing": {
+            "numeric_imputer": "median",
+            "categorical_imputer": "most_frequent",
+            "scale_numeric": true,
+            "unknown_categories": "ignore"
+          },
+          "evidence_ids": [
+            "Knowledge:b1bde62ca7719f21fe42",
+            "Knowledge:b8867b632089cbc5844c",
+            "Knowledge:ee594e7236a1cbe8c520",
+            "Function:abe0662caba9d48ee2eb"
+          ],
+          "experience_ids": [],
+          "experience_applied": false
+        },
+        "candidate_contract": {
+          "id": "logistic",
+          "estimator": "LogisticRegression",
+          "seeded": true
+        },
+        "active_hyperparameters": {
+          "C": 1.0,
+          "max_iter": 1000,
+          "class_weight": "balanced",
+          "solver": "lbfgs"
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:b1bde62ca7719f21fe42",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 68,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:d0dcebab4212d8e42da3",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:201bae68dcaaff68afaa",
+            "source_path": "text_business.md",
+            "score": 44,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:ee594e7236a1cbe8c520",
+            "kind": "Knowledge",
+            "title": "评价指标与业务约束",
+            "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "line": 14,
+            "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 33,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:ee594e7236a1cbe8c520"
+              ]
+            ]
+          },
+          {
+            "id": "Function:abe0662caba9d48ee2eb",
+            "kind": "Function",
+            "title": "churn_category_encoder",
+            "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+            "line": 5,
+            "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+            "dependencies": [
+              "sklearn.preprocessing"
+            ],
+            "extraction": "python_ast",
+            "source_id": "Source:36bf272485aac6d9de38",
+            "source_path": "historical_code.py",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Function:abe0662caba9d48ee2eb"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:b8867b632089cbc5844c",
+            "kind": "Knowledge",
+            "title": "候选算法及适用条件",
+            "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "line": 11,
+            "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:b8867b632089cbc5844c"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:948b7c74dfbb766ab40d",
+            "kind": "Knowledge",
+            "title": "历史失败案例：未知类别",
+            "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "line": 20,
+            "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 24,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:948b7c74dfbb766ab40d"
+              ]
+            ]
+          }
+        ],
+        "experiences": [],
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 360,
+          "columns": {
+            "tenure": {
+              "kind": "numeric",
+              "missing_rate": 0.033333,
+              "cardinality": 71,
+              "constant": false,
+              "quantiles": {
+                "0.25": 20.0,
+                "0.5": 37.0,
+                "0.75": 56.0
+              }
+            },
+            "monthly_charges": {
+              "kind": "numeric",
+              "missing_rate": 0.030556,
+              "cardinality": 349,
+              "constant": false,
+              "quantiles": {
+                "0.25": 40.197903768878156,
+                "0.5": 67.78772740237457,
+                "0.75": 94.23179494179767
+              }
+            },
+            "support_calls": {
+              "kind": "numeric",
+              "missing_rate": 0.036111,
+              "cardinality": 8,
+              "constant": false,
+              "quantiles": {
+                "0.25": 1.0,
+                "0.5": 1.0,
+                "0.75": 2.0
+              }
+            },
+            "contract": {
+              "kind": "categorical",
+              "missing_rate": 0.033333,
+              "cardinality": 3,
+              "constant": false
+            },
+            "payment_method": {
+              "kind": "categorical",
+              "missing_rate": 0.038889,
+              "cardinality": 2,
+              "constant": false
+            }
+          },
+          "positive_rate": 0.3611111111111111,
+          "minority_rate": 0.3611111111111111,
+          "requirements": [
+            "train_only_preprocessing",
+            "unknown_categories",
+            "missing_values",
+            "class_imbalance"
+          ]
+        },
+        "features": {
+          "numeric": [
+            "tenure",
+            "monthly_charges",
+            "support_calls"
+          ],
+          "categorical": [
+            "contract",
+            "payment_method"
+          ]
+        },
+        "interface_contract": {
+          "build_model": "build_model(seed=42) returns an unfitted sklearn.pipeline.Pipeline",
+          "predict": "predict(model, frame) returns finite 1D positive-class probabilities in input row order, values [0,1]",
+          "missing_fields": "raise ValueError when a required feature is absent",
+          "features": [
+            "tenure",
+            "monthly_charges",
+            "support_calls",
+            "contract",
+            "payment_method"
+          ],
+          "numeric": [
+            "tenure",
+            "monthly_charges",
+            "support_calls"
+          ],
+          "categorical": [
+            "contract",
+            "payment_method"
+          ],
+          "training": "The host fits on training data only. Do not load files, train, or evaluate at module import."
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100000
+            },
+            "explanation": {
+              "type": "string"
+            }
+          }
+        },
+        "inject_fault": false,
+        "previous_code": null,
+        "feedback": null,
+        "repair_guidance": null,
+        "previous_response": null,
+        "independent_sample": null
+      },
+      "source": "live"
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.linear_model import LogisticRegression\n\ndef build_model(seed=42):\n    \"\"\"Builds an unfitted sklearn Pipeline for churn classification using Logistic Regression.\"\"\"\n    numeric_features = ['tenure', 'monthly_charges', 'support_calls']\n    categorical_features = ['contract', 'payment_method']\n    \n    # Numeric preprocessing: median imputation then scaling\n    numeric_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='median')),\n        ('scaler', StandardScaler())\n    ])\n    \n    # Categorical preprocessing: most frequent imputation then one-hot encoding (ignore unknown)\n    categorical_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='most_frequent')),\n        ('onehot', OneHotEncoder(handle_unknown='ignore'))\n    ])\n    \n    # Combine transformers using ColumnTransformer\n    preprocessor = ColumnTransformer(\n        transformers=[\n            ('num', numeric_transformer, numeric_features),\n            ('cat', categorical_transformer, categorical_features)\n        ])\n    \n    # Create and return the final Pipeline with LogisticRegression as the estimator\n    model = Pipeline(steps=[\n        ('preprocessor', preprocessor),\n        ('classifier', LogisticRegression(\n            C=1.0,\n            max_iter=1000,\n            class_weight='balanced',\n            solver='lbfgs',\n            random_state=seed\n        ))\n    ])\n    \n    return model\n\ndef predict(model, frame):\n    \"\"\"Returns 1D positive-class probabilities for the input frame, raises ValueError for missing fields.\"\"\"\n    # Check for required features\n    required_features = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_method']\n    missing = [f for f in required_features if f not in frame.columns]\n    if missing:\n        raise ValueError(f\"Missing required features: {missing}\")\n    \n    # Ensure input is a DataFrame\n    if not isinstance(frame, pd.DataFrame):\n        frame = pd.DataFrame(frame)\n    \n    # Get probabilities of the positive class (index 1)\n    # predict_proba returns array of shape (n_samples, n_classes)\n    probabilities = model.predict_proba(frame)\n    return probabilities[:, 1]",
+      "explanation": "The implementation builds a sklearn Pipeline with the following steps:\n1. **Preprocessing (ColumnTransformer)**:\n   - **Numeric features** ('tenure', 'monthly_charges', 'support_calls') are processed by a pipeline: `SimpleImputer(strategy='median')` handles missing values, followed by `StandardScaler()` for normalization.\n   - **Categorical features** ('contract', 'payment_method') are processed by a pipeline: `SimpleImputer(strategy='most_frequent')` fills missing values with the most frequent category, and `OneHotEncoder(handle_unknown='ignore')` encodes categories while ignoring any new categories during prediction.\n2. **Classifier**: `LogisticRegression` is used as the final step with the specified hyperparameters (`C=1.0`, `max_iter=1000`, `class_weight='balanced'`, `solver='lbfgs'`, `random_state=42`) to handle class imbalance.\n3. **Prediction**: The `predict` function checks for required features, raises a `ValueError` if any are missing, and returns the probability of the positive class (index 1) using `model.predict_proba`."
+    }
+  },
+  {
+    "step": 7,
+    "role": "generate",
+    "input": {
+      "task_id": "churn_classification",
+      "algorithm": "logistic",
+      "spec": {
+        "task": "churn_classification",
+        "target": "churn",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "missing_values",
+          "unknown_categories",
+          "class_imbalance"
+        ],
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+      },
+      "plan": {
+        "candidates": [
+          {
+            "algorithm": "logistic",
+            "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            }
+          },
+          {
+            "algorithm": "forest",
+            "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+            "hyperparameters": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            }
+          }
+        ],
+        "preprocessing": {
+          "numeric_imputer": "median",
+          "categorical_imputer": "most_frequent",
+          "scale_numeric": true,
+          "unknown_categories": "ignore"
+        },
+        "evidence_ids": [
+          "Knowledge:b1bde62ca7719f21fe42",
+          "Knowledge:b8867b632089cbc5844c",
+          "Knowledge:ee594e7236a1cbe8c520",
+          "Function:abe0662caba9d48ee2eb"
+        ],
+        "experience_ids": [],
+        "experience_applied": false
+      },
+      "candidate_contract": {
+        "id": "logistic",
+        "estimator": "LogisticRegression",
+        "seeded": true
+      },
+      "active_hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "class_weight": "balanced",
+        "solver": "lbfgs"
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:b1bde62ca7719f21fe42",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 68,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:d0dcebab4212d8e42da3",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:201bae68dcaaff68afaa",
+          "source_path": "text_business.md",
+          "score": 44,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:ee594e7236a1cbe8c520",
+          "kind": "Knowledge",
+          "title": "评价指标与业务约束",
+          "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "line": 14,
+          "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 33,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:ee594e7236a1cbe8c520"
+            ]
+          ]
+        },
+        {
+          "id": "Function:abe0662caba9d48ee2eb",
+          "kind": "Function",
+          "title": "churn_category_encoder",
+          "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+          "line": 5,
+          "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+          "dependencies": [
+            "sklearn.preprocessing"
+          ],
+          "extraction": "python_ast",
+          "source_id": "Source:36bf272485aac6d9de38",
+          "source_path": "historical_code.py",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Function:abe0662caba9d48ee2eb"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:b8867b632089cbc5844c",
+          "kind": "Knowledge",
+          "title": "候选算法及适用条件",
+          "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "line": 11,
+          "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:b8867b632089cbc5844c"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:948b7c74dfbb766ab40d",
+          "kind": "Knowledge",
+          "title": "历史失败案例：未知类别",
+          "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "line": 20,
+          "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 24,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:948b7c74dfbb766ab40d"
+            ]
+          ]
+        }
+      ],
+      "experiences": [],
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 360,
+        "columns": {
+          "tenure": {
+            "kind": "numeric",
+            "missing_rate": 0.033333,
+            "cardinality": 71,
+            "constant": false,
+            "quantiles": {
+              "0.25": 20.0,
+              "0.5": 37.0,
+              "0.75": 56.0
+            }
+          },
+          "monthly_charges": {
+            "kind": "numeric",
+            "missing_rate": 0.030556,
+            "cardinality": 349,
+            "constant": false,
+            "quantiles": {
+              "0.25": 40.197903768878156,
+              "0.5": 67.78772740237457,
+              "0.75": 94.23179494179767
+            }
+          },
+          "support_calls": {
+            "kind": "numeric",
+            "missing_rate": 0.036111,
+            "cardinality": 8,
+            "constant": false,
+            "quantiles": {
+              "0.25": 1.0,
+              "0.5": 1.0,
+              "0.75": 2.0
+            }
+          },
+          "contract": {
+            "kind": "categorical",
+            "missing_rate": 0.033333,
+            "cardinality": 3,
+            "constant": false
+          },
+          "payment_method": {
+            "kind": "categorical",
+            "missing_rate": 0.038889,
+            "cardinality": 2,
+            "constant": false
+          }
+        },
+        "positive_rate": 0.3611111111111111,
+        "minority_rate": 0.3611111111111111,
+        "requirements": [
+          "train_only_preprocessing",
+          "unknown_categories",
+          "missing_values",
+          "class_imbalance"
+        ]
+      },
+      "features": {
+        "numeric": [
+          "tenure",
+          "monthly_charges",
+          "support_calls"
+        ],
+        "categorical": [
+          "contract",
+          "payment_method"
+        ]
+      },
+      "interface_contract": {
+        "build_model": "build_model(seed=42) returns an unfitted sklearn.pipeline.Pipeline",
+        "predict": "predict(model, frame) returns finite 1D positive-class probabilities in input row order, values [0,1]",
+        "missing_fields": "raise ValueError when a required feature is absent",
+        "features": [
+          "tenure",
+          "monthly_charges",
+          "support_calls",
+          "contract",
+          "payment_method"
+        ],
+        "numeric": [
+          "tenure",
+          "monthly_charges",
+          "support_calls"
+        ],
+        "categorical": [
+          "contract",
+          "payment_method"
+        ],
+        "training": "The host fits on training data only. Do not load files, train, or evaluate at module import."
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "explanation"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100000
+          },
+          "explanation": {
+            "type": "string"
+          }
+        }
+      },
+      "inject_fault": false,
+      "previous_code": null,
+      "feedback": null,
+      "repair_guidance": null,
+      "previous_response": null,
+      "independent_sample": null
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.linear_model import LogisticRegression\n\ndef build_model(seed=42):\n    \"\"\"Builds an unfitted sklearn Pipeline for churn classification using Logistic Regression.\"\"\"\n    numeric_features = ['tenure', 'monthly_charges', 'support_calls']\n    categorical_features = ['contract', 'payment_method']\n    \n    # Numeric preprocessing: median imputation then scaling\n    numeric_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='median')),\n        ('scaler', StandardScaler())\n    ])\n    \n    # Categorical preprocessing: most frequent imputation then one-hot encoding (ignore unknown)\n    categorical_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='most_frequent')),\n        ('onehot', OneHotEncoder(handle_unknown='ignore'))\n    ])\n    \n    # Combine transformers using ColumnTransformer\n    preprocessor = ColumnTransformer(\n        transformers=[\n            ('num', numeric_transformer, numeric_features),\n            ('cat', categorical_transformer, categorical_features)\n        ])\n    \n    # Create and return the final Pipeline with LogisticRegression as the estimator\n    model = Pipeline(steps=[\n        ('preprocessor', preprocessor),\n        ('classifier', LogisticRegression(\n            C=1.0,\n            max_iter=1000,\n            class_weight='balanced',\n            solver='lbfgs',\n            random_state=seed\n        ))\n    ])\n    \n    return model\n\ndef predict(model, frame):\n    \"\"\"Returns 1D positive-class probabilities for the input frame, raises ValueError for missing fields.\"\"\"\n    # Check for required features\n    required_features = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_method']\n    missing = [f for f in required_features if f not in frame.columns]\n    if missing:\n        raise ValueError(f\"Missing required features: {missing}\")\n    \n    # Ensure input is a DataFrame\n    if not isinstance(frame, pd.DataFrame):\n        frame = pd.DataFrame(frame)\n    \n    # Get probabilities of the positive class (index 1)\n    # predict_proba returns array of shape (n_samples, n_classes)\n    probabilities = model.predict_proba(frame)\n    return probabilities[:, 1]",
+      "explanation": "The implementation builds a sklearn Pipeline with the following steps:\n1. **Preprocessing (ColumnTransformer)**:\n   - **Numeric features** ('tenure', 'monthly_charges', 'support_calls') are processed by a pipeline: `SimpleImputer(strategy='median')` handles missing values, followed by `StandardScaler()` for normalization.\n   - **Categorical features** ('contract', 'payment_method') are processed by a pipeline: `SimpleImputer(strategy='most_frequent')` fills missing values with the most frequent category, and `OneHotEncoder(handle_unknown='ignore')` encodes categories while ignoring any new categories during prediction.\n2. **Classifier**: `LogisticRegression` is used as the final step with the specified hyperparameters (`C=1.0`, `max_iter=1000`, `class_weight='balanced'`, `solver='lbfgs'`, `random_state=42`) to handle class imbalance.\n3. **Prediction**: The `predict` function checks for required features, raises a `ValueError` if any are missing, and returns the probability of the positive class (index 1) using `model.predict_proba`."
+    }
+  },
+  {
+    "step": 8,
+    "role": "validate",
+    "input": {
+      "code_sha256": "8f5c336b51a04a055c85dad70b6715cc169fc960ab161eb74ff159f53a410d5d",
+      "split": "validation"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unknown_category_contract": true,
+        "unknown_category_mixed_contract": true,
+        "unknown_category_payment_method": true,
+        "unknown_category_mixed_payment_method": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.2201,
+      "python_peak_mb": 50.904,
+      "wall_seconds": 2.6632,
+      "metrics": {
+        "roc_auc": 0.7864693446088795,
+        "f1": 0.6470588235294118,
+        "accuracy": 0.7
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 9,
+    "role": "generate_response",
+    "input": {
+      "context": {
+        "task_id": "churn_classification",
+        "algorithm": "forest",
+        "spec": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        },
+        "plan": {
+          "candidates": [
+            {
+              "algorithm": "logistic",
+              "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+              "hyperparameters": {
+                "C": 1.0,
+                "max_iter": 1000,
+                "class_weight": "balanced",
+                "solver": "lbfgs"
+              }
+            },
+            {
+              "algorithm": "forest",
+              "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+              "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 7,
+                "min_samples_leaf": 5,
+                "class_weight": "balanced"
+              }
+            }
+          ],
+          "preprocessing": {
+            "numeric_imputer": "median",
+            "categorical_imputer": "most_frequent",
+            "scale_numeric": true,
+            "unknown_categories": "ignore"
+          },
+          "evidence_ids": [
+            "Knowledge:b1bde62ca7719f21fe42",
+            "Knowledge:b8867b632089cbc5844c",
+            "Knowledge:ee594e7236a1cbe8c520",
+            "Function:abe0662caba9d48ee2eb"
+          ],
+          "experience_ids": [],
+          "experience_applied": false
+        },
+        "candidate_contract": {
+          "id": "forest",
+          "estimator": "RandomForestClassifier",
+          "seeded": true
+        },
+        "active_hyperparameters": {
+          "n_estimators": 100,
+          "max_depth": 7,
+          "min_samples_leaf": 5,
+          "class_weight": "balanced"
+        },
+        "knowledge": [
+          {
+            "id": "Knowledge:b1bde62ca7719f21fe42",
+            "kind": "Knowledge",
+            "title": "缺失值和类别编码策略",
+            "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "line": 8,
+            "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 68,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ],
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:b1bde62ca7719f21fe42"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:d0dcebab4212d8e42da3",
+            "kind": "Knowledge",
+            "title": "文本预处理与适用条件",
+            "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "line": 6,
+            "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:201bae68dcaaff68afaa",
+            "source_path": "text_business.md",
+            "score": 44,
+            "retrieval_paths": [
+              [
+                "requirement:missing_values",
+                "strategy:imputation",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ],
+              [
+                "requirement:train_only_preprocessing",
+                "strategy:train_only_pipeline",
+                "Knowledge:d0dcebab4212d8e42da3"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:ee594e7236a1cbe8c520",
+            "kind": "Knowledge",
+            "title": "评价指标与业务约束",
+            "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "line": 14,
+            "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 33,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:ee594e7236a1cbe8c520"
+              ]
+            ]
+          },
+          {
+            "id": "Function:abe0662caba9d48ee2eb",
+            "kind": "Function",
+            "title": "churn_category_encoder",
+            "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+            "line": 5,
+            "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+            "dependencies": [
+              "sklearn.preprocessing"
+            ],
+            "extraction": "python_ast",
+            "source_id": "Source:36bf272485aac6d9de38",
+            "source_path": "historical_code.py",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Function:abe0662caba9d48ee2eb"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:b8867b632089cbc5844c",
+            "kind": "Knowledge",
+            "title": "候选算法及适用条件",
+            "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "line": 11,
+            "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 28,
+            "retrieval_paths": [
+              [
+                "requirement:class_imbalance",
+                "strategy:class_weighting",
+                "Knowledge:b8867b632089cbc5844c"
+              ]
+            ]
+          },
+          {
+            "id": "Knowledge:948b7c74dfbb766ab40d",
+            "kind": "Knowledge",
+            "title": "历史失败案例：未知类别",
+            "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "line": 20,
+            "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+            "extraction": "markdown_sections",
+            "source_id": "Source:39535e5187b628829611",
+            "source_path": "churn_business.md",
+            "score": 24,
+            "retrieval_paths": [
+              [
+                "requirement:unknown_categories",
+                "strategy:unknown_safe_encoding",
+                "Knowledge:948b7c74dfbb766ab40d"
+              ]
+            ]
+          }
+        ],
+        "experiences": [],
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 360,
+          "columns": {
+            "tenure": {
+              "kind": "numeric",
+              "missing_rate": 0.033333,
+              "cardinality": 71,
+              "constant": false,
+              "quantiles": {
+                "0.25": 20.0,
+                "0.5": 37.0,
+                "0.75": 56.0
+              }
+            },
+            "monthly_charges": {
+              "kind": "numeric",
+              "missing_rate": 0.030556,
+              "cardinality": 349,
+              "constant": false,
+              "quantiles": {
+                "0.25": 40.197903768878156,
+                "0.5": 67.78772740237457,
+                "0.75": 94.23179494179767
+              }
+            },
+            "support_calls": {
+              "kind": "numeric",
+              "missing_rate": 0.036111,
+              "cardinality": 8,
+              "constant": false,
+              "quantiles": {
+                "0.25": 1.0,
+                "0.5": 1.0,
+                "0.75": 2.0
+              }
+            },
+            "contract": {
+              "kind": "categorical",
+              "missing_rate": 0.033333,
+              "cardinality": 3,
+              "constant": false
+            },
+            "payment_method": {
+              "kind": "categorical",
+              "missing_rate": 0.038889,
+              "cardinality": 2,
+              "constant": false
+            }
+          },
+          "positive_rate": 0.3611111111111111,
+          "minority_rate": 0.3611111111111111,
+          "requirements": [
+            "train_only_preprocessing",
+            "unknown_categories",
+            "missing_values",
+            "class_imbalance"
+          ]
+        },
+        "features": {
+          "numeric": [
+            "tenure",
+            "monthly_charges",
+            "support_calls"
+          ],
+          "categorical": [
+            "contract",
+            "payment_method"
+          ]
+        },
+        "interface_contract": {
+          "build_model": "build_model(seed=42) returns an unfitted sklearn.pipeline.Pipeline",
+          "predict": "predict(model, frame) returns finite 1D positive-class probabilities in input row order, values [0,1]",
+          "missing_fields": "raise ValueError when a required feature is absent",
+          "features": [
+            "tenure",
+            "monthly_charges",
+            "support_calls",
+            "contract",
+            "payment_method"
+          ],
+          "numeric": [
+            "tenure",
+            "monthly_charges",
+            "support_calls"
+          ],
+          "categorical": [
+            "contract",
+            "payment_method"
+          ],
+          "training": "The host fits on training data only. Do not load files, train, or evaluate at module import."
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100000
+            },
+            "explanation": {
+              "type": "string"
+            }
+          }
+        },
+        "inject_fault": false,
+        "previous_code": null,
+        "feedback": null,
+        "repair_guidance": null,
+        "previous_response": null,
+        "independent_sample": null
+      },
+      "source": "live"
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.impute import SimpleImputer\n\n\ndef build_model(seed=42):\n    numeric_features = ['tenure', 'monthly_charges', 'support_calls']\n    categorical_features = ['contract', 'payment_method']\n\n    numeric_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='median')),\n        ('scaler', StandardScaler())\n    ])\n\n    categorical_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='most_frequent')),\n        ('onehot', OneHotEncoder(handle_unknown='ignore'))\n    ])\n\n    preprocessor = ColumnTransformer(\n        transformers=[\n            ('num', numeric_transformer, numeric_features),\n            ('cat', categorical_transformer, categorical_features)\n        ])\n\n    model = Pipeline(steps=[('preprocessor', preprocessor),\n                            ('classifier', RandomForestClassifier(\n                                n_estimators=100,\n                                max_depth=7,\n                                min_samples_leaf=5,\n                                class_weight='balanced',\n                                random_state=seed,\n                                n_jobs=1\n                            ))])\n\n    return model\n\n\ndef predict(model, frame):\n    required_features = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_method']\n    for feature in required_features:\n        if feature not in frame.columns:\n            raise ValueError(f\"Missing required field: {feature}\")\n\n    return model.predict_proba(frame)[:, 1]",
+      "explanation": "The implementation follows the specified interface and requirements. It uses a sklearn Pipeline with a ColumnTransformer for preprocessing, handling missing values (median for numeric, most frequent for categorical), standardizing numeric features, and one-hot encoding categorical features with unknown category handling. The final classifier is a RandomForestClassifier with the specified hyperparameters and random_state for reproducibility. The predict function validates input features and returns the positive class probabilities."
+    }
+  },
+  {
+    "step": 10,
+    "role": "generate",
+    "input": {
+      "task_id": "churn_classification",
+      "algorithm": "forest",
+      "spec": {
+        "task": "churn_classification",
+        "target": "churn",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "missing_values",
+          "unknown_categories",
+          "class_imbalance"
+        ],
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+      },
+      "plan": {
+        "candidates": [
+          {
+            "algorithm": "logistic",
+            "rationale": "逻辑回归作为线性基线模型，适合处理具有缺失值和类别不平衡的客户流失预测任务。使用训练集的中位数填补缺失数值特征，众数填补缺失类别特征，并进行标准化以适应模型。由于类别不平衡（少数类占比约36%），设置 class_weight='balanced' 来调整权重，确保模型对少数类有足够的重视。使用 LBFGS 求解器，并限制最大迭代次数为 1000，以防止过拟合。此模型可解释性强，能够提供特征权重的直观解释。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            }
+          },
+          {
+            "algorithm": "forest",
+            "rationale": "随机森林能够捕捉非线性关系和特征交互，适合处理复杂的客户流失数据。通过限制树深度（max_depth=7）和最小叶子节点样本数（min_samples_leaf=5）来控制过拟合。设置 class_weight='balanced' 处理类别不平衡问题。使用 100 棵树（n_estimators=100）并设置 n_jobs=-1 以并行计算，提高训练效率。此模型在 ROC-AUC 和 F1 指标上通常表现优于逻辑回归，尤其是在特征交互复杂的情况下。",
+            "hyperparameters": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            }
+          }
+        ],
+        "preprocessing": {
+          "numeric_imputer": "median",
+          "categorical_imputer": "most_frequent",
+          "scale_numeric": true,
+          "unknown_categories": "ignore"
+        },
+        "evidence_ids": [
+          "Knowledge:b1bde62ca7719f21fe42",
+          "Knowledge:b8867b632089cbc5844c",
+          "Knowledge:ee594e7236a1cbe8c520",
+          "Function:abe0662caba9d48ee2eb"
+        ],
+        "experience_ids": [],
+        "experience_applied": false
+      },
+      "candidate_contract": {
+        "id": "forest",
+        "estimator": "RandomForestClassifier",
+        "seeded": true
+      },
+      "active_hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 7,
+        "min_samples_leaf": 5,
+        "class_weight": "balanced"
+      },
+      "knowledge": [
+        {
+          "id": "Knowledge:b1bde62ca7719f21fe42",
+          "kind": "Knowledge",
+          "title": "缺失值和类别编码策略",
+          "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "line": 8,
+          "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 68,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ],
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:b1bde62ca7719f21fe42"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:d0dcebab4212d8e42da3",
+          "kind": "Knowledge",
+          "title": "文本预处理与适用条件",
+          "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "line": 6,
+          "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:201bae68dcaaff68afaa",
+          "source_path": "text_business.md",
+          "score": 44,
+          "retrieval_paths": [
+            [
+              "requirement:missing_values",
+              "strategy:imputation",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ],
+            [
+              "requirement:train_only_preprocessing",
+              "strategy:train_only_pipeline",
+              "Knowledge:d0dcebab4212d8e42da3"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:ee594e7236a1cbe8c520",
+          "kind": "Knowledge",
+          "title": "评价指标与业务约束",
+          "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "line": 14,
+          "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 33,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:ee594e7236a1cbe8c520"
+            ]
+          ]
+        },
+        {
+          "id": "Function:abe0662caba9d48ee2eb",
+          "kind": "Function",
+          "title": "churn_category_encoder",
+          "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+          "line": 5,
+          "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+          "dependencies": [
+            "sklearn.preprocessing"
+          ],
+          "extraction": "python_ast",
+          "source_id": "Source:36bf272485aac6d9de38",
+          "source_path": "historical_code.py",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Function:abe0662caba9d48ee2eb"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:b8867b632089cbc5844c",
+          "kind": "Knowledge",
+          "title": "候选算法及适用条件",
+          "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "line": 11,
+          "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 28,
+          "retrieval_paths": [
+            [
+              "requirement:class_imbalance",
+              "strategy:class_weighting",
+              "Knowledge:b8867b632089cbc5844c"
+            ]
+          ]
+        },
+        {
+          "id": "Knowledge:948b7c74dfbb766ab40d",
+          "kind": "Knowledge",
+          "title": "历史失败案例：未知类别",
+          "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "line": 20,
+          "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+          "extraction": "markdown_sections",
+          "source_id": "Source:39535e5187b628829611",
+          "source_path": "churn_business.md",
+          "score": 24,
+          "retrieval_paths": [
+            [
+              "requirement:unknown_categories",
+              "strategy:unknown_safe_encoding",
+              "Knowledge:948b7c74dfbb766ab40d"
+            ]
+          ]
+        }
+      ],
+      "experiences": [],
+      "data_profile": {
+        "scope": "training_only",
+        "rows": 360,
+        "columns": {
+          "tenure": {
+            "kind": "numeric",
+            "missing_rate": 0.033333,
+            "cardinality": 71,
+            "constant": false,
+            "quantiles": {
+              "0.25": 20.0,
+              "0.5": 37.0,
+              "0.75": 56.0
+            }
+          },
+          "monthly_charges": {
+            "kind": "numeric",
+            "missing_rate": 0.030556,
+            "cardinality": 349,
+            "constant": false,
+            "quantiles": {
+              "0.25": 40.197903768878156,
+              "0.5": 67.78772740237457,
+              "0.75": 94.23179494179767
+            }
+          },
+          "support_calls": {
+            "kind": "numeric",
+            "missing_rate": 0.036111,
+            "cardinality": 8,
+            "constant": false,
+            "quantiles": {
+              "0.25": 1.0,
+              "0.5": 1.0,
+              "0.75": 2.0
+            }
+          },
+          "contract": {
+            "kind": "categorical",
+            "missing_rate": 0.033333,
+            "cardinality": 3,
+            "constant": false
+          },
+          "payment_method": {
+            "kind": "categorical",
+            "missing_rate": 0.038889,
+            "cardinality": 2,
+            "constant": false
+          }
+        },
+        "positive_rate": 0.3611111111111111,
+        "minority_rate": 0.3611111111111111,
+        "requirements": [
+          "train_only_preprocessing",
+          "unknown_categories",
+          "missing_values",
+          "class_imbalance"
+        ]
+      },
+      "features": {
+        "numeric": [
+          "tenure",
+          "monthly_charges",
+          "support_calls"
+        ],
+        "categorical": [
+          "contract",
+          "payment_method"
+        ]
+      },
+      "interface_contract": {
+        "build_model": "build_model(seed=42) returns an unfitted sklearn.pipeline.Pipeline",
+        "predict": "predict(model, frame) returns finite 1D positive-class probabilities in input row order, values [0,1]",
+        "missing_fields": "raise ValueError when a required feature is absent",
+        "features": [
+          "tenure",
+          "monthly_charges",
+          "support_calls",
+          "contract",
+          "payment_method"
+        ],
+        "numeric": [
+          "tenure",
+          "monthly_charges",
+          "support_calls"
+        ],
+        "categorical": [
+          "contract",
+          "payment_method"
+        ],
+        "training": "The host fits on training data only. Do not load files, train, or evaluate at module import."
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "explanation"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100000
+          },
+          "explanation": {
+            "type": "string"
+          }
+        }
+      },
+      "inject_fault": false,
+      "previous_code": null,
+      "feedback": null,
+      "repair_guidance": null,
+      "previous_response": null,
+      "independent_sample": null
+    },
+    "output": {
+      "code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.impute import SimpleImputer\n\n\ndef build_model(seed=42):\n    numeric_features = ['tenure', 'monthly_charges', 'support_calls']\n    categorical_features = ['contract', 'payment_method']\n\n    numeric_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='median')),\n        ('scaler', StandardScaler())\n    ])\n\n    categorical_transformer = Pipeline(steps=[\n        ('imputer', SimpleImputer(strategy='most_frequent')),\n        ('onehot', OneHotEncoder(handle_unknown='ignore'))\n    ])\n\n    preprocessor = ColumnTransformer(\n        transformers=[\n            ('num', numeric_transformer, numeric_features),\n            ('cat', categorical_transformer, categorical_features)\n        ])\n\n    model = Pipeline(steps=[('preprocessor', preprocessor),\n                            ('classifier', RandomForestClassifier(\n                                n_estimators=100,\n                                max_depth=7,\n                                min_samples_leaf=5,\n                                class_weight='balanced',\n                                random_state=seed,\n                                n_jobs=1\n                            ))])\n\n    return model\n\n\ndef predict(model, frame):\n    required_features = ['tenure', 'monthly_charges', 'support_calls', 'contract', 'payment_method']\n    for feature in required_features:\n        if feature not in frame.columns:\n            raise ValueError(f\"Missing required field: {feature}\")\n\n    return model.predict_proba(frame)[:, 1]",
+      "explanation": "The implementation follows the specified interface and requirements. It uses a sklearn Pipeline with a ColumnTransformer for preprocessing, handling missing values (median for numeric, most frequent for categorical), standardizing numeric features, and one-hot encoding categorical features with unknown category handling. The final classifier is a RandomForestClassifier with the specified hyperparameters and random_state for reproducibility. The predict function validates input features and returns the positive class probabilities."
+    }
+  },
+  {
+    "step": 11,
+    "role": "validate",
+    "input": {
+      "code_sha256": "50eff92c6c98536551061945e6e564d4bbd8af822eeb49ff8b623aedb285764f",
+      "split": "validation"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unknown_category_contract": true,
+        "unknown_category_mixed_contract": true,
+        "unknown_category_payment_method": true,
+        "unknown_category_mixed_payment_method": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.8804,
+      "python_peak_mb": 53.629,
+      "wall_seconds": 3.4762,
+      "metrics": {
+        "roc_auc": 0.7363334340078526,
+        "f1": 0.6095238095238096,
+        "accuracy": 0.6583333333333333
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 12,
+    "role": "final_evaluation",
+    "input": {
+      "selected": "logistic",
+      "split": "test"
+    },
+    "output": {
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unknown_category_contract": true,
+        "unknown_category_mixed_contract": true,
+        "unknown_category_payment_method": true,
+        "unknown_category_mixed_payment_method": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      },
+      "check_errors": {},
+      "executed": true,
+      "worker_seconds": 2.1988,
+      "python_peak_mb": 50.904,
+      "wall_seconds": 2.6347,
+      "metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "passed": true
+    }
+  },
+  {
+    "step": 13,
+    "role": "persist",
+    "input": {
+      "status": "passed"
+    },
+    "output": {
+      "graph": "knowledge_graph.json"
+    }
+  }
+]

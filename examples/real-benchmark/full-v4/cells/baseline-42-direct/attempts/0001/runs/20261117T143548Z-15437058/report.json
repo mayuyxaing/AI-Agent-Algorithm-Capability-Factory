@@ -1,0 +1,58 @@
+{
+  "run_id": "20261117T143548Z-15437058",
+  "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+  "status": "failed",
+  "mode": "glm",
+  "model": "glm-4.7-flash",
+  "fault_injection": false,
+  "workflow_version": 3,
+  "experiment_arm": "direct",
+  "complete_template_supplied": false,
+  "task_id": "churn_classification",
+  "task_title": "客户流失预测",
+  "features": [
+    "tenure",
+    "monthly_charges",
+    "support_calls",
+    "contract",
+    "payment_method"
+  ],
+  "target": "churn",
+  "generation_budget_per_candidate": 3,
+  "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+  "seed": 42,
+  "policy": {
+    "task": "churn_classification",
+    "metrics": [
+      "roc_auc",
+      "f1",
+      "accuracy"
+    ],
+    "selection_metric": "roc_auc",
+    "minimum": {
+      "roc_auc": 0.65,
+      "f1": 0.45
+    },
+    "timeout_seconds": 60,
+    "max_repairs": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "knowledge": [],
+  "experiences": [],
+  "candidates": [],
+  "error": "LLMProviderError: BigModel HTTP 401: 认证未通过，请核对智谱密钥及账号认证状态",
+  "failure_kind": "provider",
+  "error_stage": "prepare",
+  "llm_calls": [],
+  "structured_corrections": {
+    "understand": 0,
+    "plan": 0
+  }
+}

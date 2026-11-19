@@ -4,7 +4,7 @@
 
 ## 当前结论
 
-我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环及真实三组对照尚未成功完成。本次交付包含完整源码、分阶段 Git 历史和运行材料，已发布至 GitHub 仓库。
+我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环仍未通过；客户流失的 27 单元真实三组对照已完成，其中 16 个通过、11 个失败。本次交付包含完整源码、分阶段 Git 历史和运行材料，已发布至 GitHub 仓库。
 
 状态含义：**已实现**表示存在可核对代码及相关验证；**部分实现**表示只覆盖该要求的一部分；**未实现**表示没有对应能力；**待提交**表示本地交付存在，但远程提交未执行。
 
@@ -47,7 +47,7 @@
 | B08 | 验证报告样例 | 已提供 Markdown/JSON | [客户报告](../examples/v2/real-success/report.json)、[文本报告](../examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md) |
 | B09 | README.md | 已提供；覆盖题目要求的十项内容 | [README](../README.md) |
 | B10 | 环境依赖文件 | 已提供范围依赖、开发依赖及历史锁定文件 | [requirements.txt](../requirements.txt)、[开发依赖](../requirements-dev.txt)、[环境锁定](../requirements-lock.txt) |
-| B11 | 使用示例与测试用例 | 已提供；当前归档为 141 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
+| B11 | 使用示例与测试用例 | 已提供；当前归档为 148 项 pytest 通过 | [测试结果](../examples/test-results.txt)、[JUnit](../examples/test-results.xml)、[测试代码](../tests/test_factory.py) |
 | B12 | GitHub 仓库提交 | 已发布；源码和分阶段提交历史已上传 | [项目仓库](https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory) |
 
 源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。
@@ -117,7 +117,7 @@
 
 ## 九、后续工作
 
-后续我将优先开展固定任务集上的真实模型对照实验，统计首次通过率、修复成本和最终通过率；再完善生成代码执行隔离，并扩展任务与算法插件。报告摘要、文件摘要及测试计数见 [acceptance-evidence.json](acceptance-evidence.json)。
+我已完成 27 单元真实模型对照，后续优先改进规划引用可靠性、固定任务重复采样与执行隔离。报告摘要、文件摘要及测试计数见 [acceptance-evidence.json](acceptance-evidence.json)。
 
 ## 验证与状态管理补充
 
@@ -133,7 +133,7 @@
 
 ## 真实模型对照入口
 
-我准备了 [真实对照实验协议](real-benchmark.md)，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 [benchmark-full-glm.cmd](../benchmark-full-glm.cmd)，入口转发测试见 [test_benchmark_launcher.py](../tests/test_benchmark_launcher.py)。协议 v3 的三个真实小规模单元已归档；v4 正式矩阵待执行。
+我准备了 [真实对照实验协议](real-benchmark.md)，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 [benchmark-full-glm.cmd](../benchmark-full-glm.cmd)，入口转发测试见 [test_benchmark_launcher.py](../tests/test_benchmark_launcher.py)。协议 v3 的三个真实小规模单元已归档；v4 正式矩阵现已完成，原始结果见本文末尾。
 
 ## 真实模型小规模对照记录
 
@@ -141,4 +141,8 @@
 
 ## 协议 v4 小规模对照完成
 
-我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 [PILOT-V4-RESULTS.md](../examples/real-benchmark/PILOT-V4-RESULTS.md)、[summary.md](../examples/real-benchmark/pilot-v4/summary.md)、[manifest.json](../examples/real-benchmark/pilot-v4/manifest.json)。27 单元正式实验单独执行，不能合并小规模结果。
+我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 [PILOT-V4-RESULTS.md](../examples/real-benchmark/PILOT-V4-RESULTS.md)、[summary.md](../examples/real-benchmark/pilot-v4/summary.md)、[manifest.json](../examples/real-benchmark/pilot-v4/manifest.json)。27 单元正式实验已单独完成，小规模结果不合并统计。
+
+## 27 单元正式对照完成
+
+我完成了三条件、三种子、三组共 27 个真实 GLM 单元，16 个通过、11 个失败，三组通过数为 4/9、8/9、4/9。原始结果和解释见 [FULL-RESULTS.md](../examples/real-benchmark/FULL-RESULTS.md)、[manifest.json](../examples/real-benchmark/full-v4/manifest.json)、[分析 JSON](../examples/real-benchmark/full-analysis.json)。独立重算入口为 [summarize_benchmark.py](../scripts/summarize_benchmark.py)。运行中的文件写入恢复记录见 [windows-io-hotfix.json](../examples/real-benchmark/full-v4/windows-io-hotfix.json)。

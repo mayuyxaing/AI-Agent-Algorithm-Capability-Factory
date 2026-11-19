@@ -1,0 +1,563 @@
+{
+  "protocol_version": 4,
+  "model": "glm-4.7-flash",
+  "cells": 27,
+  "groups": {
+    "direct": {
+      "tasks": 9,
+      "passed": 4,
+      "failure_breakdown": {
+        "planning_contract": 4,
+        "no_valid_candidate": 1
+      },
+      "candidate_count": 10,
+      "first_pass_candidates": 2,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 77147,
+      "prior_attempt_count": 3
+    },
+    "knowledge": {
+      "tasks": 9,
+      "passed": 8,
+      "failure_breakdown": {
+        "planning_contract": 1
+      },
+      "candidate_count": 16,
+      "first_pass_candidates": 8,
+      "repair_calls": 0,
+      "reported_tokens_including_prior_attempts": 195792,
+      "prior_attempt_count": 4
+    },
+    "knowledge_repair": {
+      "tasks": 9,
+      "passed": 4,
+      "failure_breakdown": {
+        "planning_contract": 5
+      },
+      "candidate_count": 8,
+      "first_pass_candidates": 3,
+      "repair_calls": 8,
+      "reported_tokens_including_prior_attempts": 147031,
+      "prior_attempt_count": 2
+    }
+  },
+  "paired_task_outcomes": {
+    "direct_vs_knowledge": {
+      "both_pass": 4,
+      "both_fail": 1,
+      "right_only": 4
+    },
+    "knowledge_vs_knowledge_repair": {
+      "both_pass": 3,
+      "left_only": 5,
+      "right_only": 1
+    }
+  },
+  "results": [
+    {
+      "cell": "baseline-42-direct",
+      "case": "baseline",
+      "seed": 42,
+      "arm": "direct",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 13423,
+      "reported_tokens_including_prior_attempts": 13423,
+      "prior_attempt_count": 2,
+      "test_metrics": {
+        "roc_auc": 0.8574448807006947,
+        "f1": 0.7184466019417476,
+        "accuracy": 0.7583333333333333
+      },
+      "report": "cells/baseline-42-direct/attempts/0003/runs/20261117T155605Z-e8bbd4bf/report.json"
+    },
+    {
+      "cell": "baseline-42-knowledge",
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 20870,
+      "reported_tokens_including_prior_attempts": 20870,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.8574448807006947,
+        "f1": 0.7184466019417476,
+        "accuracy": 0.7583333333333333
+      },
+      "report": "cells/baseline-42-knowledge/attempts/0001/runs/20261117T160448Z-d8bf6484/report.json"
+    },
+    {
+      "cell": "baseline-42-knowledge_repair",
+      "case": "baseline",
+      "seed": 42,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 2,
+      "repair_calls": 0,
+      "reported_tokens": 11762,
+      "reported_tokens_including_prior_attempts": 11762,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.879492600422833,
+        "f1": 0.72,
+        "accuracy": 0.7666666666666667
+      },
+      "report": "cells/baseline-42-knowledge_repair/attempts/0001/runs/20261117T161328Z-ac0ee93f/report.json"
+    },
+    {
+      "cell": "baseline-43-direct",
+      "case": "baseline",
+      "seed": 43,
+      "arm": "direct",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 11985,
+      "reported_tokens_including_prior_attempts": 11985,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7912679425837321,
+        "f1": 0.6326530612244898,
+        "accuracy": 0.7
+      },
+      "report": "cells/baseline-43-direct/attempts/0001/runs/20261117T161736Z-60f218f1/report.json"
+    },
+    {
+      "cell": "baseline-43-knowledge",
+      "case": "baseline",
+      "seed": 43,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 2,
+      "repair_calls": 0,
+      "reported_tokens": 11674,
+      "reported_tokens_including_prior_attempts": 11674,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7912679425837321,
+        "f1": 0.6326530612244898,
+        "accuracy": 0.7
+      },
+      "report": "cells/baseline-43-knowledge/attempts/0001/runs/20261117T162619Z-c6ddcd1a/report.json"
+    },
+    {
+      "cell": "baseline-43-knowledge_repair",
+      "case": "baseline",
+      "seed": 43,
+      "arm": "knowledge_repair",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 8052,
+      "reported_tokens_including_prior_attempts": 8052,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/baseline-43-knowledge_repair/attempts/0001/runs/20261117T163349Z-ad88ac17/report.json"
+    },
+    {
+      "cell": "baseline-44-direct",
+      "case": "baseline",
+      "seed": 44,
+      "arm": "direct",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 4946,
+      "reported_tokens_including_prior_attempts": 4946,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/baseline-44-direct/attempts/0001/runs/20261117T163829Z-d20eb4ed/report.json"
+    },
+    {
+      "cell": "baseline-44-knowledge",
+      "case": "baseline",
+      "seed": 44,
+      "arm": "knowledge",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 7927,
+      "reported_tokens_including_prior_attempts": 7927,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/baseline-44-knowledge/attempts/0001/runs/20261117T164303Z-2d508cc8/report.json"
+    },
+    {
+      "cell": "baseline-44-knowledge_repair",
+      "case": "baseline",
+      "seed": 44,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 1,
+      "reported_tokens": 17047,
+      "reported_tokens_including_prior_attempts": 17047,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.8356991845363939,
+        "f1": 0.7,
+        "accuracy": 0.75
+      },
+      "report": "cells/baseline-44-knowledge_repair/attempts/0001/runs/20261117T164619Z-2b74b074/report.json"
+    },
+    {
+      "cell": "missing_high-42-direct",
+      "case": "missing_high",
+      "seed": 42,
+      "arm": "direct",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 4655,
+      "reported_tokens_including_prior_attempts": 4655,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/missing_high-42-direct/attempts/0002/runs/20261118T013031Z-4688ae63/report.json"
+    },
+    {
+      "cell": "missing_high-42-knowledge",
+      "case": "missing_high",
+      "seed": 42,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 18882,
+      "reported_tokens_including_prior_attempts": 22886,
+      "prior_attempt_count": 1,
+      "test_metrics": {
+        "roc_auc": 0.7958320749018424,
+        "f1": 0.62,
+        "accuracy": 0.6833333333333333
+      },
+      "report": "cells/missing_high-42-knowledge/attempts/0002/runs/20261118T014536Z-ebac6333/report.json"
+    },
+    {
+      "cell": "missing_high-42-knowledge_repair",
+      "case": "missing_high",
+      "seed": 42,
+      "arm": "knowledge_repair",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 7995,
+      "reported_tokens_including_prior_attempts": 8448,
+      "prior_attempt_count": 1,
+      "test_metrics": {},
+      "report": "cells/missing_high-42-knowledge_repair/attempts/0002/runs/20261118T133437Z-66d9a842/report.json"
+    },
+    {
+      "cell": "missing_high-43-direct",
+      "case": "missing_high",
+      "seed": 43,
+      "arm": "direct",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 9958,
+      "reported_tokens_including_prior_attempts": 9958,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7819976076555023,
+        "f1": 0.6226415094339622,
+        "accuracy": 0.6666666666666666
+      },
+      "report": "cells/missing_high-43-direct/attempts/0001/runs/20261118T133451Z-e71a275f/report.json"
+    },
+    {
+      "cell": "missing_high-43-knowledge",
+      "case": "missing_high",
+      "seed": 43,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 15146,
+      "reported_tokens_including_prior_attempts": 51098,
+      "prior_attempt_count": 3,
+      "test_metrics": {
+        "roc_auc": 0.7819976076555023,
+        "f1": 0.6226415094339622,
+        "accuracy": 0.6666666666666666
+      },
+      "report": "cells/missing_high-43-knowledge/attempts/0004/runs/20261119T032352Z-58b6f824/report.json"
+    },
+    {
+      "cell": "missing_high-43-knowledge_repair",
+      "case": "missing_high",
+      "seed": 43,
+      "arm": "knowledge_repair",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 7962,
+      "reported_tokens_including_prior_attempts": 7962,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/missing_high-43-knowledge_repair/attempts/0001/runs/20261119T032443Z-01c624d4/report.json"
+    },
+    {
+      "cell": "missing_high-44-direct",
+      "case": "missing_high",
+      "seed": 44,
+      "arm": "direct",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 4507,
+      "reported_tokens_including_prior_attempts": 4507,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/missing_high-44-direct/attempts/0001/runs/20261119T032641Z-1cff9e26/report.json"
+    },
+    {
+      "cell": "missing_high-44-knowledge",
+      "case": "missing_high",
+      "seed": 44,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 15187,
+      "reported_tokens_including_prior_attempts": 15187,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7774086378737541,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.725
+      },
+      "report": "cells/missing_high-44-knowledge/attempts/0001/runs/20261119T033006Z-a31e470b/report.json"
+    },
+    {
+      "cell": "missing_high-44-knowledge_repair",
+      "case": "missing_high",
+      "seed": 44,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 3,
+      "reported_tokens": 25571,
+      "reported_tokens_including_prior_attempts": 25571,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7671398369072788,
+        "f1": 0.6736842105263158,
+        "accuracy": 0.7416666666666667
+      },
+      "report": "cells/missing_high-44-knowledge_repair/attempts/0001/runs/20261119T033240Z-f727cb72/report.json"
+    },
+    {
+      "cell": "minority-42-direct",
+      "case": "minority",
+      "seed": 42,
+      "arm": "direct",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 8255,
+      "reported_tokens_including_prior_attempts": 8255,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7956989247311828,
+        "f1": 0.5507246376811594,
+        "accuracy": 0.7416666666666667
+      },
+      "report": "cells/minority-42-direct/attempts/0001/runs/20261119T033756Z-dd92008f/report.json"
+    },
+    {
+      "cell": "minority-42-knowledge",
+      "case": "minority",
+      "seed": 42,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 19295,
+      "reported_tokens_including_prior_attempts": 19295,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.802469135802469,
+        "f1": 0.5507246376811594,
+        "accuracy": 0.7416666666666667
+      },
+      "report": "cells/minority-42-knowledge/attempts/0001/runs/20261119T034237Z-381e2115/report.json"
+    },
+    {
+      "cell": "minority-42-knowledge_repair",
+      "case": "minority",
+      "seed": 42,
+      "arm": "knowledge_repair",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 7923,
+      "reported_tokens_including_prior_attempts": 7923,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/minority-42-knowledge_repair/attempts/0001/runs/20261119T034826Z-da4817a8/report.json"
+    },
+    {
+      "cell": "minority-43-direct",
+      "case": "minority",
+      "seed": 43,
+      "arm": "direct",
+      "status": "no_valid_candidate",
+      "failure_category": "no_valid_candidate",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 14558,
+      "reported_tokens_including_prior_attempts": 14558,
+      "prior_attempt_count": 0,
+      "test_metrics": {},
+      "report": "cells/minority-43-direct/attempts/0001/runs/20261119T034926Z-ce0169a2/report.json"
+    },
+    {
+      "cell": "minority-43-knowledge",
+      "case": "minority",
+      "seed": 43,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 1,
+      "repair_calls": 0,
+      "reported_tokens": 23244,
+      "reported_tokens_including_prior_attempts": 23244,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.8336842105263158,
+        "f1": 0.5538461538461539,
+        "accuracy": 0.7583333333333333
+      },
+      "report": "cells/minority-43-knowledge/attempts/0001/runs/20261119T035203Z-4b859649/report.json"
+    },
+    {
+      "cell": "minority-43-knowledge_repair",
+      "case": "minority",
+      "seed": 43,
+      "arm": "knowledge_repair",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 7996,
+      "reported_tokens_including_prior_attempts": 23649,
+      "prior_attempt_count": 1,
+      "test_metrics": {},
+      "report": "cells/minority-43-knowledge_repair/attempts/0002/runs/20261119T035924Z-a360fced/report.json"
+    },
+    {
+      "cell": "minority-44-direct",
+      "case": "minority",
+      "seed": 44,
+      "arm": "direct",
+      "status": "failed",
+      "failure_category": "planning_contract",
+      "candidate_count": 0,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 4407,
+      "reported_tokens_including_prior_attempts": 4860,
+      "prior_attempt_count": 1,
+      "test_metrics": {},
+      "report": "cells/minority-44-direct/attempts/0002/runs/20261119T040845Z-637eb77b/report.json"
+    },
+    {
+      "cell": "minority-44-knowledge",
+      "case": "minority",
+      "seed": 44,
+      "arm": "knowledge",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 0,
+      "reported_tokens": 23611,
+      "reported_tokens_including_prior_attempts": 23611,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7925347222222223,
+        "f1": 0.47619047619047616,
+        "accuracy": 0.725
+      },
+      "report": "cells/minority-44-knowledge/attempts/0001/runs/20261119T040955Z-8040de5c/report.json"
+    },
+    {
+      "cell": "minority-44-knowledge_repair",
+      "case": "minority",
+      "seed": 44,
+      "arm": "knowledge_repair",
+      "status": "passed",
+      "failure_category": "passed",
+      "candidate_count": 2,
+      "first_pass_candidates": 0,
+      "repair_calls": 4,
+      "reported_tokens": 36617,
+      "reported_tokens_including_prior_attempts": 36617,
+      "prior_attempt_count": 0,
+      "test_metrics": {
+        "roc_auc": 0.7925347222222223,
+        "f1": 0.47619047619047616,
+        "accuracy": 0.725
+      },
+      "report": "cells/minority-44-knowledge_repair/attempts/0001/runs/20261119T041125Z-26089a3f/report.json"
+    }
+  ],
+  "io_migrations": [
+    "windows-io-hotfix.json"
+  ],
+  "limits": [
+    "Nine synthetic datasets per arm; no repeated LLM sampling on each fixed task.",
+    "First-pass candidate rates exclude tasks rejected during planning.",
+    "API-reported tokens omit usage never returned or lost in incomplete attempts.",
+    "Observed completion rates do not establish stable causal gains or holdout-metric superiority."
+  ]
+}

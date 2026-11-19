@@ -1,0 +1,536 @@
+{
+  "run_id": "20261117T155605Z-e8bbd4bf",
+  "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+  "status": "passed",
+  "mode": "glm",
+  "model": "glm-4.7-flash",
+  "fault_injection": false,
+  "workflow_version": 3,
+  "experiment_arm": "direct",
+  "complete_template_supplied": false,
+  "task_id": "churn_classification",
+  "task_title": "客户流失预测",
+  "features": [
+    "tenure",
+    "monthly_charges",
+    "support_calls",
+    "contract",
+    "payment_method"
+  ],
+  "target": "churn",
+  "generation_budget_per_candidate": 3,
+  "dataset_sha256": "636769745426526c68263c70abce8af51e58eda7ea0ea72616830dc65fb7c50e",
+  "seed": 42,
+  "policy": {
+    "task": "churn_classification",
+    "metrics": [
+      "roc_auc",
+      "f1",
+      "accuracy"
+    ],
+    "selection_metric": "roc_auc",
+    "minimum": {
+      "roc_auc": 0.65,
+      "f1": 0.45
+    },
+    "timeout_seconds": 60,
+    "max_repairs": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "knowledge": [],
+  "experiences": [],
+  "candidates": [
+    {
+      "algorithm": "forest",
+      "rationale": "随机森林能够捕捉特征间的非线性关系，适合处理如合同类型和支付方式等潜在交互效应，且对缺失值稳健。相比逻辑回归，它通常在处理不平衡数据时具有更高的ROC-AUC表现。",
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 7,
+        "min_samples_leaf": 5,
+        "class_weight": "balanced"
+      },
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "attempts": [
+        {
+          "executed": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 67, in execute\n    model.fit(train[FEATURES], train[task.target])\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\pipeline.py\", line 645, in fit\n    self._final_estimator.fit(Xt, y, **last_step_params[\"fit\"])\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\ensemble\\_forest.py\", line 334, in fit\n    X, y = validate_data(\n           ^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\utils\\validation.py\", line 3058, in validate_data\n    X, y = check_X_y(X, y, **check_params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\utils\\validation.py\", line 1330, in check_X_y\n    X = check_array(\n        ^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\utils\\validation.py\", line 1038, in check_array\n    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\work\\.venv312\\Lib\\site-packages\\sklearn\\utils\\_array_api.py\", line 983, in _asarray_with_order\n    array = numpy.asarray(array, order=order, dtype=dtype)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: could not convert string to float: 'monthly'\n",
+          "checks": {},
+          "worker_seconds": 2.1643,
+          "python_peak_mb": 53.317,
+          "wall_seconds": 2.6135,
+          "passed": false,
+          "failure_kind": "execution",
+          "attempt": 0,
+          "code_path": "forest/attempt_0/algorithm.py",
+          "code_sha256": "cf464063f17de00adad52f66db64040187de69fcc1ef1039c81292f77326f3a9",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "cf464063f17de00adad52f66db64040187de69fcc1ef1039c81292f77326f3a9",
+          "explanation": "The implementation uses a sklearn Pipeline with a ColumnTransformer for preprocessing and a RandomForestClassifier as the final estimator. Numeric features are imputed with the median and scaled, while categorical features are imputed with the most frequent value. The classifier is configured with the specified hyperparameters (n_estimators=100, max_depth=7, min_samples_leaf=5, class_weight='balanced') and random_state=42. The predict function ensures all required features are present before prediction and returns the probability of the positive class (class 1)."
+        },
+        {
+          "executed": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 64, in execute\n    task.check_preprocessing(model, expected[\"preprocessing\"])\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\tasks.py\", line 71, in check_preprocessing\n    raise ValueError(f\"Plan mismatch: ColumnTransformer must explicitly group {names}\")\nValueError: Plan mismatch: ColumnTransformer must explicitly group ['tenure', 'monthly_charges', 'support_calls']\n",
+          "checks": {},
+          "worker_seconds": 2.1409,
+          "python_peak_mb": 51.652,
+          "wall_seconds": 2.6027,
+          "passed": false,
+          "failure_kind": "execution",
+          "attempt": 1,
+          "code_path": "forest/attempt_1/algorithm.py",
+          "code_sha256": "c1242f370a75ff75a1c7dfb80ba2010cc397de280910246af4d5023bf4320190",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "c1242f370a75ff75a1c7dfb80ba2010cc397de280910246af4d5023bf4320190",
+          "explanation": "The implementation creates a scikit-learn Pipeline. It uses SimpleImputer for both numeric and categorical features with specified strategies ('median' and 'most_frequent'). Categorical features are encoded using OneHotEncoder with 'ignore' to handle unknown categories. Numeric features are scaled using StandardScaler. The final step is a RandomForestClassifier with the provided hyperparameters, set to 'balanced' class weight and a fixed random state. The predict function validates input frame columns and returns the positive class probabilities."
+        },
+        {
+          "checks": {
+            "probability_contract": true,
+            "estimator_matches_plan": true,
+            "hyperparameters_match_plan": true,
+            "preprocessing_matches_plan": true,
+            "missing_column_rejected": true,
+            "column_order": true,
+            "repeat_prediction": true,
+            "model_reload": true,
+            "unknown_category_contract": true,
+            "unknown_category_mixed_contract": true,
+            "unknown_category_payment_method": true,
+            "unknown_category_mixed_payment_method": true,
+            "unknown_category": true,
+            "all_missing_values": true,
+            "minimum_roc_auc": true,
+            "minimum_f1": true
+          },
+          "check_errors": {},
+          "executed": true,
+          "worker_seconds": 2.7877,
+          "python_peak_mb": 53.634,
+          "wall_seconds": 3.3428,
+          "metrics": {
+            "roc_auc": 0.7363334340078526,
+            "f1": 0.6095238095238096,
+            "accuracy": 0.6583333333333333
+          },
+          "passed": true,
+          "attempt": 2,
+          "code_path": "forest/attempt_2/algorithm.py",
+          "code_sha256": "c5bdbf28573b5b82cd7531a625c15f009d516b053287fa686715537139edc528",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "c5bdbf28573b5b82cd7531a625c15f009d516b053287fa686715537139edc528",
+          "explanation": "The implementation follows the specified requirements:\n1. Uses a sklearn Pipeline with preprocessing and classifier as the final step\n2. Implements RandomForestClassifier with the specified hyperparameters\n3. Handles missing values with median imputation for numeric features and most frequent imputation for categorical features\n4. Scales numeric features using StandardScaler\n5. Encodes categorical features using OneHotEncoder with 'ignore' strategy for unknown categories\n6. Implements the interface_contract requirements:\n   - build_model returns an unfitted Pipeline\n   - predict returns finite 1D positive-class probabilities\n   - predict raises ValueError for missing required fields\n7. Uses only numpy, pandas, and sklearn imports\n8. Sets random_state for reproducibility and n_jobs=1 as specified"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "algorithm": "logistic",
+      "rationale": "逻辑回归作为可解释的线性基线模型，适合快速评估特征重要性。通过标准化数值特征和平衡类别权重，它能在保持模型透明度的同时有效预测流失。",
+      "hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "class_weight": "balanced",
+        "solver": "lbfgs"
+      },
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "attempts": [
+        {
+          "executed": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 64, in execute\n    task.check_preprocessing(model, expected[\"preprocessing\"])\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\tasks.py\", line 76, in check_preprocessing\n    raise ValueError(\"Plan mismatch: numeric scaling differs from plan\")\nValueError: Plan mismatch: numeric scaling differs from plan\n",
+          "checks": {},
+          "worker_seconds": 2.0848,
+          "python_peak_mb": 50.01,
+          "wall_seconds": 2.5332,
+          "passed": false,
+          "failure_kind": "execution",
+          "attempt": 0,
+          "code_path": "logistic/attempt_0/algorithm.py",
+          "code_sha256": "a5db3ab328b00352b7037c79dfdfaabe727ecbc2379af75e4da03e2aa5adce71",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "a5db3ab328b00352b7037c79dfdfaabe727ecbc2379af75e4da03e2aa5adce71",
+          "explanation": "The implementation builds a scikit-learn Pipeline with a preprocessing step (ColumnTransformer) and a LogisticRegression classifier as the final step. The preprocessing handles numeric features with median imputation and categorical features with most frequent imputation and one-hot encoding (with 'ignore' for unknown categories). The LogisticRegression is configured with the specified hyperparameters, including a balanced class weight and a fixed random state. The `predict` function validates that all required features are present in the input DataFrame before making predictions, returning the probability of the positive class."
+        },
+        {
+          "executed": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 42, in execute\n    model = module.build_model(seed=payload[\"seed\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\runtime\\glm\\benchmark-full-v4\\cells\\baseline-42-direct\\attempts\\0003\\runs\\20261117T155605Z-e8bbd4bf\\logistic\\attempt_1\\algorithm.py\", line 29, in build_model\n    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse=False))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: OneHotEncoder.__init__() got an unexpected keyword argument 'sparse'\n",
+          "checks": {},
+          "worker_seconds": 2.0998,
+          "python_peak_mb": 49.827,
+          "wall_seconds": 2.5433,
+          "passed": false,
+          "failure_kind": "execution",
+          "attempt": 1,
+          "code_path": "logistic/attempt_1/algorithm.py",
+          "code_sha256": "d753bd2efac23557b125ceb82dc6e64d552a32dca66697b80d10c15c74cf7443",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "d753bd2efac23557b125ceb82dc6e64d552a32dca66697b80d10c15c74cf7443",
+          "explanation": "The implementation creates a scikit-learn Pipeline with a preprocessing step and a Logistic Regression classifier. The preprocessing step includes median imputation and standard scaling for numeric features, and most frequent imputation and one-hot encoding for categorical features. The classifier is configured with the specified hyperparameters, including balanced class weights and a fixed random state. The `predict` function validates the input DataFrame for required features, raises a ValueError if any are missing, and returns the probability of the positive class for each input row."
+        },
+        {
+          "executed": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 42, in execute\n    model = module.build_model(seed=payload[\"seed\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\runtime\\glm\\benchmark-full-v4\\cells\\baseline-42-direct\\attempts\\0003\\runs\\20261117T155605Z-e8bbd4bf\\logistic\\attempt_2\\algorithm.py\", line 23, in build_model\n    preprocessor = ColumnTransformer(\n                   ^^^^^^^^^^^^^^^^^\nNameError: name 'ColumnTransformer' is not defined\n",
+          "checks": {},
+          "worker_seconds": 2.1554,
+          "python_peak_mb": 49.825,
+          "wall_seconds": 2.5802,
+          "passed": false,
+          "failure_kind": "execution",
+          "attempt": 2,
+          "code_path": "logistic/attempt_2/algorithm.py",
+          "code_sha256": "024bbc3eea720a8b6ace7f42a801e5bd552d42e8d0050a3fe38bf0e50b154682",
+          "injected": false,
+          "fault_origin": null,
+          "model_response_sha256": "024bbc3eea720a8b6ace7f42a801e5bd552d42e8d0050a3fe38bf0e50b154682",
+          "explanation": "The implementation follows the specified requirements:\n\n1. **Model Selection**: Uses LogisticRegression as the classifier, with the exact hyperparameters C=1.0, max_iter=1000, class_weight='balanced', and solver='lbfgs' as specified in the plan.\n\n2. **Preprocessing**: \n   - Numeric features (tenure, monthly_charges, support_calls) are imputed with median values and scaled using StandardScaler\n   - Categorical features (contract, payment_method) are imputed with most_frequent values and encoded using OneHotEncoder with handle_unknown='ignore'\n\n3. **Pipeline Structure**: Uses sklearn Pipeline with preprocessing steps followed by the classifier as the final step.\n\n4. **Random State**: Set classifier random_state=seed (default 42) for reproducibility.\n\n5. **Interface Contract**: \n   - build_model returns an unfitted Pipeline\n   - predict checks for required fields and raises ValueError if missing, then returns class-1 probabilities\n   - Uses only numpy, pandas, and sklearn imports as required\n   - Does not perform any training at module import time"
+        }
+      ],
+      "passed": false
+    }
+  ],
+  "data_profile": {
+    "scope": "training_only",
+    "rows": 360,
+    "columns": {
+      "tenure": {
+        "kind": "numeric",
+        "missing_rate": 0.033333,
+        "cardinality": 71,
+        "constant": false,
+        "quantiles": {
+          "0.25": 20.0,
+          "0.5": 37.0,
+          "0.75": 56.0
+        }
+      },
+      "monthly_charges": {
+        "kind": "numeric",
+        "missing_rate": 0.030556,
+        "cardinality": 349,
+        "constant": false,
+        "quantiles": {
+          "0.25": 40.197903768878156,
+          "0.5": 67.78772740237457,
+          "0.75": 94.23179494179767
+        }
+      },
+      "support_calls": {
+        "kind": "numeric",
+        "missing_rate": 0.036111,
+        "cardinality": 8,
+        "constant": false,
+        "quantiles": {
+          "0.25": 1.0,
+          "0.5": 1.0,
+          "0.75": 2.0
+        }
+      },
+      "contract": {
+        "kind": "categorical",
+        "missing_rate": 0.033333,
+        "cardinality": 3,
+        "constant": false
+      },
+      "payment_method": {
+        "kind": "categorical",
+        "missing_rate": 0.038889,
+        "cardinality": 2,
+        "constant": false
+      }
+    },
+    "positive_rate": 0.3611111111111111,
+    "minority_rate": 0.3611111111111111,
+    "requirements": [
+      "train_only_preprocessing",
+      "unknown_categories",
+      "missing_values",
+      "class_imbalance"
+    ]
+  },
+  "task_spec": {
+    "task": "churn_classification",
+    "target": "churn",
+    "metrics": [
+      "roc_auc",
+      "f1"
+    ],
+    "constraints": [
+      "train_only_preprocessing",
+      "unknown_categories",
+      "missing_values",
+      "class_imbalance"
+    ],
+    "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+  },
+  "split": {
+    "train": 360,
+    "validation": 120,
+    "test": 120,
+    "train_positive_rate": 0.3611111111111111
+  },
+  "knowledge_ingestion": {
+    "id": "b8c216286d344c368bd24e6740227315",
+    "created_at": "2026-11-17T15:56:05.094386+00:00",
+    "mode": "deterministic",
+    "model": null,
+    "llm_accepted": 0,
+    "llm_rejected": 0,
+    "rejections": [],
+    "responses": [],
+    "status": "passed",
+    "retrieval_snapshot_version": 1,
+    "source_hashes": {
+      "churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+      "historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
+      "text_business.md": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659"
+    },
+    "extracted": 10
+  },
+  "plan": {
+    "candidates": [
+      {
+        "algorithm": "forest",
+        "rationale": "随机森林能够捕捉特征间的非线性关系，适合处理如合同类型和支付方式等潜在交互效应，且对缺失值稳健。相比逻辑回归，它通常在处理不平衡数据时具有更高的ROC-AUC表现。",
+        "hyperparameters": {
+          "n_estimators": 100,
+          "max_depth": 7,
+          "min_samples_leaf": 5,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "algorithm": "logistic",
+        "rationale": "逻辑回归作为可解释的线性基线模型，适合快速评估特征重要性。通过标准化数值特征和平衡类别权重，它能在保持模型透明度的同时有效预测流失。",
+        "hyperparameters": {
+          "C": 1.0,
+          "max_iter": 1000,
+          "class_weight": "balanced",
+          "solver": "lbfgs"
+        }
+      }
+    ],
+    "preprocessing": {
+      "numeric_imputer": "median",
+      "categorical_imputer": "most_frequent",
+      "scale_numeric": true,
+      "unknown_categories": "ignore"
+    },
+    "evidence_ids": [],
+    "experience_ids": [],
+    "experience_applied": false
+  },
+  "baseline": {
+    "roc_auc": 0.5,
+    "f1": 0.0,
+    "accuracy": 0.6416666666666667
+  },
+  "selected": "forest",
+  "test_result": {
+    "checks": {
+      "probability_contract": true,
+      "estimator_matches_plan": true,
+      "hyperparameters_match_plan": true,
+      "preprocessing_matches_plan": true,
+      "missing_column_rejected": true,
+      "column_order": true,
+      "repeat_prediction": true,
+      "model_reload": true,
+      "unknown_category_contract": true,
+      "unknown_category_mixed_contract": true,
+      "unknown_category_payment_method": true,
+      "unknown_category_mixed_payment_method": true,
+      "unknown_category": true,
+      "all_missing_values": true,
+      "minimum_roc_auc": true,
+      "minimum_f1": true
+    },
+    "check_errors": {},
+    "executed": true,
+    "worker_seconds": 2.8002,
+    "python_peak_mb": 53.636,
+    "wall_seconds": 3.3449,
+    "metrics": {
+      "roc_auc": 0.8574448807006947,
+      "f1": 0.7184466019417476,
+      "accuracy": 0.7583333333333333
+    },
+    "passed": true
+  },
+  "llm_calls": [
+    {
+      "role": "understand",
+      "response_id": "20261117235607895d71c883394e04",
+      "usage": {
+        "completion_tokens": 108,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 345,
+        "prompt_tokens_details": {
+          "cached_tokens": 54
+        },
+        "total_tokens": 453
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 36.497
+    },
+    {
+      "role": "plan",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 10
+    },
+    {
+      "role": "plan",
+      "response_id": "202611172356536d2b3081d87946ce",
+      "usage": {
+        "completion_tokens": 281,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1501,
+        "prompt_tokens_details": {
+          "cached_tokens": 2
+        },
+        "total_tokens": 1782
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 50.954
+    },
+    {
+      "role": "generate",
+      "response_id": "20261117235744c6942feac8c34ef3",
+      "usage": {
+        "completion_tokens": 488,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1246,
+        "prompt_tokens_details": {
+          "cached_tokens": 55
+        },
+        "total_tokens": 1734
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 28.032
+    },
+    {
+      "role": "generate",
+      "response_id": "2026111723581579b83aac858b4623",
+      "usage": {
+        "completion_tokens": 561,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1246,
+        "prompt_tokens_details": {
+          "cached_tokens": 54
+        },
+        "total_tokens": 1807
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 58.266
+    },
+    {
+      "role": "generate",
+      "response_id": "202611172359169bd0d2e3036f4010",
+      "usage": {
+        "completion_tokens": 646,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1246,
+        "prompt_tokens_details": {
+          "cached_tokens": 2
+        },
+        "total_tokens": 1892
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 71.884
+    },
+    {
+      "role": "generate",
+      "response_id": "202611180000326f60e69e1c624b8d",
+      "usage": {
+        "completion_tokens": 491,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1250,
+        "prompt_tokens_details": {
+          "cached_tokens": 55
+        },
+        "total_tokens": 1741
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 35.929
+    },
+    {
+      "role": "generate",
+      "response_id": "202611180001102c0c22ac582f49ca",
+      "usage": {
+        "completion_tokens": 874,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1250,
+        "prompt_tokens_details": {
+          "cached_tokens": 1245
+        },
+        "total_tokens": 2124
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 117.436
+    },
+    {
+      "role": "generate",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 10
+    },
+    {
+      "role": "generate",
+      "response_id": "20261118000320ebedb95f99fd4f94",
+      "usage": {
+        "completion_tokens": 640,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1250,
+        "prompt_tokens_details": {
+          "cached_tokens": 54
+        },
+        "total_tokens": 1890
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 84.326
+    }
+  ],
+  "structured_corrections": {
+    "understand": 0,
+    "plan": 0
+  }
+}

@@ -1,0 +1,1156 @@
+[
+  {
+    "step": 0,
+    "role": "profile",
+    "input": {
+      "scope": "training_only"
+    },
+    "output": {
+      "scope": "training_only",
+      "rows": 360,
+      "columns": {
+        "tenure": {
+          "kind": "numeric",
+          "missing_rate": 0.277778,
+          "cardinality": 66,
+          "constant": false,
+          "quantiles": {
+            "0.25": 20.0,
+            "0.5": 38.0,
+            "0.75": 56.0
+          }
+        },
+        "monthly_charges": {
+          "kind": "numeric",
+          "missing_rate": 0.241667,
+          "cardinality": 273,
+          "constant": false,
+          "quantiles": {
+            "0.25": 40.90576586022415,
+            "0.5": 67.98634005510651,
+            "0.75": 93.37534974379162
+          }
+        },
+        "support_calls": {
+          "kind": "numeric",
+          "missing_rate": 0.269444,
+          "cardinality": 7,
+          "constant": false,
+          "quantiles": {
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 2.0
+          }
+        },
+        "contract": {
+          "kind": "categorical",
+          "missing_rate": 0.286111,
+          "cardinality": 3,
+          "constant": false
+        },
+        "payment_method": {
+          "kind": "categorical",
+          "missing_rate": 0.238889,
+          "cardinality": 2,
+          "constant": false
+        }
+      },
+      "positive_rate": 0.3611111111111111,
+      "minority_rate": 0.3611111111111111,
+      "requirements": [
+        "train_only_preprocessing",
+        "unknown_categories",
+        "missing_values",
+        "class_imbalance"
+      ]
+    }
+  },
+  {
+    "step": 1,
+    "role": "understand_response",
+    "input": {
+      "context": {
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+        "task_id": "churn_classification",
+        "metrics_available": [
+          "roc_auc",
+          "f1",
+          "accuracy",
+          "balanced_accuracy"
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "task",
+            "target",
+            "metrics",
+            "constraints",
+            "description"
+          ],
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "metrics": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "roc_auc",
+                  "f1",
+                  "accuracy",
+                  "balanced_accuracy"
+                ]
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "output_instruction": "Return the fields required by output_schema at the JSON root."
+      },
+      "source": "live"
+    },
+    "output": {
+      "answer": {
+        "task": "churn_classification",
+        "target": "churn",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "missing_values",
+          "unknown_categories",
+          "class_imbalance"
+        ],
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+      }
+    }
+  },
+  {
+    "step": 2,
+    "role": "understand_normalized",
+    "input": {
+      "envelope": "answer",
+      "depth": 1
+    },
+    "output": {
+      "response": {
+        "answer": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        }
+      },
+      "normalized_response": {
+        "task": "churn_classification",
+        "target": "churn",
+        "metrics": [
+          "roc_auc",
+          "f1"
+        ],
+        "constraints": [
+          "missing_values",
+          "unknown_categories",
+          "class_imbalance"
+        ],
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+      },
+      "fields_edited": false
+    }
+  },
+  {
+    "step": 3,
+    "role": "understand",
+    "input": {
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+      "task_id": "churn_classification",
+      "metrics_available": [
+        "roc_auc",
+        "f1",
+        "accuracy",
+        "balanced_accuracy"
+      ],
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "task",
+          "target",
+          "metrics",
+          "constraints",
+          "description"
+        ],
+        "properties": {
+          "task": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "metrics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "roc_auc",
+                "f1",
+                "accuracy",
+                "balanced_accuracy"
+              ]
+            }
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "output_instruction": "Return the fields required by output_schema at the JSON root."
+    },
+    "output": {
+      "task": "churn_classification",
+      "target": "churn",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "missing_values",
+        "unknown_categories",
+        "class_imbalance"
+      ],
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    }
+  },
+  {
+    "step": 4,
+    "role": "retrieve",
+    "input": {
+      "query": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    },
+    "output": {
+      "knowledge": [],
+      "experiences": []
+    }
+  },
+  {
+    "step": 5,
+    "role": "plan_response",
+    "input": {
+      "context": {
+        "task_id": "churn_classification",
+        "spec": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        },
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 360,
+          "columns": {
+            "tenure": {
+              "kind": "numeric",
+              "missing_rate": 0.277778,
+              "cardinality": 66,
+              "constant": false,
+              "quantiles": {
+                "0.25": 20.0,
+                "0.5": 38.0,
+                "0.75": 56.0
+              }
+            },
+            "monthly_charges": {
+              "kind": "numeric",
+              "missing_rate": 0.241667,
+              "cardinality": 273,
+              "constant": false,
+              "quantiles": {
+                "0.25": 40.90576586022415,
+                "0.5": 67.98634005510651,
+                "0.75": 93.37534974379162
+              }
+            },
+            "support_calls": {
+              "kind": "numeric",
+              "missing_rate": 0.269444,
+              "cardinality": 7,
+              "constant": false,
+              "quantiles": {
+                "0.25": 1.0,
+                "0.5": 1.0,
+                "0.75": 2.0
+              }
+            },
+            "contract": {
+              "kind": "categorical",
+              "missing_rate": 0.286111,
+              "cardinality": 3,
+              "constant": false
+            },
+            "payment_method": {
+              "kind": "categorical",
+              "missing_rate": 0.238889,
+              "cardinality": 2,
+              "constant": false
+            }
+          },
+          "positive_rate": 0.3611111111111111,
+          "minority_rate": 0.3611111111111111,
+          "requirements": [
+            "train_only_preprocessing",
+            "unknown_categories",
+            "missing_values",
+            "class_imbalance"
+          ]
+        },
+        "knowledge": [],
+        "experiences": [],
+        "plugins": [
+          {
+            "id": "forest",
+            "name": "随机森林",
+            "rationale": "与线性模型比较非线性关系和特征交互；限制树深度与并行度。",
+            "hyperparameter_defaults": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            },
+            "hyperparameter_space": {
+              "n_estimators": [
+                "int",
+                20,
+                200
+              ],
+              "max_depth": [
+                "int",
+                2,
+                12
+              ],
+              "min_samples_leaf": [
+                "int",
+                1,
+                20
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ]
+            }
+          },
+          {
+            "id": "logistic",
+            "name": "逻辑回归",
+            "rationale": "可解释线性基线；标准化数值特征，使用类别权重处理不平衡。",
+            "hyperparameter_defaults": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            },
+            "hyperparameter_space": {
+              "C": [
+                "float",
+                0.01,
+                100
+              ],
+              "max_iter": [
+                "int",
+                100,
+                3000
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ],
+              "solver": [
+                "lbfgs",
+                "liblinear"
+              ]
+            }
+          }
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "candidates",
+            "preprocessing",
+            "evidence_ids",
+            "experience_ids",
+            "experience_applied"
+          ],
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "forest"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "n_estimators",
+                          "max_depth",
+                          "min_samples_leaf",
+                          "class_weight"
+                        ],
+                        "properties": {
+                          "n_estimators": {
+                            "type": "integer",
+                            "minimum": 20,
+                            "maximum": 200
+                          },
+                          "max_depth": {
+                            "type": "integer",
+                            "minimum": 2,
+                            "maximum": 12
+                          },
+                          "min_samples_leaf": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 20
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "logistic"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "C",
+                          "max_iter",
+                          "class_weight",
+                          "solver"
+                        ],
+                        "properties": {
+                          "C": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 100
+                          },
+                          "max_iter": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 3000
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          },
+                          "solver": {
+                            "enum": [
+                              "lbfgs",
+                              "liblinear"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "preprocessing": {
+              "type": "object",
+              "required": [
+                "numeric_imputer",
+                "categorical_imputer",
+                "scale_numeric",
+                "unknown_categories"
+              ],
+              "properties": {
+                "numeric_imputer": {
+                  "enum": [
+                    "median",
+                    "mean"
+                  ]
+                },
+                "categorical_imputer": {
+                  "enum": [
+                    "most_frequent",
+                    "constant"
+                  ]
+                },
+                "scale_numeric": {
+                  "type": "boolean"
+                },
+                "unknown_categories": {
+                  "enum": [
+                    "ignore"
+                  ]
+                }
+              }
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_applied": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "source": "live"
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "logistic",
+          "rationale": "作为基线模型，逻辑回归可提供可解释性。鉴于特征（如合同类型）可能具有非线性影响，同时结合类别不平衡（36.1% 正样本），逻辑回归通过标准化和平衡权重可有效建模。需要处理缺失值（27-28%）和未知类别。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          }
+        },
+        {
+          "algorithm": "forest",
+          "rationale": "随机森林能捕捉特征交互和非线性关系，适合处理客户流失的复杂数据。平衡类别权重可应对不平衡，且在处理高基数特征（如月费）时表现良好。",
+          "hyperparameters": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          }
+        }
+      ],
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "evidence_ids": [
+        "tenure:missing_rate_0.277778",
+        "monthly_charges:missing_rate_0.241667",
+        "support_calls:missing_rate_0.269444",
+        "contract:missing_rate_0.286111",
+        "payment_method:missing_rate_0.238889",
+        "positive_rate_0.361111",
+        "minority_rate_0.361111"
+      ],
+      "experience_ids": [
+        "forest",
+        "logistic"
+      ],
+      "experience_applied": true
+    }
+  },
+  {
+    "step": 6,
+    "role": "plan_rejected",
+    "input": {
+      "attempt": 0
+    },
+    "output": {
+      "error": "Plan cites unknown evidence_ids",
+      "response": {
+        "candidates": [
+          {
+            "algorithm": "logistic",
+            "rationale": "作为基线模型，逻辑回归可提供可解释性。鉴于特征（如合同类型）可能具有非线性影响，同时结合类别不平衡（36.1% 正样本），逻辑回归通过标准化和平衡权重可有效建模。需要处理缺失值（27-28%）和未知类别。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            }
+          },
+          {
+            "algorithm": "forest",
+            "rationale": "随机森林能捕捉特征交互和非线性关系，适合处理客户流失的复杂数据。平衡类别权重可应对不平衡，且在处理高基数特征（如月费）时表现良好。",
+            "hyperparameters": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            }
+          }
+        ],
+        "preprocessing": {
+          "numeric_imputer": "median",
+          "categorical_imputer": "most_frequent",
+          "scale_numeric": true,
+          "unknown_categories": "ignore"
+        },
+        "evidence_ids": [
+          "tenure:missing_rate_0.277778",
+          "monthly_charges:missing_rate_0.241667",
+          "support_calls:missing_rate_0.269444",
+          "contract:missing_rate_0.286111",
+          "payment_method:missing_rate_0.238889",
+          "positive_rate_0.361111",
+          "minority_rate_0.361111"
+        ],
+        "experience_ids": [
+          "forest",
+          "logistic"
+        ],
+        "experience_applied": true
+      }
+    }
+  },
+  {
+    "step": 7,
+    "role": "plan_response",
+    "input": {
+      "context": {
+        "task_id": "churn_classification",
+        "spec": {
+          "task": "churn_classification",
+          "target": "churn",
+          "metrics": [
+            "roc_auc",
+            "f1"
+          ],
+          "constraints": [
+            "missing_values",
+            "unknown_categories",
+            "class_imbalance"
+          ],
+          "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+        },
+        "data_profile": {
+          "scope": "training_only",
+          "rows": 360,
+          "columns": {
+            "tenure": {
+              "kind": "numeric",
+              "missing_rate": 0.277778,
+              "cardinality": 66,
+              "constant": false,
+              "quantiles": {
+                "0.25": 20.0,
+                "0.5": 38.0,
+                "0.75": 56.0
+              }
+            },
+            "monthly_charges": {
+              "kind": "numeric",
+              "missing_rate": 0.241667,
+              "cardinality": 273,
+              "constant": false,
+              "quantiles": {
+                "0.25": 40.90576586022415,
+                "0.5": 67.98634005510651,
+                "0.75": 93.37534974379162
+              }
+            },
+            "support_calls": {
+              "kind": "numeric",
+              "missing_rate": 0.269444,
+              "cardinality": 7,
+              "constant": false,
+              "quantiles": {
+                "0.25": 1.0,
+                "0.5": 1.0,
+                "0.75": 2.0
+              }
+            },
+            "contract": {
+              "kind": "categorical",
+              "missing_rate": 0.286111,
+              "cardinality": 3,
+              "constant": false
+            },
+            "payment_method": {
+              "kind": "categorical",
+              "missing_rate": 0.238889,
+              "cardinality": 2,
+              "constant": false
+            }
+          },
+          "positive_rate": 0.3611111111111111,
+          "minority_rate": 0.3611111111111111,
+          "requirements": [
+            "train_only_preprocessing",
+            "unknown_categories",
+            "missing_values",
+            "class_imbalance"
+          ]
+        },
+        "knowledge": [],
+        "experiences": [],
+        "plugins": [
+          {
+            "id": "forest",
+            "name": "随机森林",
+            "rationale": "与线性模型比较非线性关系和特征交互；限制树深度与并行度。",
+            "hyperparameter_defaults": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            },
+            "hyperparameter_space": {
+              "n_estimators": [
+                "int",
+                20,
+                200
+              ],
+              "max_depth": [
+                "int",
+                2,
+                12
+              ],
+              "min_samples_leaf": [
+                "int",
+                1,
+                20
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ]
+            }
+          },
+          {
+            "id": "logistic",
+            "name": "逻辑回归",
+            "rationale": "可解释线性基线；标准化数值特征，使用类别权重处理不平衡。",
+            "hyperparameter_defaults": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            },
+            "hyperparameter_space": {
+              "C": [
+                "float",
+                0.01,
+                100
+              ],
+              "max_iter": [
+                "int",
+                100,
+                3000
+              ],
+              "class_weight": [
+                null,
+                "balanced"
+              ],
+              "solver": [
+                "lbfgs",
+                "liblinear"
+              ]
+            }
+          }
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "candidates",
+            "preprocessing",
+            "evidence_ids",
+            "experience_ids",
+            "experience_applied"
+          ],
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "forest"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "n_estimators",
+                          "max_depth",
+                          "min_samples_leaf",
+                          "class_weight"
+                        ],
+                        "properties": {
+                          "n_estimators": {
+                            "type": "integer",
+                            "minimum": 20,
+                            "maximum": 200
+                          },
+                          "max_depth": {
+                            "type": "integer",
+                            "minimum": 2,
+                            "maximum": 12
+                          },
+                          "min_samples_leaf": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 20
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "algorithm",
+                      "rationale",
+                      "hyperparameters"
+                    ],
+                    "properties": {
+                      "algorithm": {
+                        "const": "logistic"
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hyperparameters": {
+                        "type": "object",
+                        "required": [
+                          "C",
+                          "max_iter",
+                          "class_weight",
+                          "solver"
+                        ],
+                        "properties": {
+                          "C": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 100
+                          },
+                          "max_iter": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 3000
+                          },
+                          "class_weight": {
+                            "enum": [
+                              null,
+                              "balanced"
+                            ]
+                          },
+                          "solver": {
+                            "enum": [
+                              "lbfgs",
+                              "liblinear"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "preprocessing": {
+              "type": "object",
+              "required": [
+                "numeric_imputer",
+                "categorical_imputer",
+                "scale_numeric",
+                "unknown_categories"
+              ],
+              "properties": {
+                "numeric_imputer": {
+                  "enum": [
+                    "median",
+                    "mean"
+                  ]
+                },
+                "categorical_imputer": {
+                  "enum": [
+                    "most_frequent",
+                    "constant"
+                  ]
+                },
+                "scale_numeric": {
+                  "type": "boolean"
+                },
+                "unknown_categories": {
+                  "enum": [
+                    "ignore"
+                  ]
+                }
+              }
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "experience_applied": {
+              "type": "boolean"
+            }
+          }
+        },
+        "previous_response": {
+          "candidates": [
+            {
+              "algorithm": "logistic",
+              "rationale": "作为基线模型，逻辑回归可提供可解释性。鉴于特征（如合同类型）可能具有非线性影响，同时结合类别不平衡（36.1% 正样本），逻辑回归通过标准化和平衡权重可有效建模。需要处理缺失值（27-28%）和未知类别。",
+              "hyperparameters": {
+                "C": 1.0,
+                "max_iter": 1000,
+                "class_weight": "balanced",
+                "solver": "lbfgs"
+              }
+            },
+            {
+              "algorithm": "forest",
+              "rationale": "随机森林能捕捉特征交互和非线性关系，适合处理客户流失的复杂数据。平衡类别权重可应对不平衡，且在处理高基数特征（如月费）时表现良好。",
+              "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 7,
+                "min_samples_leaf": 5,
+                "class_weight": "balanced"
+              }
+            }
+          ],
+          "preprocessing": {
+            "numeric_imputer": "median",
+            "categorical_imputer": "most_frequent",
+            "scale_numeric": true,
+            "unknown_categories": "ignore"
+          },
+          "evidence_ids": [
+            "tenure:missing_rate_0.277778",
+            "monthly_charges:missing_rate_0.241667",
+            "support_calls:missing_rate_0.269444",
+            "contract:missing_rate_0.286111",
+            "payment_method:missing_rate_0.238889",
+            "positive_rate_0.361111",
+            "minority_rate_0.361111"
+          ],
+          "experience_ids": [
+            "forest",
+            "logistic"
+          ],
+          "experience_applied": true
+        },
+        "validation_error": "Plan cites unknown evidence_ids",
+        "correction_instruction": "Return a corrected JSON object that matches output_schema and all constraints. Do not relax constraints or invent citations."
+      },
+      "source": "live"
+    },
+    "output": {
+      "candidates": [
+        {
+          "algorithm": "logistic",
+          "rationale": "逻辑回归作为基线模型，可提供可解释性。鉴于特征（如合同类型）可能具有非线性影响，同时结合类别不平衡（36.1% 正样本），逻辑回归通过标准化和平衡权重可有效建模。需要处理缺失值（27-28%）和未知类别。",
+          "hyperparameters": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": "balanced",
+            "solver": "lbfgs"
+          }
+        },
+        {
+          "algorithm": "forest",
+          "rationale": "随机森林能捕捉特征交互和非线性关系，适合处理客户流失的复杂数据。平衡类别权重可应对不平衡，且在处理高基数特征（如月费）时表现良好。",
+          "hyperparameters": {
+            "n_estimators": 100,
+            "max_depth": 7,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced"
+          }
+        }
+      ],
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "evidence_ids": [
+        "tenure:missing_rate_0.277778",
+        "monthly_charges:missing_rate_0.241667",
+        "support_calls:missing_rate_0.269444",
+        "contract:missing_rate_0.286111",
+        "payment_method:missing_rate_0.238889",
+        "positive_rate_0.361111",
+        "minority_rate_0.361111"
+      ],
+      "experience_ids": [
+        "forest",
+        "logistic"
+      ],
+      "experience_applied": true
+    }
+  },
+  {
+    "step": 8,
+    "role": "plan_rejected",
+    "input": {
+      "attempt": 1
+    },
+    "output": {
+      "error": "Plan cites unknown evidence_ids",
+      "response": {
+        "candidates": [
+          {
+            "algorithm": "logistic",
+            "rationale": "逻辑回归作为基线模型，可提供可解释性。鉴于特征（如合同类型）可能具有非线性影响，同时结合类别不平衡（36.1% 正样本），逻辑回归通过标准化和平衡权重可有效建模。需要处理缺失值（27-28%）和未知类别。",
+            "hyperparameters": {
+              "C": 1.0,
+              "max_iter": 1000,
+              "class_weight": "balanced",
+              "solver": "lbfgs"
+            }
+          },
+          {
+            "algorithm": "forest",
+            "rationale": "随机森林能捕捉特征交互和非线性关系，适合处理客户流失的复杂数据。平衡类别权重可应对不平衡，且在处理高基数特征（如月费）时表现良好。",
+            "hyperparameters": {
+              "n_estimators": 100,
+              "max_depth": 7,
+              "min_samples_leaf": 5,
+              "class_weight": "balanced"
+            }
+          }
+        ],
+        "preprocessing": {
+          "numeric_imputer": "median",
+          "categorical_imputer": "most_frequent",
+          "scale_numeric": true,
+          "unknown_categories": "ignore"
+        },
+        "evidence_ids": [
+          "tenure:missing_rate_0.277778",
+          "monthly_charges:missing_rate_0.241667",
+          "support_calls:missing_rate_0.269444",
+          "contract:missing_rate_0.286111",
+          "payment_method:missing_rate_0.238889",
+          "positive_rate_0.361111",
+          "minority_rate_0.361111"
+        ],
+        "experience_ids": [
+          "forest",
+          "logistic"
+        ],
+        "experience_applied": true
+      }
+    }
+  },
+  {
+    "step": 9,
+    "role": "workflow_error",
+    "input": {
+      "stage": "plan"
+    },
+    "output": {
+      "error": "ValueError: plan contract rejected after 2 responses: Plan cites unknown evidence_ids",
+      "failure_kind": "contract_or_workflow"
+    }
+  },
+  {
+    "step": 10,
+    "role": "persist",
+    "input": {
+      "status": "failed"
+    },
+    "output": {
+      "graph": "knowledge_graph.json"
+    }
+  }
+]

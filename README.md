@@ -221,7 +221,7 @@ python -m forge inspect RUN_DIR/report.json
 
 ## 10. 限制与扩展
 
-当前支持客户流失和工单文本二分类，通过同一执行框架跨输入场景复用；真实文本代码已有半自动辅助修复的完整验证，GLM 自主修复仍未通过。没有 Web 服务或 MCTS。已完成协议 v4 的三组真实小规模对照：直接生成组在规划阶段失败，知识增强与知识增强加修复组通过。单条件、单种子不能支持效果结论。[原始结果与分析](examples/real-benchmark/PILOT-V4-RESULTS.md)保留，27 单元正式实验单独运行。
+当前支持客户流失和工单文本二分类，通过同一执行框架跨输入场景复用；真实文本代码已有半自动辅助修复的完整验证，GLM 自主修复仍未通过。没有 Web 服务或 MCTS。已完成 27 单元真实 GLM 正式对照：直接生成、知识增强、知识增强加修复三组分别通过 4/9、8/9、4/9。知识增强组在本次任务集上通过率最高，反馈修复组未取得更高总体通过率。[完整结果及边界](examples/real-benchmark/FULL-RESULTS.md)保留了全部成功、失败和中断尝试。
 
 可通过 forge/plugins/*.json 扩展受信任算法模板，通过 validation.METRICS 扩展指标。新任务需要同时扩展字段 schema、模板和验证器，不能仅改 prompt。失败建议目前是规则，不是模型自动根因分析。
 
@@ -237,3 +237,5 @@ cd AI-Agent-Algorithm-Capability-Factory
 ```
 
 提交包不含 LLM 模型、密钥或虚拟环境。仓库未指定许可证，提交和公开发布前由作者决定许可方式。
+
+正式对照实验的原始记录和分析见 [FULL-RESULTS.md](examples/real-benchmark/FULL-RESULTS.md)。可用 scripts/summarize_benchmark.py 从归档报告重新计算统计，不需要密钥或模型调用。

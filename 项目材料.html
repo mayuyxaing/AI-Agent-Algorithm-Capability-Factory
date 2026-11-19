@@ -14,10 +14,10 @@ body{margin:0;background:#f3f5f7;color:#253341;font:16px/1.85 "Microsoft YaHei",
 <h3>运行结果</h3>
 <p>客户流失任务完成了真实 GLM 的规划、代码生成和反馈修复。修复演示由宿主显式注入未知类别缺陷，再由模型根据验证反馈修复。最终选择逻辑回归，测试 ROC-AUC 为 0.7829，F1 为 0.6432。</p>
 <p>文本任务比较字符 TF-IDF 与逻辑回归、多项式朴素贝叶斯的组合。在开发阶段完成输入接口修正后，两个候选均通过验证，最终选中逻辑回归，测试 ROC-AUC 为 0.8701，F1 为 0.8765。这个案例属于半自动修复，GLM 原始自主运行的失败状态保持不变。</p>
-<p>项目归档了 141 项自动化测试通过记录，并完成提交包解压后的文本半自动复现。</p>
+<p>项目归档了 148 项自动化测试通过记录，并完成提交包解压后的文本半自动复现。</p>
 <h3>当前范围与后续方向</h3>
 <p>当前原型支持两种固定输入契约的二分类任务，提供 CLI、候选比较、多轮修复、图谱可视化、版本记录及插件扩展。系统采用串行多角色调度；执行隔离目前是 AST 检查与受限子进程。</p>
-<p>下一步，我计划构建固定任务集，在相同模型、数据与调用预算下比较直接生成、知识检索增强和失败经验增强，分析首次通过率、修复次数、最终通过率与调用成本，再进一步完善执行隔离和任务扩展。</p></section>
+<p>我已完成三条件、三种子、三组共 27 单元真实 GLM 对照，三组分别通过 4/9、8/9、4/9。知识增强组在本次任务集上的完成率最高，修复组未取得更高总体通过率。后续优先改善规划可靠性，增加固定任务的重复采样，并进一步完善执行隔离和任务扩展。</p></section>
 <section id="section-2"><h2>算法能力工厂技术报告</h2>
 <h3>1. 问题定义</h3>
 <p>本项目的输入是自然语言算法能力描述，以及可供复用的业务文档和历史代码；输出是算法源码、模型产物、验证报告和能力知识记录。我把系统划分为两个相互连接的过程：一是从材料中抽取能力知识，二是利用知识生成、验证和沉淀算法。</p>
@@ -79,8 +79,8 @@ def predict(model, frame):
 <p>开发过程中，我借助编码助手对已有代码增加 DataFrame 到 <code>text</code> 列的接口处理，并保留逐行补丁。两个候选随后通过验证，验证 ROC-AUC 分别为 0.8455 和 0.8369，验证 F1 均为 0.8221。最终选择逻辑回归，测试 ROC-AUC=0.8701，F1=0.8765，balanced_accuracy=0.8750，12 项检查通过。</p>
 <p>该结果记录为 <code>assisted_glm</code>：它复用了真实模型源码，并包含开发阶段的外部接口补丁。复现不产生新的 API 调用。原自主尝试的失败记录保留，补丁没有修改估计器、参数或指标门槛。</p>
 <h4>测试与复现</h4>
-<p>项目归档了 141 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
-<p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。协议 v3 的三组真实模型小规模对照已完成：direct、knowledge 两组在知识检索前因理解响应封装失败，knowledge_repair 组最终通过。这个结果暴露了解析接口问题，不能作为知识增强效果结论。原始结果及 v4 重跑协议见 <a href="examples/real-benchmark/PILOT-RESULTS.md">小规模对照分析</a>。统一封装后，协议 v4 的小规模对照也已完成：直接生成组规划失败，另外两组通过；两组均选择逻辑回归，测试 AUC=0.8795、F1=0.7200。修复组的逻辑回归经过两轮真实反馈修复通过，没有宿主故障注入或外部修改。详见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">v4 结果</a>。单条件、单种子仍不足以证明策略增益，正式多条件、多种子矩阵尚待执行。</p>
+<p>项目归档了 148 项 pytest 通过记录，覆盖模型适配、抽取、契约校验、缓存恢复、工作流、任务插件和验证逻辑。文本半自动案例已从提交包解压后的代码与材料成功复现。</p>
+<p>两类数据均为固定种子生成的模拟业务数据。这些结果用于验证工程流程，不用于估计真实行业泛化效果。协议 v3 的三组真实模型小规模对照已完成：direct、knowledge 两组在知识检索前因理解响应封装失败，knowledge_repair 组最终通过。这个结果暴露了解析接口问题，不能作为知识增强效果结论。原始结果及 v4 重跑协议见 <a href="examples/real-benchmark/PILOT-RESULTS.md">小规模对照分析</a>。统一封装后，协议 v4 的小规模对照也已完成：直接生成组规划失败，另外两组通过；两组均选择逻辑回归，测试 AUC=0.8795、F1=0.7200。修复组的逻辑回归经过两轮真实反馈修复通过，没有宿主故障注入或外部修改。详见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">v4 结果</a>。单条件、单种子仍不足以证明策略增益，正式多条件、多种子矩阵现已完成：三组分别通过 4/9、8/9、4/9，总计 16/27。知识增强组在本次任务集上的流程通过率最高，修复组未取得更高总体通过率；10 个失败发生在规划契约校验，1 个任务没有有效候选。实验存在前置规划采样差异与服务中断重启，不能据此声称稳定因果增益。原始结果、成本与一次文件 I/O 审计修复见 <a href="examples/real-benchmark/FULL-RESULTS.md">正式实验报告</a>。</p>
 <h3>7. 开发中的问题与处理</h3>
 <div class="table"><table><thead><tr><th>问题</th><th>我的处理</th></tr></thead><tbody>
 <tr><td>模型返回结构不稳定</td><td>增加输出 schema、原始响应审计、有限纠正及单层包装解包</td></tr>
@@ -134,7 +134,7 @@ def predict(model, frame):
 <p>输出新增 <code>urgent_probability</code> 和 <code>predicted_label</code>，三条工单的<a href="examples/v3/text-assisted-repair/predictions.csv">预测结果样例</a>已一并提供。</p>
 <h3>自动测试</h3>
 <pre><code>.\.venv\Scripts\python.exe -m pytest -q</code></pre>
-<p>已归档 <a href="examples/test-results.txt">141 项测试通过记录</a>。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。</p>
+<p>已归档 <a href="examples/test-results.txt">148 项测试通过记录</a>。精确环境保存在报告 environment 字段中。以上复现命令会重新训练本地模型。</p>
 <h3>真实调用与版本历史</h3>
 <p>安装依赖后，可双击 <code>check-glm.cmd</code> 检查连接、<code>run-glm.cmd</code> 执行客户流失、<code>repair-glm.cmd</code> 执行显式修复演示、<code>text-glm.cmd</code> 执行文本任务。密钥在终端隐藏输入，不保存在项目中。平台权限与拥堵会影响实时调用，历史报告和离线案例可独立查看。</p>
 <p>提交包含 <code>git-history.bundle</code>，可恢复分阶段提交：</p>
@@ -163,10 +163,10 @@ def predict(model, frame):
 <h3>3:30–4:20　验证与沉淀</h3>
 <p>我把验证独立放在宿主侧。模型负责生成代码，评估标签保留在宿主，指标由宿主计算；同时检查概率接口、缺失输入、未见词表、重复预测和保存重载。</p>
 <p>运行结束后，每版源码摘要、指标、环境和失败原因写入图谱，后续任务可检索同一任务下的失败经验。算法、任务和指标也有注册接口。</p>
-<p>目前归档了 141 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
+<p>目前归档了 148 项测试通过记录。文本半自动案例已完成提交包解压后的独立复现。</p>
 <h3>4:20–5:00　总结与后续研究</h3>
 <p>我完成的核心工作，是把知识抽取、受约束生成、独立验证和经验沉淀连接为可追溯流程，并在表格与文本场景中验证复用方式。</p>
-<p>当前采用模拟数据和串行多角色调度。下一步，我会在固定任务集上开展真实模型对照，比较直接生成、知识增强与失败经验增强的首次通过率、修复次数和成本，再完善执行隔离和任务插件。</p>
+<p>当前采用模拟数据和串行多角色调度。我已完成 27 单元真实 GLM 对照，直接生成、知识增强和知识增强加修复分别通过 4/9、8/9、4/9。本轮知识增强组完成率最高，但修复组没有取得更高总体通过率，规划失败是主要限制。下一步增加固定任务的重复采样，改进规划引用与执行隔离。</p>
 <p>运行命令见 <a href="submission/run-and-results.md">运行与案例说明</a>，技术细节见 <a href="submission/technical-report.md">技术报告</a>，问答见 <a href="submission/questions-and-answers.md">技术问答</a>。</p></section>
 <section id="section-5"><h2>技术问答</h2>
 <h3>1. 这个项目解决了什么问题？</h3>
@@ -194,21 +194,21 @@ def predict(model, frame):
 <h3>12. 文本候选如何选择？</h3>
 <p>文本配置按验证 F1 选择。两候选 F1 相同，程序取顺序中的第一个最大值，因此选择逻辑回归。ROC-AUC 是另一项报告指标；客户流失任务则按 ROC-AUC 选择。</p>
 <h3>13. 能否证明知识增强提高了生成质量？</h3>
-<p>当前记录证明知识和经验进入了工作流，真实模型对照尚未完成。我已实现三组实验流程，下一步固定任务、模型和预算，比较首次通过率、最终通过率、修复次数及成本。</p>
+<p>我完成了 27 单元真实 GLM 对照，三组通过数分别为 4/9、8/9、4/9。本次知识增强组完成率最高，但每组只有九个模拟任务，且前置规划采样差异和历史中断会影响结果，不能据此证明稳定因果增益。修复组未取得更高总体通过率，其五次失败发生在代码修复之前的规划阶段。</p>
 <h3>14. 代码执行是否安全？</h3>
 <p>目前有 AST 检查、环境变量过滤、独立子进程、超时和线程限制，适合受控本地演示。公共服务还需要容器或虚拟机实现文件、网络和进程隔离。</p>
 <h3>15. 为什么使用模拟数据？</h3>
 <p>我先用固定种子模拟数据验证工程闭环，便于复现并控制缺失、类别变化和标签噪声。真实行业效果需要另行使用真实数据检验。</p>
 <h3>16. 如何接入新任务或算法？</h3>
 <p>兼容算法可扩展元数据、模板或安装入口。新任务需定义输入、读取、画像、接口和验证规则；指标可注册评分函数。任务变化不能只改提示词，还要同步扩展独立验证。</p>
-<h3>17. 141 项测试说明了什么？</h3>
+<h3>17. 148 项测试说明了什么？</h3>
 <p>这些测试检查抽取、接口、适配、缓存、工作流和插件行为，用于工程回归。真实模型能力由单独的实际运行报告记录，测试数量不代表通用成功率。</p>
 <h3>18. 下一步优先做什么？</h3>
-<p>我优先开展固定任务集上的真实模型对照，再评估真实数据和失败经验质量。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p></section>
+<p>我已完成正式对照，下一步优先改善规划引用可靠性，并开展每个固定任务的重复 LLM 采样、共享前置产物的修复对照和真实数据评估。完善执行隔离后，再考虑复杂方案搜索和自治协作。</p></section>
 <section id="section-6"><h2>功能与要求对应表</h2>
 <p>我按照任务要求，将项目功能、实现位置和运行结果整理如下。</p>
 <h3>当前结论</h3>
-<p>我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环及真实三组对照尚未成功完成。本次交付包含完整源码、分阶段 Git 历史和运行材料，已发布至 GitHub 仓库。</p>
+<p>我已完成基础功能和对应交付材料，8 项进阶要求均有对应实现；其中接口采用 CLI，验证任务限于已注册的两类二分类。客户流失有真实 GLM 闭环，文本有 mock 闭环和真实代码经助手接口补丁后的半自动闭环。真实 GLM 文本自主闭环仍未通过；客户流失的 27 单元真实三组对照已完成，其中 16 个通过、11 个失败。本次交付包含完整源码、分阶段 Git 历史和运行材料，已发布至 GitHub 仓库。</p>
 <p>状态含义：<strong>已实现</strong>表示存在可核对代码及相关验证；<strong>部分实现</strong>表示只覆盖该要求的一部分；<strong>未实现</strong>表示没有对应能力；<strong>待提交</strong>表示本地交付存在，但远程提交未执行。</p>
 <h3>一、题目六项核心要求</h3>
 <div class="table"><table><thead><tr><th>编号</th><th>要求</th><th>状态与范围</th><th>实现或运行证据</th></tr></thead><tbody>
@@ -242,7 +242,7 @@ def predict(model, frame):
 <tr><td>B08</td><td>验证报告样例</td><td>已提供 Markdown/JSON</td><td><a href="examples/v2/real-success/report.json">客户报告</a>、<a href="examples/v3/text-assisted-repair/runs/20261115T045921Z-76a2bd42/report.md">文本报告</a></td></tr>
 <tr><td>B09</td><td>README.md</td><td>已提供；覆盖题目要求的十项内容</td><td><a href="README.md">README</a></td></tr>
 <tr><td>B10</td><td>环境依赖文件</td><td>已提供范围依赖、开发依赖及历史锁定文件</td><td><a href="requirements.txt">requirements.txt</a>、<a href="requirements-dev.txt">开发依赖</a>、<a href="requirements-lock.txt">环境锁定</a></td></tr>
-<tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 141 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
+<tr><td>B11</td><td>使用示例与测试用例</td><td>已提供；当前归档为 148 项 pytest 通过</td><td><a href="examples/test-results.txt">测试结果</a>、<a href="examples/test-results.xml">JUnit</a>、<a href="tests/test_factory.py">测试代码</a></td></tr>
 <tr><td>B12</td><td>GitHub 仓库提交</td><td>已发布；源码和分阶段提交历史已上传</td><td><a href="https://github.com/mayuyxaing/AI-Agent-Algorithm-Capability-Factory">项目仓库</a></td></tr>
 </tbody></table></div>
 <p>源码压缩包、提交包及 Git history bundle 在项目旁的 outputs 目录提供；它们是打包产物，不要求进入源码 Git 仓库。打包检查包含 ZIP 完整性、报告对应的数据摘要和 Git bundle 可读性。</p>
@@ -298,7 +298,7 @@ def predict(model, frame):
 <blockquote>我实现了一个基于 LLM、多角色工作流和 SQLite 属性图的算法能力工厂原型，覆盖能力抽取、知识检索、方案规划、代码生成、独立验证、有限修复和结果回写。客户流失任务有真实 GLM 运行记录，其中修复演示的缺陷由宿主显式注入；文本分类通过任务插件接入，真实模型代码经明确标注的助手接口补丁后完成半自动验证。系统还支持多候选比较、离线图谱视图、版本追溯及规则式失败经验复用。</blockquote>
 <p>当前实现采用串行多角色调度和子进程执行，暂未加入自主多智能体、MCTS 与操作系统级沙箱。真实行业数据和真实模型三组对照是后续实验方向。</p>
 <h3>九、后续工作</h3>
-<p>后续我将优先开展固定任务集上的真实模型对照实验，统计首次通过率、修复成本和最终通过率；再完善生成代码执行隔离，并扩展任务与算法插件。报告摘要、文件摘要及测试计数见 <a href="docs/acceptance-evidence.json">acceptance-evidence.json</a>。</p>
+<p>我已完成 27 单元真实模型对照，后续优先改进规划引用可靠性、固定任务重复采样与执行隔离。报告摘要、文件摘要及测试计数见 <a href="docs/acceptance-evidence.json">acceptance-evidence.json</a>。</p>
 <h3>验证与状态管理补充</h3>
 <p>我增加了逐类别字段的未知值检查、文档更新和删除后的生效快照，以及对照单元重启隔离与完整性核对。实现与边界见 <a href="docs/review-fixes.md">修正说明</a>，回归用例见 <a href="tests/test_review_regressions.py">test_review_regressions.py</a>。历史模型报告维持原来的检查集合，当前检查以新运行结果为准。</p>
 <p>新协议的离线三组运行记录：<a href="examples/review/benchmark-v3/summary.md">summary.md</a>、<a href="examples/review/benchmark-v3/manifest.json">manifest.json</a>。</p>
@@ -306,8 +306,10 @@ def predict(model, frame):
 <p>我将职责拆分、数据契约、错误分类与事务边界集中说明在 <a href="docs/code-quality-refactor.md">代码重构说明</a>。实现入口：<a href="forge/contracts.py">contracts.py</a>、<a href="forge/candidate_execution.py">候选执行</a>、<a href="forge/workflow_stages.py">阶段函数</a>、<a href="forge/session.py">会话</a>、<a href="forge/knowledge_repository.py">存储事务</a>、<a href="forge/extraction.py">材料抽取</a>、<a href="forge/retrieval.py">检索</a>、<a href="forge/run_history.py">运行记录</a>、<a href="forge/run_artifacts.py">运行输出</a>。</p>
 <p>验收记录：<a href="tests/test_architecture_boundaries.py">边界故障注入测试</a>、<a href="examples/refactor/cli-smoke.json">CLI 兼容性复核</a>、<a href=".github/workflows/tests.yml">持续集成配置</a>。GitHub Actions 的云端执行状态需在推送后查看。</p>
 <h3>真实模型对照入口</h3>
-<p>我准备了 <a href="docs/real-benchmark.md">真实对照实验协议</a>，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 <a href="benchmark-full-glm.cmd">benchmark-full-glm.cmd</a>，入口转发测试见 <a href="tests/test_benchmark_launcher.py">test_benchmark_launcher.py</a>。协议 v3 的三个真实小规模单元已归档；v4 正式矩阵待执行。</p>
+<p>我准备了 <a href="docs/real-benchmark.md">真实对照实验协议</a>，先检查 3 个真实单元，再执行 27 个正式单元。启动入口为 <a href="benchmark-full-glm.cmd">benchmark-full-glm.cmd</a>，入口转发测试见 <a href="tests/test_benchmark_launcher.py">test_benchmark_launcher.py</a>。协议 v3 的三个真实小规模单元已归档；v4 正式矩阵现已完成，原始结果见本文末尾。</p>
 <h3>真实模型小规模对照记录</h3>
 <p>我保留了协议 v3 的三组真实结果：两组在需求理解封装解析时失败，一组最终通过，不能据此判断知识增强有效。原始分析见 <a href="examples/real-benchmark/PILOT-RESULTS.md">PILOT-RESULTS.md</a>，原始表格见 <a href="examples/real-benchmark/pilot-v3/summary.md">summary.md</a>，目录索引见 <a href="examples/real-benchmark/pilot-v3/manifest.json">manifest.json</a>。统一封装处理的回归测试见 <a href="tests/test_response_envelopes.py">test_response_envelopes.py</a>。</p>
 <h3>协议 v4 小规模对照完成</h3>
-<p>我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">PILOT-V4-RESULTS.md</a>、<a href="examples/real-benchmark/pilot-v4/summary.md">summary.md</a>、<a href="examples/real-benchmark/pilot-v4/manifest.json">manifest.json</a>。27 单元正式实验单独执行，不能合并小规模结果。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>
+<p>我完成了协议 v4 的三个真实单元。直接生成组规划失败，知识增强与知识增强加修复组通过；修复组包含没有宿主注入缺陷的两轮反馈修复。原始结果与边界见 <a href="examples/real-benchmark/PILOT-V4-RESULTS.md">PILOT-V4-RESULTS.md</a>、<a href="examples/real-benchmark/pilot-v4/summary.md">summary.md</a>、<a href="examples/real-benchmark/pilot-v4/manifest.json">manifest.json</a>。27 单元正式实验已单独完成，小规模结果不合并统计。</p>
+<h3>27 单元正式对照完成</h3>
+<p>我完成了三条件、三种子、三组共 27 个真实 GLM 单元，16 个通过、11 个失败，三组通过数为 4/9、8/9、4/9。原始结果和解释见 <a href="examples/real-benchmark/FULL-RESULTS.md">FULL-RESULTS.md</a>、<a href="examples/real-benchmark/full-v4/manifest.json">manifest.json</a>、<a href="examples/real-benchmark/full-analysis.json">分析 JSON</a>。独立重算入口为 <a href="scripts/summarize_benchmark.py">summarize_benchmark.py</a>。运行中的文件写入恢复记录见 <a href="examples/real-benchmark/full-v4/windows-io-hotfix.json">windows-io-hotfix.json</a>。</p></section></main><footer>Capability Forge · <a href="提交说明.md">项目目录</a> · <a href="README.md">README</a></footer></html>

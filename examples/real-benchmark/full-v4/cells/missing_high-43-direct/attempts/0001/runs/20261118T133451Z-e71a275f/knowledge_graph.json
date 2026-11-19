@@ -1,0 +1,674 @@
+{
+  "schema_version": "1.1",
+  "nodes": [
+    {
+      "id": "Environment:ac090ee74e151e04c91a",
+      "kind": "Environment",
+      "title": "Python execution environment",
+      "python": "3.12.14",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "joblib": "1.6.0"
+    },
+    {
+      "id": "FailureCase:d1845ab7f5b12a731977",
+      "kind": "FailureCase",
+      "title": "execution",
+      "task": "churn_classification",
+      "error": "Traceback (most recent call last):\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 109, in <module>\n    result = execute(Path(sys.argv[1]), Path(sys.argv[2]))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\worker.py\", line 64, in execute\n    task.check_preprocessing(model, expected[\"preprocessing\"])\n  File \"C:\\Users\\T-bags\\Documents\\Codex\\2026-11-09\\llm-agent-ai-agent-ai-agent\\outputs\\capability-forge\\forge\\tasks.py\", line 71, in check_preprocessing\n    raise ValueError(f\"Plan mismatch: ColumnTransformer must explicitly group {names}\")\nValueError: Plan mismatch: ColumnTransformer must explicitly group ['tenure', 'monthly_charges', 'support_calls']\n",
+      "checks": {},
+      "injected": false,
+      "resolved_in_run": true,
+      "category": "plan_noncompliance",
+      "confidence": "high",
+      "remedy": "Make classifier, parameters and preprocessing match the validated plan; do not weaken checks.",
+      "reusable": true
+    },
+    {
+      "id": "Function:abe0662caba9d48ee2eb",
+      "kind": "Function",
+      "title": "churn_category_encoder",
+      "text": "客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。",
+      "line": 5,
+      "evidence_quote": "def churn_category_encoder():\n    \"\"\"客户流失预测：合同类别编码应允许未知类别，避免上线预测失败。\"\"\"\n    return OneHotEncoder(handle_unknown=\"ignore\")",
+      "dependencies": [
+        "sklearn.preprocessing"
+      ],
+      "extraction": "python_ast",
+      "source_id": "Source:36bf272485aac6d9de38",
+      "source_path": "historical_code.py"
+    },
+    {
+      "id": "Knowledge:17f68c5dd8b9a262ac22",
+      "kind": "Knowledge",
+      "title": "文本分类能力与接口",
+      "text": "## 文本分类能力与接口\n输入 text 文本列，label=1 为紧急工单，label=0 为普通咨询。输出每行正类概率。材料与数据为模拟业务，不含真实客户信息。",
+      "line": 3,
+      "evidence_quote": "## 文本分类能力与接口\n输入 text 文本列，label=1 为紧急工单，label=0 为普通咨询。输出每行正类概率。材料与数据为模拟业务，不含真实客户信息。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:201bae68dcaaff68afaa",
+      "source_path": "text_business.md"
+    },
+    {
+      "id": "Knowledge:2d43b4e2d27abc872172",
+      "kind": "Knowledge",
+      "title": "客户流失预测能力与输入输出",
+      "text": "## 客户流失预测能力与输入输出\n客户流失 churn 是二分类标签，1 表示流失，0 表示留存。输入为 tenure（使用月数）、monthly_charges（月费用）、support_calls（客服次数）、contract（合同类型）、payment_method（支付方式）。输出为每位客户的流失概率，范围 [0,1]，顺序与输入一致。禁止把客户标识、取消日期、流失后的退款信息作为特征。",
+      "line": 5,
+      "evidence_quote": "## 客户流失预测能力与输入输出\n客户流失 churn 是二分类标签，1 表示流失，0 表示留存。输入为 tenure（使用月数）、monthly_charges（月费用）、support_calls（客服次数）、contract（合同类型）、payment_method（支付方式）。输出为每位客户的流失概率，范围 [0,1]，顺序与输入一致。禁止把客户标识、取消日期、流失后的退款信息作为特征。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:347c44c0dca634d99942",
+      "kind": "Knowledge",
+      "title": "文本候选与评价",
+      "text": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+      "line": 9,
+      "evidence_quote": "## 文本候选与评价\n比较逻辑回归与多项式朴素贝叶斯。后者要求非负特征。使用 ROC-AUC、F1、accuracy 和 balanced_accuracy；验证集选择、测试集最终评估。相似模板的模拟文本只能作为工程演示，不能证明真实工单泛化能力。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:201bae68dcaaff68afaa",
+      "source_path": "text_business.md"
+    },
+    {
+      "id": "Knowledge:948b7c74dfbb766ab40d",
+      "kind": "Knowledge",
+      "title": "历史失败案例：未知类别",
+      "text": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+      "line": 20,
+      "evidence_quote": "## 历史失败案例：未知类别\n历史示例在合同类型出现新取值时抛出 Found unknown categories 错误。解决方法是 OneHotEncoder(handle_unknown='ignore')，并加入未知类别的回归检查。本段为预置模拟经验，运行中产生的失败另行保存，并标注是否故障注入。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:b1bde62ca7719f21fe42",
+      "kind": "Knowledge",
+      "title": "缺失值和类别编码策略",
+      "text": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+      "line": 8,
+      "evidence_quote": "## 缺失值和类别编码策略\n数值特征使用训练集的中位数填补，再标准化。类别特征用训练集众数填补并做独热编码。上线时合同类型可能出现未知类别，编码器必须允许未知类别，例如 handle_unknown='ignore'。预处理器必须放在 Pipeline 中，仅在训练集拟合，防止数据泄漏。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:b8867b632089cbc5844c",
+      "kind": "Knowledge",
+      "title": "候选算法及适用条件",
+      "text": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+      "line": 11,
+      "evidence_quote": "## 候选算法及适用条件\n逻辑回归适合可解释的线性基线，配合标准化和 class_weight='balanced'。随机森林适合非线性关系和特征交互，限制树深度、叶节点样本数与 n_jobs，控制过拟合与资源消耗。两者应使用同一份数据划分比较。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:d0dcebab4212d8e42da3",
+      "kind": "Knowledge",
+      "title": "文本预处理与适用条件",
+      "text": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+      "line": 6,
+      "evidence_quote": "## 文本预处理与适用条件\n中文文本可以使用字符级 TF-IDF，ngram_range 为 (1,1) 或 (1,2)。缺失和空文本替换成空字符串；未知词表应正常输出概率。词表及 IDF 只在训练集拟合，验证集和测试集不能参与拟合。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:201bae68dcaaff68afaa",
+      "source_path": "text_business.md"
+    },
+    {
+      "id": "Knowledge:d1cdc5dad1e2bb5cf957",
+      "kind": "Knowledge",
+      "title": "环境与模型交付",
+      "text": "## 环境与模型交付\nPython >= 3.11，使用 scikit-learn、pandas、numpy、joblib。生成模块须提供 build_model(seed=42) 和 predict(model, frame)，保存模型后重新加载的预测应保持一致。模型文件只能从可信来源加载。",
+      "line": 17,
+      "evidence_quote": "## 环境与模型交付\nPython >= 3.11，使用 scikit-learn、pandas、numpy、joblib。生成模块须提供 build_model(seed=42) 和 predict(model, frame)，保存模型后重新加载的预测应保持一致。模型文件只能从可信来源加载。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Knowledge:ee594e7236a1cbe8c520",
+      "kind": "Knowledge",
+      "title": "评价指标与业务约束",
+      "text": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+      "line": 14,
+      "evidence_quote": "## 评价指标与业务约束\n客户流失预测使用 ROC-AUC 比较概率排序能力，同时报告 F1 与 accuracy，不能仅用准确率说明不平衡任务表现。原型约定 ROC-AUC >= 0.65 且 F1 >= 0.45 为演示门槛；这些不是实际业务验收标准。候选选择和修复只用验证集，保留测试集只对最终选定代码评估一次。",
+      "extraction": "markdown_sections",
+      "source_id": "Source:39535e5187b628829611",
+      "source_path": "churn_business.md"
+    },
+    {
+      "id": "Source:201bae68dcaaff68afaa",
+      "kind": "Source",
+      "title": "text_business.md",
+      "path": "text_business.md",
+      "sha256": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659",
+      "corpus": "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials"
+    },
+    {
+      "id": "Source:36bf272485aac6d9de38",
+      "kind": "Source",
+      "title": "historical_code.py",
+      "path": "historical_code.py",
+      "sha256": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
+      "corpus": "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials"
+    },
+    {
+      "id": "Source:39535e5187b628829611",
+      "kind": "Source",
+      "title": "churn_business.md",
+      "path": "churn_business.md",
+      "sha256": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+      "corpus": "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials"
+    },
+    {
+      "id": "capability:churn_classification",
+      "kind": "Capability",
+      "title": "客户流失预测",
+      "task": "churn_classification",
+      "input": {
+        "format": "pandas.DataFrame",
+        "required_columns": [
+          "tenure",
+          "monthly_charges",
+          "support_calls",
+          "contract",
+          "payment_method"
+        ]
+      },
+      "output": {
+        "format": "1D probability array",
+        "range": [
+          0,
+          1
+        ],
+        "positive_class": 1
+      },
+      "conditions": [
+        "binary labels 0/1",
+        "registered task feature contract",
+        "train-only preprocessing"
+      ],
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scikit-learn",
+        "joblib"
+      ]
+    },
+    {
+      "id": "metric:churn_classification:accuracy",
+      "kind": "Metric",
+      "title": "accuracy",
+      "task": "churn_classification"
+    },
+    {
+      "id": "metric:churn_classification:f1",
+      "kind": "Metric",
+      "title": "f1",
+      "task": "churn_classification"
+    },
+    {
+      "id": "metric:churn_classification:roc_auc",
+      "kind": "Metric",
+      "title": "roc_auc",
+      "task": "churn_classification"
+    },
+    {
+      "id": "requirement:class_imbalance",
+      "kind": "Requirement",
+      "title": "类别不平衡",
+      "task": "shared_binary_tasks",
+      "key": "class_imbalance",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "requirement:missing_values",
+      "kind": "Requirement",
+      "title": "缺失值处理",
+      "task": "shared_binary_tasks",
+      "key": "missing_values",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "requirement:train_only_preprocessing",
+      "kind": "Requirement",
+      "title": "训练集内拟合",
+      "task": "shared_binary_tasks",
+      "key": "train_only_preprocessing",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "requirement:unknown_categories",
+      "kind": "Requirement",
+      "title": "未知类别",
+      "task": "shared_binary_tasks",
+      "key": "unknown_categories",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "requirement:unseen_vocabulary",
+      "kind": "Requirement",
+      "title": "未见词表",
+      "task": "shared_binary_tasks",
+      "key": "unseen_vocabulary",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "run:20261118T133451Z-e71a275f",
+      "kind": "ValidationRun",
+      "title": "20261118T133451Z-e71a275f",
+      "status": "passed",
+      "mode": "glm",
+      "model": "glm-4.7-flash",
+      "selected": "logistic",
+      "dataset_sha256": "e2b64050532ce82160943ac3e6cbb0504a4526df7c04b4cd4af2bc29ad0c796a",
+      "seed": 43,
+      "test_metrics": {
+        "roc_auc": 0.7819976076555023,
+        "f1": 0.6226415094339622,
+        "accuracy": 0.6666666666666666
+      },
+      "report_ref": "runs/20261118T133451Z-e71a275f/report.json"
+    },
+    {
+      "id": "strategy:class_weighting",
+      "kind": "Strategy",
+      "title": "类别权重处理不平衡",
+      "task": "shared_binary_tasks",
+      "key": "class_weighting",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "strategy:imputation",
+      "kind": "Strategy",
+      "title": "训练集填补",
+      "task": "shared_binary_tasks",
+      "key": "imputation",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "strategy:train_fitted_tfidf",
+      "kind": "Strategy",
+      "title": "训练集拟合的文本词表",
+      "task": "shared_binary_tasks",
+      "key": "train_fitted_tfidf",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "strategy:train_only_pipeline",
+      "kind": "Strategy",
+      "title": "训练集拟合预处理 Pipeline",
+      "task": "shared_binary_tasks",
+      "key": "train_only_pipeline",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "strategy:unknown_safe_encoding",
+      "kind": "Strategy",
+      "title": "允许未知类别的编码",
+      "task": "shared_binary_tasks",
+      "key": "unknown_safe_encoding",
+      "extraction": "rule_index"
+    },
+    {
+      "id": "version:20261118T133451Z-e71a275f:forest:0",
+      "kind": "AlgorithmVersion",
+      "title": "forest",
+      "sha256": "aee4c0493150b3963f6e1e33881e6903701dd2552f14b24446c8b2ed80046fe0",
+      "run_id": "20261118T133451Z-e71a275f",
+      "attempt": 0,
+      "passed": true,
+      "path": "forest/attempt_0/algorithm.py",
+      "validation_metrics": {
+        "roc_auc": 0.6749401913875599,
+        "f1": 0.5360824742268041,
+        "accuracy": 0.625
+      },
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 7,
+        "min_samples_leaf": 5,
+        "class_weight": "balanced"
+      },
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unknown_category_contract": true,
+        "unknown_category_mixed_contract": true,
+        "unknown_category_payment_method": true,
+        "unknown_category_mixed_payment_method": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      }
+    },
+    {
+      "id": "version:20261118T133451Z-e71a275f:logistic:0",
+      "kind": "AlgorithmVersion",
+      "title": "logistic",
+      "sha256": "3fd74d15f40667729c8b23e259f6d411d27b16a800c191fcb391aa9f23171cf6",
+      "run_id": "20261118T133451Z-e71a275f",
+      "attempt": 0,
+      "passed": false,
+      "path": "logistic/attempt_0/algorithm.py",
+      "validation_metrics": {},
+      "hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "class_weight": "balanced",
+        "solver": "lbfgs"
+      },
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "checks": {}
+    },
+    {
+      "id": "version:20261118T133451Z-e71a275f:logistic:1",
+      "kind": "AlgorithmVersion",
+      "title": "logistic",
+      "sha256": "04f82ce1df2b1b84b98cdc74ea3ba96336d970b8e5c3c86832c1189dfe7c22f0",
+      "run_id": "20261118T133451Z-e71a275f",
+      "attempt": 1,
+      "passed": true,
+      "path": "logistic/attempt_1/algorithm.py",
+      "validation_metrics": {
+        "roc_auc": 0.7517942583732058,
+        "f1": 0.5794392523364486,
+        "accuracy": 0.625
+      },
+      "hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "class_weight": "balanced",
+        "solver": "lbfgs"
+      },
+      "preprocessing": {
+        "numeric_imputer": "median",
+        "categorical_imputer": "most_frequent",
+        "scale_numeric": true,
+        "unknown_categories": "ignore"
+      },
+      "checks": {
+        "probability_contract": true,
+        "estimator_matches_plan": true,
+        "hyperparameters_match_plan": true,
+        "preprocessing_matches_plan": true,
+        "missing_column_rejected": true,
+        "column_order": true,
+        "repeat_prediction": true,
+        "model_reload": true,
+        "unknown_category_contract": true,
+        "unknown_category_mixed_contract": true,
+        "unknown_category_payment_method": true,
+        "unknown_category_mixed_payment_method": true,
+        "unknown_category": true,
+        "all_missing_values": true,
+        "minimum_roc_auc": true,
+        "minimum_f1": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "Function:abe0662caba9d48ee2eb",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:36bf272485aac6d9de38"
+    },
+    {
+      "source": "Knowledge:17f68c5dd8b9a262ac22",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:201bae68dcaaff68afaa"
+    },
+    {
+      "source": "Knowledge:2d43b4e2d27abc872172",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "Knowledge:347c44c0dca634d99942",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:201bae68dcaaff68afaa"
+    },
+    {
+      "source": "Knowledge:948b7c74dfbb766ab40d",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "Knowledge:b1bde62ca7719f21fe42",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "Knowledge:b8867b632089cbc5844c",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "Knowledge:d0dcebab4212d8e42da3",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:201bae68dcaaff68afaa"
+    },
+    {
+      "source": "Knowledge:d1cdc5dad1e2bb5cf957",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "Knowledge:ee594e7236a1cbe8c520",
+      "relation": "SUPPORTED_BY",
+      "target": "Source:39535e5187b628829611"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "EVALUATED_BY",
+      "target": "metric:churn_classification:accuracy"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "EVALUATED_BY",
+      "target": "metric:churn_classification:f1"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "EVALUATED_BY",
+      "target": "metric:churn_classification:roc_auc"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261118T133451Z-e71a275f:forest:0"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261118T133451Z-e71a275f:logistic:0"
+    },
+    {
+      "source": "capability:churn_classification",
+      "relation": "IMPLEMENTED_BY",
+      "target": "version:20261118T133451Z-e71a275f:logistic:1"
+    },
+    {
+      "source": "requirement:class_imbalance",
+      "relation": "ADDRESSED_BY",
+      "target": "strategy:class_weighting"
+    },
+    {
+      "source": "requirement:missing_values",
+      "relation": "ADDRESSED_BY",
+      "target": "strategy:imputation"
+    },
+    {
+      "source": "requirement:train_only_preprocessing",
+      "relation": "ADDRESSED_BY",
+      "target": "strategy:train_only_pipeline"
+    },
+    {
+      "source": "requirement:unknown_categories",
+      "relation": "ADDRESSED_BY",
+      "target": "strategy:unknown_safe_encoding"
+    },
+    {
+      "source": "requirement:unseen_vocabulary",
+      "relation": "ADDRESSED_BY",
+      "target": "strategy:train_fitted_tfidf"
+    },
+    {
+      "source": "run:20261118T133451Z-e71a275f",
+      "relation": "EXECUTED_IN",
+      "target": "Environment:ac090ee74e151e04c91a"
+    },
+    {
+      "source": "strategy:class_weighting",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:b8867b632089cbc5844c"
+    },
+    {
+      "source": "strategy:class_weighting",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:ee594e7236a1cbe8c520"
+    },
+    {
+      "source": "strategy:imputation",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:b1bde62ca7719f21fe42"
+    },
+    {
+      "source": "strategy:imputation",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:d0dcebab4212d8e42da3"
+    },
+    {
+      "source": "strategy:train_fitted_tfidf",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:d0dcebab4212d8e42da3"
+    },
+    {
+      "source": "strategy:train_only_pipeline",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:b1bde62ca7719f21fe42"
+    },
+    {
+      "source": "strategy:train_only_pipeline",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:d0dcebab4212d8e42da3"
+    },
+    {
+      "source": "strategy:unknown_safe_encoding",
+      "relation": "SUPPORTED_BY",
+      "target": "Function:abe0662caba9d48ee2eb"
+    },
+    {
+      "source": "strategy:unknown_safe_encoding",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:948b7c74dfbb766ab40d"
+    },
+    {
+      "source": "strategy:unknown_safe_encoding",
+      "relation": "SUPPORTED_BY",
+      "target": "Knowledge:b1bde62ca7719f21fe42"
+    },
+    {
+      "source": "version:20261118T133451Z-e71a275f:forest:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261118T133451Z-e71a275f"
+    },
+    {
+      "source": "version:20261118T133451Z-e71a275f:logistic:0",
+      "relation": "EXPOSED",
+      "target": "FailureCase:d1845ab7f5b12a731977"
+    },
+    {
+      "source": "version:20261118T133451Z-e71a275f:logistic:0",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261118T133451Z-e71a275f"
+    },
+    {
+      "source": "version:20261118T133451Z-e71a275f:logistic:1",
+      "relation": "VALIDATED_IN",
+      "target": "run:20261118T133451Z-e71a275f"
+    }
+  ],
+  "retrieval_state": {
+    "source_versions": [
+      [
+        "Source:201bae68dcaaff68afaa",
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "text_business.md"
+      ],
+      [
+        "Source:36bf272485aac6d9de38",
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "historical_code.py"
+      ],
+      [
+        "Source:39535e5187b628829611",
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "churn_business.md"
+      ]
+    ],
+    "active_facts": [
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Function:abe0662caba9d48ee2eb"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:17f68c5dd8b9a262ac22"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:2d43b4e2d27abc872172"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:347c44c0dca634d99942"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:948b7c74dfbb766ab40d"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:b1bde62ca7719f21fe42"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:b8867b632089cbc5844c"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:d0dcebab4212d8e42da3"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:d1cdc5dad1e2bb5cf957"
+      ],
+      [
+        "C:/Users/T-bags/Documents/Codex/2026-11-09/llm-agent-ai-agent-ai-agent/outputs/capability-forge/materials",
+        "Knowledge:ee594e7236a1cbe8c520"
+      ]
+    ]
+  }
+}

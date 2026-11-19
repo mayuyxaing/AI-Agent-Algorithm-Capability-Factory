@@ -1,0 +1,139 @@
+[
+  {
+    "step": 0,
+    "role": "profile",
+    "input": {
+      "scope": "training_only"
+    },
+    "output": {
+      "scope": "training_only",
+      "rows": 360,
+      "columns": {
+        "tenure": {
+          "kind": "numeric",
+          "missing_rate": 0.277778,
+          "cardinality": 66,
+          "constant": false,
+          "quantiles": {
+            "0.25": 20.0,
+            "0.5": 38.0,
+            "0.75": 56.0
+          }
+        },
+        "monthly_charges": {
+          "kind": "numeric",
+          "missing_rate": 0.241667,
+          "cardinality": 273,
+          "constant": false,
+          "quantiles": {
+            "0.25": 40.90576586022415,
+            "0.5": 67.98634005510651,
+            "0.75": 93.37534974379162
+          }
+        },
+        "support_calls": {
+          "kind": "numeric",
+          "missing_rate": 0.269444,
+          "cardinality": 7,
+          "constant": false,
+          "quantiles": {
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 2.0
+          }
+        },
+        "contract": {
+          "kind": "categorical",
+          "missing_rate": 0.286111,
+          "cardinality": 3,
+          "constant": false
+        },
+        "payment_method": {
+          "kind": "categorical",
+          "missing_rate": 0.238889,
+          "cardinality": 2,
+          "constant": false
+        }
+      },
+      "positive_rate": 0.3611111111111111,
+      "minority_rate": 0.3611111111111111,
+      "requirements": [
+        "train_only_preprocessing",
+        "unknown_categories",
+        "missing_values",
+        "class_imbalance"
+      ]
+    }
+  },
+  {
+    "step": 1,
+    "role": "understand_response",
+    "input": {
+      "context": {
+        "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+        "task_id": "churn_classification",
+        "metrics_available": [
+          "roc_auc",
+          "f1",
+          "accuracy",
+          "balanced_accuracy"
+        ],
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "task",
+            "target",
+            "metrics",
+            "constraints",
+            "description"
+          ],
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "metrics": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "roc_auc",
+                  "f1",
+                  "accuracy",
+                  "balanced_accuracy"
+                ]
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "output_instruction": "Return the fields required by output_schema at the JSON root."
+      },
+      "source": "live"
+    },
+    "output": {
+      "task": "churn_classification",
+      "target": "churn",
+      "metrics": [
+        "roc_auc",
+        "f1"
+      ],
+      "constraints": [
+        "missing_values",
+        "unknown_categories",
+        "class_imbalance"
+      ],
+      "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+    }
+  }
+]

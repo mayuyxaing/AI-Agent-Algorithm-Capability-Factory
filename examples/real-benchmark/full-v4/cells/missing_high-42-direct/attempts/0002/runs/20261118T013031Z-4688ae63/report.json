@@ -1,0 +1,228 @@
+{
+  "run_id": "20261118T013031Z-4688ae63",
+  "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。",
+  "status": "failed",
+  "mode": "glm",
+  "model": "glm-4.7-flash",
+  "fault_injection": false,
+  "workflow_version": 3,
+  "experiment_arm": "direct",
+  "complete_template_supplied": false,
+  "task_id": "churn_classification",
+  "task_title": "客户流失预测",
+  "features": [
+    "tenure",
+    "monthly_charges",
+    "support_calls",
+    "contract",
+    "payment_method"
+  ],
+  "target": "churn",
+  "generation_budget_per_candidate": 3,
+  "dataset_sha256": "1d63afca3af17abd358cc8f28d2dbcc3a65fd007fa4a59b8ec0f23b131bb6422",
+  "seed": 42,
+  "policy": {
+    "task": "churn_classification",
+    "metrics": [
+      "roc_auc",
+      "f1",
+      "accuracy"
+    ],
+    "selection_metric": "roc_auc",
+    "minimum": {
+      "roc_auc": 0.65,
+      "f1": 0.45
+    },
+    "timeout_seconds": 60,
+    "max_repairs": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "knowledge": [],
+  "experiences": [],
+  "candidates": [],
+  "data_profile": {
+    "scope": "training_only",
+    "rows": 360,
+    "columns": {
+      "tenure": {
+        "kind": "numeric",
+        "missing_rate": 0.277778,
+        "cardinality": 66,
+        "constant": false,
+        "quantiles": {
+          "0.25": 20.0,
+          "0.5": 38.0,
+          "0.75": 56.0
+        }
+      },
+      "monthly_charges": {
+        "kind": "numeric",
+        "missing_rate": 0.241667,
+        "cardinality": 273,
+        "constant": false,
+        "quantiles": {
+          "0.25": 40.90576586022415,
+          "0.5": 67.98634005510651,
+          "0.75": 93.37534974379162
+        }
+      },
+      "support_calls": {
+        "kind": "numeric",
+        "missing_rate": 0.269444,
+        "cardinality": 7,
+        "constant": false,
+        "quantiles": {
+          "0.25": 1.0,
+          "0.5": 1.0,
+          "0.75": 2.0
+        }
+      },
+      "contract": {
+        "kind": "categorical",
+        "missing_rate": 0.286111,
+        "cardinality": 3,
+        "constant": false
+      },
+      "payment_method": {
+        "kind": "categorical",
+        "missing_rate": 0.238889,
+        "cardinality": 2,
+        "constant": false
+      }
+    },
+    "positive_rate": 0.3611111111111111,
+    "minority_rate": 0.3611111111111111,
+    "requirements": [
+      "train_only_preprocessing",
+      "unknown_categories",
+      "missing_values",
+      "class_imbalance"
+    ]
+  },
+  "task_spec": {
+    "task": "churn_classification",
+    "target": "churn",
+    "metrics": [
+      "roc_auc",
+      "f1"
+    ],
+    "constraints": [
+      "missing_values",
+      "unknown_categories",
+      "class_imbalance"
+    ],
+    "description": "客户流失预测，处理缺失值、未知类别和类别不平衡，比较逻辑回归和随机森林，使用 ROC-AUC 和 F1 评价。"
+  },
+  "split": {
+    "train": 360,
+    "validation": 120,
+    "test": 120,
+    "train_positive_rate": 0.3611111111111111
+  },
+  "knowledge_ingestion": {
+    "id": "5a8e4e7a50de46aeabcf0890ec6ca093",
+    "created_at": "2026-11-18T01:30:31.134110+00:00",
+    "mode": "deterministic",
+    "model": null,
+    "llm_accepted": 0,
+    "llm_rejected": 0,
+    "rejections": [],
+    "responses": [],
+    "status": "passed",
+    "retrieval_snapshot_version": 1,
+    "source_hashes": {
+      "churn_business.md": "ad4ae8d43369e0ef475f87779c03ca70604fd44f57c00e327a2cc743bc6c9bab",
+      "historical_code.py": "a5daad48f86a7369f20a477008db3aed7b718b002e97adc3b85351bda4beb76a",
+      "text_business.md": "b275e7f2a7523c1df85bab3100262225c196633c0789a358def8af1256718659"
+    },
+    "extracted": 10
+  },
+  "error": "ValueError: plan contract rejected after 2 responses: Plan cites unknown evidence_ids",
+  "failure_kind": "contract_or_workflow",
+  "error_stage": "plan",
+  "llm_calls": [
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 10
+    },
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 20
+    },
+    {
+      "role": "understand",
+      "status": "retry",
+      "business_code": "1305",
+      "reason": "model_overload",
+      "wait_seconds": 45
+    },
+    {
+      "role": "understand",
+      "response_id": "20261118093147ce211dcc150b4c1a",
+      "usage": {
+        "completion_tokens": 108,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 345,
+        "prompt_tokens_details": {
+          "cached_tokens": 54
+        },
+        "total_tokens": 453
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 42.742
+    },
+    {
+      "role": "plan",
+      "response_id": "20261118093230ed9fe8c2c9d54fb5",
+      "usage": {
+        "completion_tokens": 410,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1495,
+        "prompt_tokens_details": {
+          "cached_tokens": 55
+        },
+        "total_tokens": 1905
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 14.396
+    },
+    {
+      "role": "plan",
+      "response_id": "20261118093244066ed249898f4fad",
+      "usage": {
+        "completion_tokens": 410,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens": 1887,
+        "prompt_tokens_details": {
+          "cached_tokens": 1491
+        },
+        "total_tokens": 2297
+      },
+      "model": "glm-4.7-flash",
+      "seconds": 67.309
+    }
+  ],
+  "structured_corrections": {
+    "understand": 0,
+    "plan": 2
+  }
+}
